@@ -427,7 +427,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (changed) {
       setSubscriptions(updatedSubs);
     }
-  }, [subscriptions, categories]);
+  }, [subscriptions, categories, transactions]);
 
   const sortedCategories = useMemo(() => {
     return [...categories].sort((a, b) => {
