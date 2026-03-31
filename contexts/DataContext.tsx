@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { Transaction, Category, Budget, Subscription, TransactionType, Currency } from '../types';
 import { MOCK_TRANSACTIONS, CATEGORIES, MOCK_BUDGETS, MOCK_SUBSCRIPTIONS } from '../constants';
+import { readJson, writeJson } from '../utils/storage';
 
 export interface CreditCard {
   id: string;
@@ -79,58 +80,58 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Load data from localStorage or fallback to Mock Data
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
-    const saved = localStorage.getItem('smartfinance_transactions');
-    return saved ? JSON.parse(saved) : MOCK_TRANSACTIONS;
+    return readJson<Transaction[]>('smartfinance_transactions') ?? MOCK_TRANSACTIONS;
   });
 
   const [categories, setCategories] = useState<Category[]>(() => {
-    const saved = localStorage.getItem('smartfinance_categories');
-    const parsed = saved ? JSON.parse(saved) : CATEGORIES;
+    const parsed = readJson<Category[]>('smartfinance_categories') ?? CATEGORIES;
     return normalizeCategories(parsed);
   });
 
   const [budgets, setBudgets] = useState<Budget[]>(() => {
-    const saved = localStorage.getItem('smartfinance_budgets');
-    return saved ? JSON.parse(saved) : MOCK_BUDGETS;
+    return readJson<Budget[]>('smartfinance_budgets') ?? MOCK_BUDGETS;
   });
 
   const [subscriptions, setSubscriptions] = useState<Subscription[]>(() => {
-    const saved = localStorage.getItem('smartfinance_subscriptions');
-    return saved ? JSON.parse(saved) : MOCK_SUBSCRIPTIONS;
+    return readJson<Subscription[]>('smartfinance_subscriptions') ?? MOCK_SUBSCRIPTIONS;
   });
 
   const [currency, setCurrencyState] = useState<Currency>(() => {
-    const saved = localStorage.getItem('smartfinance_currency');
+    // currency is stored as a string
+    const saved = (() => {
+      try { return localStorage.getItem('smartfinance_currency'); } catch { return null; }
+    })();
     return (saved as Currency) || Currency.HKD;
   });
 
   const getTxCurrency = (t: Transaction): Currency => (t.currency as Currency) || currency;
 
   const [creditCards, setCreditCards] = useState<CreditCard[]>(() => {
-    const saved = localStorage.getItem('smartfinance_creditcards');
-    return saved ? JSON.parse(saved) : [];
+    return readJson<CreditCard[]>('smartfinance_creditcards') ?? [];
   });
 
   const [themeColor, setThemeColorState] = useState<ThemeName>(() => {
-    const saved = localStorage.getItem('smartfinance_themecolor');
+    const saved = (() => {
+      try { return localStorage.getItem('smartfinance_themecolor'); } catch { return null; }
+    })();
     return normalizeThemeName(saved);
   });
 
   // Persistence Effects
   useEffect(() => {
-    localStorage.setItem('smartfinance_transactions', JSON.stringify(transactions));
+    writeJson('smartfinance_transactions', transactions);
   }, [transactions]);
 
   useEffect(() => {
-    localStorage.setItem('smartfinance_categories', JSON.stringify(categories));
+    writeJson('smartfinance_categories', categories);
   }, [categories]);
 
   useEffect(() => {
-    localStorage.setItem('smartfinance_budgets', JSON.stringify(budgets));
+    writeJson('smartfinance_budgets', budgets);
   }, [budgets]);
 
   useEffect(() => {
-    localStorage.setItem('smartfinance_subscriptions', JSON.stringify(subscriptions));
+    writeJson('smartfinance_subscriptions', subscriptions);
   }, [subscriptions]);
 
   useEffect(() => {
@@ -304,7 +305,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Persistence for credit cards
   useEffect(() => {
-    localStorage.setItem('smartfinance_creditcards', JSON.stringify(creditCards));
+    writeJson('smartfinance_creditcards', creditCards);
   }, [creditCards]);
 
   // Persistence and application of theme (UI skin)
