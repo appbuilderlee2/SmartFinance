@@ -1,22 +1,15 @@
 
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, User, RefreshCw, LogOut, FileDown, Upload, Cloud, CloudOff } from 'lucide-react';
-import { useAuth } from '../services/authService';
+import { ChevronRight, RefreshCw, FileDown, Upload, CloudOff } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
-import { backupToFirebase, restoreFromFirebase } from '../services/firebaseBackup';
 
 const Settings: React.FC = () => {
    const navigate = useNavigate();
-   const { logout, user } = useAuth();
    const { resetData, transactions, categories, budgets, subscriptions, currency, setCurrency, themeColor, setThemeColor, creditCards } = useData();
    const fileInputRef = useRef<HTMLInputElement>(null);
    const csvInputRef = useRef<HTMLInputElement>(null);
 
-   const handleLogout = async () => {
-      await logout();
-      navigate('/welcome');
-   };
 
    const handleExportCSV = () => {
       // Unified CSV headers for full backup (all entities)
@@ -253,39 +246,7 @@ const Settings: React.FC = () => {
       URL.revokeObjectURL(url);
    };
 
-   const handleCloudBackup = async () => {
-      try {
-         await backupToFirebase({
-            transactions,
-            categories,
-            budgets,
-            subscriptions,
-            currency,
-            creditCards,
-            themeColor
-         });
-         alert('已備份到 Firebase');
-      } catch (err: any) {
-         alert('雲端備份失敗：' + (err?.message || '請稍後再試'));
-      }
-   };
-
-   const handleCloudRestore = async () => {
-      try {
-         const data = await restoreFromFirebase();
-         if (data.transactions) localStorage.setItem('smartfinance_transactions', JSON.stringify(data.transactions));
-         if (data.categories) localStorage.setItem('smartfinance_categories', JSON.stringify(data.categories));
-         if (data.budgets) localStorage.setItem('smartfinance_budgets', JSON.stringify(data.budgets));
-         if (data.subscriptions) localStorage.setItem('smartfinance_subscriptions', JSON.stringify(data.subscriptions));
-         if (data.currency) localStorage.setItem('smartfinance_currency', data.currency);
-         if (data.creditCards) localStorage.setItem('smartfinance_creditcards', JSON.stringify(data.creditCards));
-         if (data.themeColor) localStorage.setItem('smartfinance_themecolor', data.themeColor);
-         alert('已從 Firebase 還原，將重新載入');
-         window.location.reload();
-      } catch (err: any) {
-         alert('雲端還原失敗：' + (err?.message || '請稍後再試'));
-      }
-   };
+   // Firebase cloud backup/restore removed: local-only mode
 
    const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
@@ -601,14 +562,14 @@ const Settings: React.FC = () => {
 
          {/* Section 2 */}
          <div>
-            <h3 className="text-gray-500 text-xs ml-3 mb-2 uppercase tracking-wider">帳戶與安全</h3>
+            <h3 className="text-gray-500 text-xs ml-3 mb-2 uppercase tracking-wider">模式</h3>
             <div className="sf-panel overflow-hidden divide-y sf-divider">
                <div className="flex items-center justify-between p-4">
                   <div className="flex items-center gap-3">
                      <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
-                        <User size={16} />
+                        <CloudOff size={16} />
                      </div>
-                     <span className="text-sm text-gray-300">已登入: {user?.email || 'demo@user.com'}</span>
+                     <span className="text-sm text-gray-300">本機模式（無登入／無雲端）</span>
                   </div>
                </div>
             </div>
@@ -648,29 +609,18 @@ const Settings: React.FC = () => {
                      onChange={handleImportCSV}
                   />
                </div>
-               <div className="grid grid-cols-2 gap-0 divide-x sf-divider">
-                  <button
-                     onClick={handleCloudBackup}
-                     className="p-4 text-white flex items-center justify-center gap-2 hover:bg-surface/80"
-                  >
-                     <Cloud size={16} /> 雲端備份
-                  </button>
-                  <button
-                     onClick={handleCloudRestore}
-                     className="p-4 text-white flex items-center justify-center gap-2 hover:bg-surface/80"
-                  >
-                     <CloudOff size={16} /> 雲端還原
-                  </button>
+               <div className="sf-panel p-4 text-gray-300 text-sm flex items-start gap-2">
+                  <CloudOff size={16} className="mt-0.5" />
+                  <div>
+                     <div className="font-semibold text-gray-100">本機模式</div>
+                     <div className="text-gray-400">資料只儲存喺本機（無登入／無雲端備份）。建議定期匯出 JSON/CSV 自己留底。</div>
+                  </div>
                </div>
                <button onClick={resetData} className="w-full p-4 text-red-400 text-center hover:bg-surface/80 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
                   <RefreshCw size={18} /> 重置所有資料 (Reset)
                </button>
             </div>
          </div>
-
-         <button onClick={handleLogout} className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-red-500/20 active:scale-[0.98] flex items-center justify-center gap-2">
-            <LogOut size={20} /> 登出
-         </button>
       </div>
    );
 };
