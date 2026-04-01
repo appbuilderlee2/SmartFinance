@@ -4,6 +4,7 @@ import { Transaction, Category, Budget, Subscription, TransactionType, Currency 
 import { CATEGORIES } from '../constants';
 import { readJson, writeJson } from '../utils/storage';
 import { makeId } from '../utils/id';
+import { ensureSchemaVersion } from '../utils/storageVersion';
 
 export interface CreditCard {
   id: string;
@@ -69,6 +70,11 @@ const DataContext = createContext<DataContextType>({} as DataContextType);
 export const useData = () => useContext(DataContext);
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Mark schema version early to help future migrations.
+  useEffect(() => {
+    ensureSchemaVersion();
+  }, []);
+
   const DEFAULT_THEME: ThemeName = 'blue';
   const normalizeThemeName = (value: unknown): ThemeName => {
     if (typeof value !== 'string') return DEFAULT_THEME;
@@ -291,8 +297,9 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         navigator.serviceWorker.getRegistrations().then((regs) => {
           regs.forEach((r) => {
             const scope = r.scope || '';
-            if (scope.endsWith('/dist/') || scope.endsWith('/SmartFinance/') || scope.endsWith('/')) {
-              // still be conservative: only if we see our own script name in active/ waiting.
+            // Only unregister OUR service worker (service-worker.js) if it is controlling
+            // a scope that looks like this app. Avoid touching other SW registrations.
+            if (scope.endsWith('/dist/') || scope.endsWith('/SmartFinance/')) {
               const sw: any = r.active || r.waiting || r.installing;
               const scriptUrl: string = sw?.scriptURL || '';
               if (scriptUrl.includes('service-worker.js')) {
