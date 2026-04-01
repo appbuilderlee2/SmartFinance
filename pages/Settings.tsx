@@ -428,6 +428,10 @@ const Settings: React.FC = () => {
                   <span className="text-white">信用卡管理</span>
                   <ChevronRight className="text-gray-500" size={18} />
                </div>
+               <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors" onClick={() => navigate('/settings/creditcard-cycles')}>
+                  <span className="text-white">信用卡週期</span>
+                  <ChevronRight className="text-gray-500" size={18} />
+               </div>
                <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors" onClick={() => navigate('/subscriptions', { state: { from: '/settings' } })}>
                   <span className="text-white">訂閱服務</span>
                   <ChevronRight className="text-gray-500" size={18} />
