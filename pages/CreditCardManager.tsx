@@ -17,6 +17,11 @@ interface CreditCardType {
     creditLimit?: number;
     imageUrl?: string;
     rewardCategories?: string[];
+
+    statementDay?: number; // 1-31 截數日
+    dueDay?: number; // 1-31 繳費日
+    remindStatement?: boolean;
+    remindDue?: boolean;
 }
 
 const CreditCardManager: React.FC = () => {
@@ -38,12 +43,16 @@ const CreditCardManager: React.FC = () => {
         expiryDate: '',
         creditLimit: undefined,
         imageUrl: undefined,
-        rewardCategories: []
+        rewardCategories: [],
+        statementDay: undefined,
+        dueDay: undefined,
+        remindStatement: true,
+        remindDue: true,
     });
 
     const openAddModal = () => {
         setEditingId(null);
-        setFormData({ name: '', lastFourDigits: '', annualFee: 0, feeMonth: 1, cashbackType: '', expiryDate: '', creditLimit: undefined, imageUrl: undefined, rewardCategories: [] });
+        setFormData({ name: '', lastFourDigits: '', annualFee: 0, feeMonth: 1, cashbackType: '', expiryDate: '', creditLimit: undefined, imageUrl: undefined, rewardCategories: [], statementDay: undefined, dueDay: undefined, remindStatement: true, remindDue: true });
         setCatalogQuery('');
         setCatalogError(null);
         setShowModal(true);
@@ -394,6 +403,66 @@ const CreditCardManager: React.FC = () => {
                                             <option key={m} value={m}>{m}月</option>
                                         ))}
                                     </select>
+                                </div>
+                            </div>
+
+                            {/* Billing cycle dates + reminders */}
+                            <div className="sf-panel rounded-xl p-4 space-y-3">
+                                <div className="text-sm text-gray-200 font-semibold">信用卡帳單週期</div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-1 block">截數日（每月）</label>
+                                        <input
+                                            type="number"
+                                            min={1}
+                                            max={31}
+                                            placeholder="例如 20"
+                                            value={formData.statementDay ?? ''}
+                                            onChange={e => {
+                                                const v = e.target.value === '' ? undefined : Number(e.target.value);
+                                                setFormData({ ...formData, statementDay: v });
+                                            }}
+                                            className="w-full sf-control rounded-xl p-3 text-white"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-gray-400 text-sm mb-1 block">繳費日（每月）</label>
+                                        <input
+                                            type="number"
+                                            min={1}
+                                            max={31}
+                                            placeholder="例如 5"
+                                            value={formData.dueDay ?? ''}
+                                            onChange={e => {
+                                                const v = e.target.value === '' ? undefined : Number(e.target.value);
+                                                setFormData({ ...formData, dueDay: v });
+                                            }}
+                                            className="w-full sf-control rounded-xl p-3 text-white"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-3">
+                                    <label className="flex items-center gap-2 text-sm text-gray-300">
+                                        <input
+                                            type="checkbox"
+                                            checked={formData.remindStatement ?? true}
+                                            onChange={e => setFormData({ ...formData, remindStatement: e.target.checked })}
+                                        />
+                                        截數提醒
+                                    </label>
+                                    <label className="flex items-center gap-2 text-sm text-gray-300">
+                                        <input
+                                            type="checkbox"
+                                            checked={formData.remindDue ?? true}
+                                            onChange={e => setFormData({ ...formData, remindDue: e.target.checked })}
+                                        />
+                                        繳費提醒
+                                    </label>
+                                </div>
+
+                                <div className="text-xs text-gray-500">
+                                    提示：如某月份無該日期（例如 31 號），提醒會自動落到該月最後一日。
                                 </div>
                             </div>
 
