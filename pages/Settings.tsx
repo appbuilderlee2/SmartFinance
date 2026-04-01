@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, RefreshCw, FileDown, Upload, CloudOff } from 'lucide-react';
+import { ChevronRight, RefreshCw, FileDown, Upload, CloudOff, Info } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { makeId } from '../utils/id';
 import { toLocalYMD } from '../utils/date';
@@ -573,6 +573,17 @@ const Settings: React.FC = () => {
                      </div>
                      <span className="text-sm text-gray-300">本機模式（無登入／無雲端）</span>
                   </div>
+               </div>
+
+               {/* Version */}
+               <div className="flex items-center justify-between p-4">
+                  <div className="flex items-center gap-3">
+                     <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
+                        <Info size={16} />
+                     </div>
+                     <span className="text-sm text-gray-300">版本</span>
+                  </div>
+                  <span className="text-sm text-gray-400">{__APP_VERSION__}</span>
                </div>
             </div>
          </div>

@@ -8,6 +8,9 @@ export default defineConfig(({ command }) => ({
   base: command === 'build' ? './' : '/',
   plugins: [react()],
   publicDir: 'public', // Explicitly define public dir (default is 'public')
+  define: {
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '0.0.0'),
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: true,
