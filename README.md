@@ -53,6 +53,10 @@ flowchart LR
 - Tailwind CSS
 - Lucide React
 
+## 工程 / 品質保證
+- GitHub Actions CI：每次 push / PR 會自動跑 `npm ci` + `npm run build`（防止壞 build 入 main）
+- localStorage schema version：`smartfinance_schema_version`（為將來資料結構升級/migration 做準備）
+
 ## 開發 / 預覽
 ```bash
 npm install
