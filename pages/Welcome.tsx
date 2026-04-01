@@ -2,11 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TrendingUp, PlayCircle } from 'lucide-react';
 import { DEMO_PAYLOAD } from '../utils/demoData';
+import { setOnboarded } from '../utils/firstRun';
 
 const Welcome: React.FC = () => {
   const navigate = useNavigate();
 
   const handleStart = () => {
+    setOnboarded();
     navigate('/');
   };
 
@@ -21,6 +23,7 @@ const Welcome: React.FC = () => {
     } catch {
       // ignore
     }
+    setOnboarded();
     navigate('/');
   };
 

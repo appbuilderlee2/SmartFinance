@@ -7,6 +7,7 @@ import NumPad from '../components/NumPad';
 import { getCurrencySymbol } from '../utils/currency';
 import { Currency, TransactionType } from '../types';
 import { triggerHaptic, HapticPatterns } from '../utils/haptics';
+import { toLocalYMD } from '../utils/date';
 
 const AddTransaction: React.FC = () => {
   const navigate = useNavigate();
@@ -17,11 +18,7 @@ const AddTransaction: React.FC = () => {
   const [isNumPadOpen, setIsNumPadOpen] = useState(false);
 
   // Fix date initialization to account for local timezone
-  const getTodayString = () => {
-    const today = new Date();
-    const local = new Date(today.getTime() - (today.getTimezoneOffset() * 60000));
-    return local.toISOString().split('T')[0];
-  };
+  const getTodayString = () => toLocalYMD(new Date());
 
   const [amount, setAmount] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);

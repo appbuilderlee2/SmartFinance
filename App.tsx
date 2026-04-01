@@ -22,6 +22,7 @@ import AddSubscriptionPage from './pages/AddSubscription';
 
 // Layout
 import Layout from './components/Layout';
+import { hasOnboarded } from './utils/firstRun';
 
 
 const App: React.FC = () => {
@@ -93,8 +94,8 @@ const App: React.FC = () => {
           <Route path="/add-subscription" element={<Layout hideNav><AddSubscriptionPage /></Layout>} />
           <Route path="/subscriptions/:id/edit" element={<Layout hideNav><AddSubscriptionPage /></Layout>} />
 
-          {/* Default to Welcome */}
-          <Route path="*" element={<Navigate to="/welcome" />} />
+          {/* Default route: first-time users to Welcome; otherwise go to Dashboard */}
+          <Route path="*" element={<Navigate to={hasOnboarded() ? "/" : "/welcome"} />} />
         </Routes>
       </Router>
     </DataProvider>

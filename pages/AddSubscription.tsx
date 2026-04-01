@@ -5,6 +5,7 @@ import { ChevronLeft, Calendar } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { TransactionType } from '../types';
 import { getCurrencySymbol } from '../utils/currency';
+import { toLocalYMD } from '../utils/date';
 
 const SERVICE_ICON_PRESETS = [
   { label: 'Netflix', value: 'emoji:🎬' },
@@ -30,7 +31,7 @@ const AddSubscription: React.FC = () => {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [cycle, setCycle] = useState<'Monthly' | 'Yearly' | 'Weekly' | 'BiWeekly'>('Monthly');
-  const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(() => toLocalYMD(new Date()));
   const [autoRenewal, setAutoRenewal] = useState(true);
   const [notes, setNotes] = useState('');
   const [categoryId, setCategoryId] = useState<string>('');

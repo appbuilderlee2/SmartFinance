@@ -6,6 +6,7 @@ import { useData } from '../contexts/DataContext';
 import { Icon } from '../components/Icon';
 import { getCurrencySymbol } from '../utils/currency';
 import { Currency, TransactionType } from '../types';
+import { toLocalYMD } from '../utils/date';
 
 const TransactionDetail: React.FC = () => {
    const { id } = useParams();
@@ -23,7 +24,7 @@ const TransactionDetail: React.FC = () => {
    const [tagInput, setTagInput] = useState('');
    const [receiptUrl, setReceiptUrl] = useState<string | undefined>(tx?.receiptUrl);
    const [isRecurring, setIsRecurring] = useState(tx?.isRecurring || false);
-   const [date, setDate] = useState(tx?.date ? new Date(tx.date).toISOString().split('T')[0] : '');
+   const [date, setDate] = useState(tx?.date ? toLocalYMD(new Date(tx.date)) : '');
    const [txCurrency, setTxCurrency] = useState<Currency>((tx?.currency as Currency) || currency);
 
    if (!tx) return <div className="pt-safe-top p-4 text-white">Not found</div>;
