@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { Transaction, Category, Budget, Subscription, TransactionType, Currency } from '../types';
-import { MOCK_TRANSACTIONS, CATEGORIES, MOCK_BUDGETS, MOCK_SUBSCRIPTIONS } from '../constants';
+import { CATEGORIES } from '../constants';
 import { readJson, writeJson } from '../utils/storage';
 
 export interface CreditCard {
@@ -80,7 +80,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Load data from localStorage or fallback to Mock Data
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
-    return readJson<Transaction[]>('smartfinance_transactions') ?? MOCK_TRANSACTIONS;
+    return readJson<Transaction[]>('smartfinance_transactions') ?? [];
   });
 
   const [categories, setCategories] = useState<Category[]>(() => {
@@ -89,11 +89,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   const [budgets, setBudgets] = useState<Budget[]>(() => {
-    return readJson<Budget[]>('smartfinance_budgets') ?? MOCK_BUDGETS;
+    return readJson<Budget[]>('smartfinance_budgets') ?? [];
   });
 
   const [subscriptions, setSubscriptions] = useState<Subscription[]>(() => {
-    return readJson<Subscription[]>('smartfinance_subscriptions') ?? MOCK_SUBSCRIPTIONS;
+    return readJson<Subscription[]>('smartfinance_subscriptions') ?? [];
   });
 
   const [currency, setCurrencyState] = useState<Currency>(() => {
