@@ -11,7 +11,7 @@ interface CreditCardType {
     name: string;
     lastFourDigits?: string;
     annualFee: number;
-    feeMonth: number; // 1-12
+    feeMonth?: number; // 1-12 (optional when annualFee=0)
     cashbackType: string;
     expiryDate: string; // YYYY-MM
     creditLimit?: number;
@@ -39,7 +39,7 @@ const CreditCardManager: React.FC = () => {
         name: '',
         lastFourDigits: '',
         annualFee: 0,
-        feeMonth: 1,
+        feeMonth: undefined,
         cashbackType: '',
         expiryDate: '',
         creditLimit: undefined,
@@ -54,7 +54,7 @@ const CreditCardManager: React.FC = () => {
 
     const openAddModal = () => {
         setEditingId(null);
-        setFormData({ name: '', lastFourDigits: '', annualFee: 0, feeMonth: 1, cashbackType: '', expiryDate: '', creditLimit: undefined, imageUrl: undefined, rewardCategories: [], statementDay: undefined, dueDay: undefined, dueInNextMonth: true, remindStatement: true, remindDue: true });
+        setFormData({ name: '', lastFourDigits: '', annualFee: 0, feeMonth: undefined, cashbackType: '', expiryDate: '', creditLimit: undefined, imageUrl: undefined, rewardCategories: [], statementDay: undefined, dueDay: undefined, dueInNextMonth: true, remindStatement: true, remindDue: true });
         setCatalogQuery('');
         setCatalogError(null);
         setShowModal(true);
@@ -210,7 +210,7 @@ const CreditCardManager: React.FC = () => {
                                 </div>
                                 <div>
                                     <p className="text-gray-500">收費月份</p>
-                                    <p className="text-white">{card.feeMonth}月</p>
+                                    <p className="text-white">{card.feeMonth ? `${card.feeMonth}月` : '—'}</p>
                                 </div>
                                 <div>
                                     <p className="text-gray-500">信用額度</p>
@@ -397,14 +397,20 @@ const CreditCardManager: React.FC = () => {
                                 <div>
                                     <label className="text-gray-400 text-sm mb-1 block">收費月份</label>
                                     <select
-                                        value={formData.feeMonth}
-                                        onChange={e => setFormData({ ...formData, feeMonth: Number(e.target.value) })}
+                                        value={formData.feeMonth ?? ''}
+                                        onChange={e => setFormData({ ...formData, feeMonth: e.target.value === '' ? undefined : Number(e.target.value) })}
                                         className="w-full sf-control rounded-xl p-3 text-white"
+                                        disabled={Number(formData.annualFee) <= 0}
                                     >
+                                        <option value="">（不適用）</option>
                                         {months.map(m => (
                                             <option key={m} value={m}>{m}月</option>
                                         ))}
                                     </select>
+                                    {Number(formData.annualFee) <= 0 && (
+                                      <div className="text-xs text-gray-500 mt-1">年費為 0 時無需設定收費月份</div>
+                                    )}
+                                    
                                 </div>
                             </div>
 

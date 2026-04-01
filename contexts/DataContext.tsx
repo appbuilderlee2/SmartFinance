@@ -12,7 +12,7 @@ export interface CreditCard {
   name: string;
   lastFourDigits?: string;
   annualFee: number;
-  feeMonth: number;
+  feeMonth?: number;
   cashbackType: string;
   expiryDate: string;
   creditLimit?: number;
