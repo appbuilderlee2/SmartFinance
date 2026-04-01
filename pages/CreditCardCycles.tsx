@@ -32,11 +32,16 @@ const CreditCardCycles: React.FC = () => {
     const id = `ccyc_${cardId}_${yearMonth}`;
     const existing = cycles.find(c => c.id === id);
     const base = existing || createOpenCycle(card, Number(yearMonth.slice(0,4)), Number(yearMonth.slice(5,7)) - 1);
-    const raw = window.prompt(`輸入 ${card.name}（${yearMonth}）本期應繳金額`, base.amountDue?.toString() || '');
+    const raw = window.prompt(`輸入 ${card.name}（${yearMonth}）本期應繳金額`, (typeof base.amountDue === 'number' ? base.amountDue.toString() : ''));
     if (raw == null) return;
-    const n = Number(raw);
+    const trimmed = raw.trim();
+    if (trimmed === '') {
+      alert('請輸入金額');
+      return;
+    }
+    const n = Number(trimmed);
     if (!Number.isFinite(n) || n < 0) {
-      alert('金額不正確');
+      alert('金額不正確（請輸入 0 或以上數字）');
       return;
     }
     const next = {
@@ -48,14 +53,32 @@ const CreditCardCycles: React.FC = () => {
     const updated = upsertCycle(cycles, next);
     setCycles(updated);
     saveCycles(updated);
+
+    // Ensure the UI list refreshes immediately after prompt save.
+    setTimeout(() => setCycles(loadCycles()), 0);
   };
 
   const markPaidAndNext = (cardId: string, yearMonth: string) => {
     const card = creditCards.find(c => c.id === cardId);
     if (!card) return;
+
     const id = `ccyc_${cardId}_${yearMonth}`;
     const existing = cycles.find(c => c.id === id);
     const base = existing || createOpenCycle(card, Number(yearMonth.slice(0,4)), Number(yearMonth.slice(5,7)) - 1);
+
+    if (base.status === 'closed') {
+      alert('呢一期已經標記咗繳費');
+      return;
+    }
+
+    const amt = typeof base.amountDue === 'number' ? base.amountDue : null;
+    if (amt == null) {
+      const ok = window.confirm('你仲未輸入本期應繳金額，確定要直接標記「已繳費」？');
+      if (!ok) return;
+    } else if (amt <= 0) {
+      const ok = window.confirm('本期應繳金額為 0，確定要標記「已繳費」並跳到下一期？');
+      if (!ok) return;
+    }
 
     const nextClosed = {
       ...base,
@@ -69,6 +92,10 @@ const CreditCardCycles: React.FC = () => {
     const updated = upsertCycle(upsertCycle(cycles, nextClosed), nextOpen);
     setCycles(updated);
     saveCycles(updated);
+
+    // Ensure UI refresh
+    setTimeout(() => setCycles(loadCycles()), 0);
+
     alert('已標記繳費，已切換到下一期');
   };
 
