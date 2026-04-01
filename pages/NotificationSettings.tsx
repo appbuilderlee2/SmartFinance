@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, CalendarCheck } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { getStatementAndDueForMonth } from '../utils/creditCardSchedule';
+import { loadCycles } from '../utils/creditCardCycleStorage';
 
 const NotificationSettings: React.FC = () => {
   const navigate = useNavigate();
@@ -13,6 +14,13 @@ const NotificationSettings: React.FC = () => {
 
   const [ccEnabled, setCcEnabled] = useState(true);
   const [ccAdvanceDays, setCcAdvanceDays] = useState(0); // 0 = on the day
+
+  const [ccAmountRemindEnabled, setCcAmountRemindEnabled] = useState(true); // 截數後 +1 日：提醒輸入應繳金額
+  const [ccFeeRemindEnabled, setCcFeeRemindEnabled] = useState(true); // 年費提醒
+
+  // avoid TS6133 when toggles are not rendered yet
+  void setCcAmountRemindEnabled;
+  void setCcFeeRemindEnabled;
 
   // Format date for ICS (YYYYMMDDTHHMMSS)
   const formatICSDate = (date: Date) => {
@@ -41,13 +49,45 @@ const NotificationSettings: React.FC = () => {
 
     const events: { uid: string; dt: Date; summary: string }[] = [];
 
+    // Load cycles to include amount-due info (best-effort; remains local-only)
+    const cycles = loadCycles();
+
     for (const c of creditCards || []) {
       const { statementDate, dueDate } = getStatementAndDueForMonth(y, m0, c);
       if (c.remindStatement !== false && statementDate) {
         events.push(makeEvent(`信用卡截數提醒：${c.name}`, statementDate));
+
+        // 1B: statement + 1 day => remind user to enter amount due
+        if (ccAmountRemindEnabled) {
+          const d = new Date(statementDate + 'T00:00:00');
+          d.setDate(d.getDate() + 1);
+          const ymdPlus1 = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+          // If already entered amount due for this month, skip
+          const cycleId = `ccyc_${c.id}_${String(y).padStart(4, '0')}-${String(m0 + 1).padStart(2, '0')}`;
+          const cy = cycles.find(x => x.id === cycleId);
+          if (!cy?.amountDueEnteredAt) {
+            events.push(makeEvent(`信用卡應繳金額：${c.name}（請輸入本期應繳）`, ymdPlus1));
+          }
+        }
       }
+
       if (c.remindDue !== false && dueDate) {
-        events.push(makeEvent(`信用卡繳費提醒：${c.name}`, dueDate));
+        // If amount due exists in cycle, show it in summary
+        const cycleId = `ccyc_${c.id}_${String(y).padStart(4, '0')}-${String(m0 + 1).padStart(2, '0')}`;
+        const cy = cycles.find(x => x.id === cycleId);
+        const amt = typeof cy?.amountDue === 'number' ? cy.amountDue : null;
+        const suffix = amt != null ? `（應繳 ${amt}）` : '';
+        events.push(makeEvent(`信用卡繳費提醒：${c.name}${suffix}`, dueDate));
+      }
+
+      // Annual fee reminder (3A: feeMonth day 1)
+      if (ccFeeRemindEnabled && (Number(c.annualFee) || 0) > 0 && (Number(c.feeMonth) || 0) >= 1) {
+        const feeMonth0 = Number(c.feeMonth) - 1;
+        if (feeMonth0 === m0) {
+          const feeDate = new Date(y, m0, 1);
+          const ymdFee = `${feeDate.getFullYear()}-${String(feeDate.getMonth() + 1).padStart(2,'0')}-${String(feeDate.getDate()).padStart(2,'0')}`;
+          events.push(makeEvent(`信用卡年費提醒：${c.name}（年費 ${c.annualFee}）`, ymdFee));
+        }
       }
     }
 
@@ -58,11 +98,39 @@ const NotificationSettings: React.FC = () => {
       const m2 = next.getMonth();
       for (const c of creditCards || []) {
         const { statementDate, dueDate } = getStatementAndDueForMonth(y2, m2, c);
+
         if (c.remindStatement !== false && statementDate) {
           events.push(makeEvent(`信用卡截數提醒：${c.name}`, statementDate));
+
+          // 1B: statement + 1 day => remind user to enter amount due
+          if (ccAmountRemindEnabled) {
+            const d = new Date(statementDate + 'T00:00:00');
+            d.setDate(d.getDate() + 1);
+            const ymdPlus1 = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+            const cycleId = `ccyc_${c.id}_${String(y2).padStart(4, '0')}-${String(m2 + 1).padStart(2, '0')}`;
+            const cy = cycles.find(x => x.id === cycleId);
+            if (!cy?.amountDueEnteredAt) {
+              events.push(makeEvent(`信用卡應繳金額：${c.name}（請輸入本期應繳）`, ymdPlus1));
+            }
+          }
         }
+
         if (c.remindDue !== false && dueDate) {
-          events.push(makeEvent(`信用卡繳費提醒：${c.name}`, dueDate));
+          const cycleId = `ccyc_${c.id}_${String(y2).padStart(4, '0')}-${String(m2 + 1).padStart(2, '0')}`;
+          const cy = cycles.find(x => x.id === cycleId);
+          const amt = typeof cy?.amountDue === 'number' ? cy.amountDue : null;
+          const suffix = amt != null ? `（應繳 ${amt}）` : '';
+          events.push(makeEvent(`信用卡繳費提醒：${c.name}${suffix}`, dueDate));
+        }
+
+        // 3A: annual fee reminder at feeMonth day 1
+        if (ccFeeRemindEnabled && (Number(c.annualFee) || 0) > 0 && (Number(c.feeMonth) || 0) >= 1) {
+          const feeMonth0 = Number(c.feeMonth) - 1;
+          if (feeMonth0 === m2) {
+            const feeDate = new Date(y2, m2, 1);
+            const ymdFee = `${feeDate.getFullYear()}-${String(feeDate.getMonth() + 1).padStart(2,'0')}-${String(feeDate.getDate()).padStart(2,'0')}`;
+            events.push(makeEvent(`信用卡年費提醒：${c.name}（年費 ${c.annualFee}）`, ymdFee));
+          }
         }
       }
     }

@@ -17,6 +17,7 @@ import Subscriptions from './pages/Subscriptions';
 import NotificationSettings from './pages/NotificationSettings';
 import Calendar from './pages/Calendar';
 import CreditCardManager from './pages/CreditCardManager';
+import CreditCardCycles from './pages/CreditCardCycles';
 import Reports from './pages/Reports';
 import AddSubscriptionPage from './pages/AddSubscription';
 
@@ -89,6 +90,7 @@ const App: React.FC = () => {
           <Route path="/settings" element={<Layout><Settings /></Layout>} />
           <Route path="/settings/notifications" element={<Layout hideNav><NotificationSettings /></Layout>} />
           <Route path="/settings/creditcards" element={<Layout hideNav><CreditCardManager /></Layout>} />
+          <Route path="/settings/creditcard-cycles" element={<Layout hideNav><CreditCardCycles /></Layout>} />
           <Route path="/reports" element={<Layout><Reports /></Layout>} />
           <Route path="/subscriptions" element={<Layout hideNav><Subscriptions /></Layout>} />
           <Route path="/add-subscription" element={<Layout hideNav><AddSubscriptionPage /></Layout>} />
