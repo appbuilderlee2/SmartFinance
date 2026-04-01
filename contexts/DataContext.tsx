@@ -5,6 +5,7 @@ import { CATEGORIES } from '../constants';
 import { readJson, writeJson } from '../utils/storage';
 import { makeId } from '../utils/id';
 import { ensureSchemaVersion } from '../utils/storageVersion';
+import { parseDate, isSameMonth, toLocalYMD } from '../utils/date';
 
 export interface CreditCard {
   id: string;
@@ -145,42 +146,43 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('smartfinance_currency', currency);
   }, [currency]);
 
-  // Budget Spending Logic (Recalculate spent whenever transactions change)
+  // Budget Spending Logic (recalculate spent whenever transactions/categories/currency change)
+  // Improvement: avoid JSON.stringify object-wide compare and reduce repeated date parsing.
   useEffect(() => {
-    const currentMonth = new Date().getMonth();
-    const currentYear = new Date().getFullYear();
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
 
-    // 1. Sync Categories to Budgets (Ensure every category has a budget)
+    // 1) Ensure every category has a budget row
     const existingBudgetIds = new Set(budgets.map(b => b.categoryId));
     const missingBudgets = categories
       .filter(c => !existingBudgetIds.has(c.id))
       .map(c => ({ categoryId: c.id, limit: 0, spent: 0 }));
 
-    let nextBudgets = [...budgets, ...missingBudgets];
+    const baseBudgets = missingBudgets.length ? [...budgets, ...missingBudgets] : budgets;
 
-    // 2. Recalculate Spent
-    nextBudgets = nextBudgets.map(budget => {
-      const spent = transactions.reduce((total, t) => {
-        const tDate = new Date(t.date);
-        if (
-          t.categoryId === budget.categoryId &&
-          t.type === TransactionType.EXPENSE &&
-          getTxCurrency(t) === currency &&
-          tDate.getMonth() === currentMonth &&
-          tDate.getFullYear() === currentYear
-        ) {
-          return total + t.amount;
-        }
-        return total;
-      }, 0);
-      return { ...budget, spent };
+    // 2) Pre-compute spending per category for this month
+    const spentByCategory = new Map<string, number>();
+    for (const t of transactions) {
+      if (t.type !== TransactionType.EXPENSE) continue;
+      if (getTxCurrency(t) !== currency) continue;
+      const dt = parseDate(t.date);
+      if (!dt) continue;
+      if (!isSameMonth(dt, currentMonth, currentYear)) continue;
+      const prev = spentByCategory.get(t.categoryId) || 0;
+      spentByCategory.set(t.categoryId, prev + (Number(t.amount) || 0));
+    }
+
+    // 3) Compute next budgets and apply only if changed
+    let changed = missingBudgets.length > 0;
+    const nextBudgets = baseBudgets.map((b) => {
+      const spent = spentByCategory.get(b.categoryId) || 0;
+      if (b.spent !== spent) changed = true;
+      return { ...b, spent };
     });
 
-    // Only update if changed
-    if (JSON.stringify(nextBudgets) !== JSON.stringify(budgets)) {
-      setBudgets(nextBudgets);
-    }
-  }, [transactions, categories, currency]); // Added categories + currency dependency
+    if (changed) setBudgets(nextBudgets);
+  }, [transactions, categories, currency]);
 
   const addTransaction = (tx: Omit<Transaction, 'id'>) => {
     const newTx: Transaction = {
@@ -361,8 +363,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!subscriptions.length) return;
 
     const now = new Date();
-    const localToday = new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
-    const todayStr = localToday.toISOString().split('T')[0];
+    const todayStr = toLocalYMD(now);
 
     const addCycle = (date: Date, cycle: Subscription['billingCycle']) => {
       const d = new Date(date);
@@ -370,7 +371,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       else if (cycle === 'BiWeekly') d.setDate(d.getDate() + 14);
       else if (cycle === 'Monthly') d.setMonth(d.getMonth() + 1);
       else if (cycle === 'Yearly') d.setFullYear(d.getFullYear() + 1);
-      return d.toISOString().split('T')[0];
+      return toLocalYMD(d);
     };
 
     const pickCategoryId = (sub: Subscription) => {
@@ -394,8 +395,8 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       let processed = false;
       let lastProcessed = sub.lastProcessedDate || '';
 
-      while (nextDate.toISOString().split('T')[0] <= todayStr && iterations < 24) {
-        const dueStr = nextDate.toISOString().split('T')[0];
+      while (toLocalYMD(nextDate) <= todayStr && iterations < 24) {
+        const dueStr = toLocalYMD(nextDate);
         if (lastProcessed && lastProcessed >= dueStr) {
           // already processed this due date (or later)
           nextDate = new Date(addCycle(nextDate, sub.billingCycle));
@@ -441,7 +442,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (processed) {
         changed = true;
-        const nextBilling = sub.autoRenewal === false ? '' : nextDate.toISOString().split('T')[0];
+        const nextBilling = sub.autoRenewal === false ? '' : toLocalYMD(nextDate);
         return { ...sub, nextBillingDate: nextBilling, lastProcessedDate: lastProcessed || todayStr };
       }
 

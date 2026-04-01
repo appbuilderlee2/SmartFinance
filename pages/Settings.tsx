@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronRight, RefreshCw, FileDown, Upload, CloudOff } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { makeId } from '../utils/id';
+import { toLocalYMD } from '../utils/date';
 
 const Settings: React.FC = () => {
    const navigate = useNavigate();
@@ -221,7 +222,7 @@ const Settings: React.FC = () => {
       // Create download link
       const link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute('download', `smartfinance_export_${new Date().toISOString().split('T')[0]}.csv`);
+      link.setAttribute('download', `smartfinance_export_${toLocalYMD(new Date())}.csv`);
       link.style.visibility = 'hidden';
       document.body.appendChild(link);
       link.click();
@@ -242,7 +243,7 @@ const Settings: React.FC = () => {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `smartfinance_backup_${new Date().toISOString().split('T')[0]}.json`;
+      link.download = `smartfinance_backup_${toLocalYMD(new Date())}.json`;
       link.click();
       URL.revokeObjectURL(url);
    };
@@ -385,7 +386,7 @@ const Settings: React.FC = () => {
                     const parsedCurrency = currencyIdx >= 0 ? parseCurrency(cols[currencyIdx]) : null;
                     importedTx.push({
                       id: cols[idIdx] || makeId('tx'),
-                      date: dateIdx >= 0 ? new Date(cols[dateIdx]).toISOString() : new Date().toISOString(),
+                      date: dateIdx >= 0 ? new Date(((cols[dateIdx] || '').trim()) + 'T00:00:00').toISOString() : new Date().toISOString(),
                       type: txTypeIdx >= 0 ? cols[txTypeIdx] : 'EXPENSE',
                       categoryId: catId,
                       amount: Number(cols[amtIdx]) || 0,

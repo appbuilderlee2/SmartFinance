@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ChevronLeft, Plus, Pencil } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { getCurrencySymbol } from '../utils/currency';
+import { toLocalYMD } from '../utils/date';
 
 const Subscriptions: React.FC = () => {
    const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Subscriptions: React.FC = () => {
    // Calculate monthly total roughly
    const filteredSubs = useMemo(() => {
       const base = filterCategory === 'all' ? subscriptions : subscriptions.filter(s => s.categoryId === filterCategory);
-      const today = new Date().toISOString().split('T')[0];
+      const today = toLocalYMD(new Date());
       return [...base].sort((a, b) => {
          const ad = a.nextBillingDate || '';
          const bd = b.nextBillingDate || '';

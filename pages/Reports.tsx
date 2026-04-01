@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
 import { Currency, TransactionType } from '../types';
 import { getCurrencySymbol } from '../utils/currency';
+import { parseDate, toLocalYMD } from '../utils/date';
 
 type CategoryChartMode = 'pie' | 'bar';
 type TrendChartMode = 'bar' | 'line';
@@ -51,8 +52,8 @@ const Reports: React.FC = () => {
     return transactions.filter(tx => {
       const txCurrency = (tx.currency as Currency) || currency;
       if (txCurrency !== selectedCurrency) return false;
-      const date = new Date(tx.date);
-      if (Number.isNaN(date.getTime())) return false;
+      const date = parseDate(tx.date);
+      if (!date) return false;
       const startOk = range.start ? new Date(range.start) <= date : true;
       const endOk = range.end ? date <= new Date(range.end) : true;
       return startOk && endOk;
@@ -135,7 +136,7 @@ const Reports: React.FC = () => {
       end.setMonth(12, 0);
     }
 
-    const toStr = (d: Date) => d.toISOString().split('T')[0];
+    const toStr = (d: Date) => toLocalYMD(d);
     setRange({ start: toStr(start), end: toStr(end) });
   };
 
@@ -234,7 +235,7 @@ const Reports: React.FC = () => {
     const headers = ['Date', 'Type', 'Category', 'Amount', 'Note'];
     const rows = filteredTransactions.map(tx => {
       const cat = categories.find(c => c.id === tx.categoryId)?.name || '未分類';
-      const date = new Date(tx.date).toISOString().split('T')[0];
+      const date = toLocalYMD(new Date(tx.date));
       const safeNote = `"${(tx.note || '').replace(/"/g, '""')}"`;
       return [date, tx.type, cat, tx.amount, safeNote].join(',');
     });
@@ -243,7 +244,7 @@ const Reports: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `report_${preset}_${new Date().toISOString().split('T')[0]}.csv`;
+    link.download = `report_${preset}_${toLocalYMD(new Date())}.csv`;
     link.click();
     URL.revokeObjectURL(url);
   };
