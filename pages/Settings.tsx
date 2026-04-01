@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, RefreshCw, FileDown, Upload, CloudOff } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
+import { makeId } from '../utils/id';
 
 const Settings: React.FC = () => {
    const navigate = useNavigate();
@@ -347,7 +348,7 @@ const Settings: React.FC = () => {
                } else {
                   if (recordType === 'category') {
                     importedCategories.push({
-                      id: cols[idIdx] || Math.random().toString(36).slice(2, 9),
+                      id: cols[idIdx] || makeId('cat'),
                       name: cols[catNameIdx] || cols[idIdx],
                       icon: iconIdx >= 0 ? cols[iconIdx] : 'HelpCircle',
                       color: colorIdx >= 0 ? cols[colorIdx] : 'bg-blue-500',
@@ -355,7 +356,7 @@ const Settings: React.FC = () => {
                     });
                   } else if (recordType === 'subscription') {
                     importedSubs.push({
-                      id: cols[idIdx] || Math.random().toString(36).slice(2, 9),
+                      id: cols[idIdx] || makeId('sub'),
                       name: cols[catNameIdx] || cols[idIdx],
                       amount: Number(cols[amtIdx]) || 0,
                       billingCycle: billingIdx >= 0 ? cols[billingIdx] : 'Monthly',
@@ -367,7 +368,7 @@ const Settings: React.FC = () => {
                     });
                   } else if (recordType === 'creditcard') {
                     importedCards.push({
-                      id: cols[idIdx] || Math.random().toString(36).slice(2, 9),
+                      id: cols[idIdx] || makeId('card'),
                       name: cols[catNameIdx] || cols[idIdx],
                       creditLimit: creditLimitIdx >= 0 ? Number(cols[creditLimitIdx]) || 0 : undefined,
                       annualFee: annualFeeIdx >= 0 ? Number(cols[annualFeeIdx]) || 0 : 0,
@@ -383,7 +384,7 @@ const Settings: React.FC = () => {
                     const catId = catIdIdx >= 0 ? cols[catIdIdx] : categories.find(c => c.name === cols[catNameIdx])?.id || categories[0]?.id || '';
                     const parsedCurrency = currencyIdx >= 0 ? parseCurrency(cols[currencyIdx]) : null;
                     importedTx.push({
-                      id: cols[idIdx] || Math.random().toString(36).slice(2, 9),
+                      id: cols[idIdx] || makeId('tx'),
                       date: dateIdx >= 0 ? new Date(cols[dateIdx]).toISOString() : new Date().toISOString(),
                       type: txTypeIdx >= 0 ? cols[txTypeIdx] : 'EXPENSE',
                       categoryId: catId,

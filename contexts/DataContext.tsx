@@ -1,8 +1,9 @@
 
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { Transaction, Category, Budget, Subscription, TransactionType, Currency } from '../types';
 import { CATEGORIES } from '../constants';
 import { readJson, writeJson } from '../utils/storage';
+import { makeId } from '../utils/id';
 
 export interface CreditCard {
   id: string;
@@ -178,7 +179,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const addTransaction = (tx: Omit<Transaction, 'id'>) => {
     const newTx: Transaction = {
       ...tx,
-      id: Math.random().toString(36).substr(2, 9),
+      id: makeId('tx'),
     };
     setTransactions(prev => [newTx, ...prev]);
   };
@@ -192,7 +193,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const addSubscription = (sub: Omit<Subscription, 'id'>) => {
-    const newSub = { ...sub, id: Math.random().toString(36).substr(2, 9) };
+    const newSub = { ...sub, id: makeId('sub') };
     setSubscriptions(prev => [...prev, newSub]);
   };
 
@@ -275,6 +276,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     // Also clear any app caches / stale service worker state (best-effort).
+    // IMPORTANT: Do NOT unregister other apps' service workers on the same origin.
     try {
       if ('caches' in window) {
         caches.keys().then((keys) => {
@@ -283,8 +285,22 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
             .forEach((k) => caches.delete(k));
         });
       }
+
+      // Unregister only service workers whose scope looks like this app (best-effort).
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then((regs) => regs.forEach((r) => r.unregister()));
+        navigator.serviceWorker.getRegistrations().then((regs) => {
+          regs.forEach((r) => {
+            const scope = r.scope || '';
+            if (scope.endsWith('/dist/') || scope.endsWith('/SmartFinance/') || scope.endsWith('/')) {
+              // still be conservative: only if we see our own script name in active/ waiting.
+              const sw: any = r.active || r.waiting || r.installing;
+              const scriptUrl: string = sw?.scriptURL || '';
+              if (scriptUrl.includes('service-worker.js')) {
+                r.unregister();
+              }
+            }
+          });
+        });
       }
     } catch {
       // ignore
@@ -331,7 +347,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [themeColor]);
 
   // Auto-create expense transactions for due subscriptions
+  // Guardrail: avoid tight loops / double processing when this effect updates state.
+  const isAutoPostingRef = useRef(false);
   useEffect(() => {
+    if (isAutoPostingRef.current) return;
     if (!subscriptions.length) return;
 
     const now = new Date();
@@ -379,7 +398,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         const categoryId = pickCategoryId(sub);
         const tx: Transaction = {
-          id: Math.random().toString(36).substr(2, 9),
+          id: makeId('tx'),
           amount: sub.amount,
           date: dueStr,
           note: `訂閱：${sub.name}`,
@@ -422,11 +441,21 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return sub;
     });
 
+    if (newTransactions.length || changed) {
+      // Mark this run as “mutating” to prevent immediate re-entry.
+      isAutoPostingRef.current = true;
+    }
+
     if (newTransactions.length) {
       setTransactions(prev => [...newTransactions, ...prev]);
     }
     if (changed) {
       setSubscriptions(updatedSubs);
+    }
+
+    if (newTransactions.length || changed) {
+      // Release guard on next tick.
+      setTimeout(() => { isAutoPostingRef.current = false; }, 0);
     }
   }, [subscriptions, categories, transactions]);
 

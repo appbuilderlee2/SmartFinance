@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Plus, CreditCard, Trash2, X, Pencil, ArrowUp, ArrowDown, Cloud, Search } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { CardCatalogItem, fetchCardCatalog } from '../services/cardCatalog';
+import { makeId } from '../utils/id';
 
 interface CreditCardType {
     id: string;
@@ -91,7 +92,7 @@ const CreditCardManager: React.FC = () => {
         } else {
             addCreditCard({
                 ...formData,
-                id: Math.random().toString(36).substr(2, 9)
+                id: makeId('card')
             } as CreditCardType);
         }
 

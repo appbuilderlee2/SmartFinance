@@ -5,6 +5,7 @@ import { ChevronLeft, GripVertical, Plus, Trash2, Edit2, X } from 'lucide-react'
 import { useData } from '../contexts/DataContext';
 import { Icon } from '../components/Icon';
 import { TransactionType, Category } from '../types';
+import { makeId } from '../utils/id';
 
 const AVAILABLE_COLORS = [
    'bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500',
@@ -193,7 +194,7 @@ const CategoryManager: React.FC = () => {
          });
       } else {
          addCategory({
-            id: Math.random().toString(36).substr(2, 9),
+            id: makeId('cat'),
             name: formData.name,
             icon: formData.icon,
             color: formData.color,
