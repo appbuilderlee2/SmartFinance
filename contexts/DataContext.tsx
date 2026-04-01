@@ -22,6 +22,7 @@ export interface CreditCard {
   // Billing cycle dates (day of month, 1-31). Optional.
   statementDay?: number; // 截數日
   dueDay?: number; // 繳費日
+  dueInNextMonth?: boolean; // 繳費日是否屬於截數後下一個月
 
   // Reminder toggles (optional; default on when dates are set)
   remindStatement?: boolean;

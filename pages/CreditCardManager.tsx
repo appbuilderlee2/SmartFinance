@@ -20,6 +20,7 @@ interface CreditCardType {
 
     statementDay?: number; // 1-31 截數日
     dueDay?: number; // 1-31 繳費日
+    dueInNextMonth?: boolean; // 繳費日是否屬於截數後下一個月
     remindStatement?: boolean;
     remindDue?: boolean;
 }
@@ -46,13 +47,14 @@ const CreditCardManager: React.FC = () => {
         rewardCategories: [],
         statementDay: undefined,
         dueDay: undefined,
+        dueInNextMonth: true,
         remindStatement: true,
         remindDue: true,
     });
 
     const openAddModal = () => {
         setEditingId(null);
-        setFormData({ name: '', lastFourDigits: '', annualFee: 0, feeMonth: 1, cashbackType: '', expiryDate: '', creditLimit: undefined, imageUrl: undefined, rewardCategories: [], statementDay: undefined, dueDay: undefined, remindStatement: true, remindDue: true });
+        setFormData({ name: '', lastFourDigits: '', annualFee: 0, feeMonth: 1, cashbackType: '', expiryDate: '', creditLimit: undefined, imageUrl: undefined, rewardCategories: [], statementDay: undefined, dueDay: undefined, dueInNextMonth: true, remindStatement: true, remindDue: true });
         setCatalogQuery('');
         setCatalogError(null);
         setShowModal(true);
@@ -416,7 +418,7 @@ const CreditCardManager: React.FC = () => {
                                             type="number"
                                             min={1}
                                             max={31}
-                                            placeholder="例如 20"
+                                            placeholder="例如 19"
                                             value={formData.statementDay ?? ''}
                                             onChange={e => {
                                                 const v = e.target.value === '' ? undefined : Number(e.target.value);
@@ -431,7 +433,7 @@ const CreditCardManager: React.FC = () => {
                                             type="number"
                                             min={1}
                                             max={31}
-                                            placeholder="例如 5"
+                                            placeholder="例如 14"
                                             value={formData.dueDay ?? ''}
                                             onChange={e => {
                                                 const v = e.target.value === '' ? undefined : Number(e.target.value);
@@ -441,6 +443,15 @@ const CreditCardManager: React.FC = () => {
                                         />
                                     </div>
                                 </div>
+
+                                <label className="flex items-center gap-2 text-sm text-gray-300">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.dueInNextMonth ?? true}
+                                        onChange={e => setFormData({ ...formData, dueInNextMonth: e.target.checked })}
+                                    />
+                                    繳費日屬於下一個月（常見：3月截數 → 4月繳費）
+                                </label>
 
                                 <div className="grid grid-cols-2 gap-3">
                                     <label className="flex items-center gap-2 text-sm text-gray-300">
