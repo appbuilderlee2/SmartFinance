@@ -59,7 +59,7 @@ const Welcome: React.FC = () => {
 
         <div className="text-center space-y-2 max-w-xs">
           <p className="text-gray-300 font-medium">掌握財務，實現目標。</p>
-          <p className="text-gray-500 text-sm">離線使用、雲端備份、報表一目了然。</p>
+          <p className="text-gray-500 text-sm">離線使用（基礎）、本機備份、報表一目了然。</p>
         </div>
       </div>
 
