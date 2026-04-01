@@ -1,20 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TrendingUp, PlayCircle } from 'lucide-react';
-import { useAuth } from '../services/authService';
 
 const Welcome: React.FC = () => {
   const navigate = useNavigate();
-  const { demoLogin, user } = useAuth();
 
-  useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
-  }, [user, navigate]);
-
-  const handleDemo = () => {
-    demoLogin();
+  const handleStart = () => {
     navigate('/');
   };
 
@@ -59,24 +50,21 @@ const Welcome: React.FC = () => {
 
       <div className="space-y-4 mb-8 z-10">
         <button 
-          onClick={() => navigate('/signup')}
+          onClick={handleStart}
           className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-full transition-all active:scale-[0.98] shadow-lg"
         >
-          註冊
+          開始使用
         </button>
-        <button 
-          onClick={() => navigate('/login')}
-          className="w-full bg-transparent border border-primary text-primary hover:bg-primary/10 font-bold py-4 rounded-full transition-all active:scale-[0.98]"
-        >
-          登入
-        </button>
+        <div className="text-center text-xs text-gray-500">
+          本 App 只儲存喺本機（無需登入／無雲端）
+        </div>
         <button
           type="button"
-          onClick={handleDemo}
+          onClick={handleStart}
           className="w-full sf-control hover:bg-surface/80 text-gray-200 font-medium py-3 rounded-full transition-colors flex items-center justify-center gap-2"
         >
           <PlayCircle size={18} />
-          體驗模式 (Demo)
+          直接進入
         </button>
       </div>
     </div>
