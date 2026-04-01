@@ -1,11 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TrendingUp, PlayCircle } from 'lucide-react';
+import { DEMO_PAYLOAD } from '../utils/demoData';
 
 const Welcome: React.FC = () => {
   const navigate = useNavigate();
 
   const handleStart = () => {
+    navigate('/');
+  };
+
+  const handleDemo = () => {
+    try {
+      localStorage.setItem('smartfinance_transactions', JSON.stringify(DEMO_PAYLOAD.transactions));
+      localStorage.setItem('smartfinance_budgets', JSON.stringify(DEMO_PAYLOAD.budgets));
+      localStorage.setItem('smartfinance_subscriptions', JSON.stringify(DEMO_PAYLOAD.subscriptions));
+      localStorage.setItem('smartfinance_creditcards', JSON.stringify(DEMO_PAYLOAD.creditCards));
+      localStorage.setItem('smartfinance_currency', DEMO_PAYLOAD.currency);
+      localStorage.setItem('smartfinance_themecolor', DEMO_PAYLOAD.themeColor);
+    } catch {
+      // ignore
+    }
     navigate('/');
   };
 
@@ -65,6 +80,15 @@ const Welcome: React.FC = () => {
         >
           <PlayCircle size={18} />
           直接進入
+        </button>
+
+        <button
+          type="button"
+          onClick={handleDemo}
+          className="w-full sf-control hover:bg-surface/80 text-gray-200 font-medium py-3 rounded-full transition-colors flex items-center justify-center gap-2"
+        >
+          <PlayCircle size={18} />
+          體驗 Demo（會建立示範資料）
         </button>
       </div>
     </div>
