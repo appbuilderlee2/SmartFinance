@@ -7,7 +7,7 @@ import { getNextYearMonth, createOpenCycle, getCurrentYearMonth } from '../utils
 
 const CreditCardCycles: React.FC = () => {
   const navigate = useNavigate();
-  const { creditCards } = useData();
+  const { creditCards, setCreditCards } = useData();
 
   const [cycles, setCycles] = useState(() => loadCycles());
 
@@ -185,7 +185,7 @@ const CreditCardCycles: React.FC = () => {
           以「截數月」為一期。你可以手動建立下一期；亦可以用上/下一期按鈕查閱之前週期。
         </div>
 
-        {(current || []).map(({ card, ym, cycle, list }) => {
+        {(current || []).map(({ card, ym, cycle, list }, cardIndex) => {
           const yms = (list || []).map((x: any) => x.yearMonth);
           const selectedIndex = yms.indexOf(ym);
           const hasPrev = selectedIndex > 0;
@@ -197,6 +197,39 @@ const CreditCardCycles: React.FC = () => {
                 <div className="text-gray-100 font-semibold truncate">{card.name}</div>
 
                 <div className="flex items-center gap-2">
+                  {/* Card order controls (same as CreditCardManager) */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (cardIndex === 0) return;
+                      const next = [...creditCards];
+                      [next[cardIndex - 1], next[cardIndex]] = [next[cardIndex], next[cardIndex - 1]];
+                      setCreditCards(next);
+                    }}
+                    disabled={cardIndex === 0}
+                    className="sf-control rounded-xl px-2 py-2 text-gray-200 disabled:opacity-40"
+                    aria-label="信用卡上移"
+                    title="上移"
+                  >
+                    ↑
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (cardIndex >= creditCards.length - 1) return;
+                      const next = [...creditCards];
+                      [next[cardIndex], next[cardIndex + 1]] = [next[cardIndex + 1], next[cardIndex]];
+                      setCreditCards(next);
+                    }}
+                    disabled={cardIndex >= creditCards.length - 1}
+                    className="sf-control rounded-xl px-2 py-2 text-gray-200 disabled:opacity-40"
+                    aria-label="信用卡下移"
+                    title="下移"
+                  >
+                    ↓
+                  </button>
+
+
                   <button
                     type="button"
                     onClick={() => {
