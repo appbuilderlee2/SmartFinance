@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, CheckCircle2, DollarSign } from 'lucide-react';
+import { ChevronLeft, CheckCircle2, DollarSign, Undo2 } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { loadCycles, saveCycles, getOrCreateCurrentCycle, upsertCycle } from '../utils/creditCardCycleStorage';
 import { getNextYearMonth, createOpenCycle } from '../utils/creditCardCycles';
@@ -99,6 +99,32 @@ const CreditCardCycles: React.FC = () => {
     alert('已標記繳費，已切換到下一期');
   };
 
+  const cancelPaid = (cardId: string, yearMonth: string) => {
+    const card = creditCards.find(c => c.id === cardId);
+    if (!card) return;
+
+    const id = `ccyc_${cardId}_${yearMonth}`;
+    const existing = cycles.find(c => c.id === id);
+    if (!existing) {
+      alert('搵唔到呢一期資料');
+      return;
+    }
+
+    if (existing.status !== 'closed') {
+      alert('呢一期未標記繳費');
+      return;
+    }
+
+    const ok = window.confirm('確定要取消「已繳費」？');
+    if (!ok) return;
+
+    const reopened = { ...existing, status: 'open' as const, paidAt: undefined };
+    const updated = upsertCycle(cycles, reopened);
+    setCycles(updated);
+    saveCycles(updated);
+    setTimeout(() => setCycles(loadCycles()), 0);
+  };
+
   return (
     <div className="min-h-screen bg-background pt-safe-top pb-24">
       <div className="px-4 py-3 flex justify-between items-center sf-topbar sticky top-0 z-50">
@@ -145,6 +171,15 @@ const CreditCardCycles: React.FC = () => {
               >
                 <CheckCircle2 size={16} />
                 已繳費 → 下一期
+              </button>
+
+              <button
+                type="button"
+                onClick={() => cancelPaid(card.id, cycle.yearMonth)}
+                className="sf-control rounded-xl p-3 text-gray-200 flex items-center justify-center gap-2 col-span-2"
+              >
+                <Undo2 size={16} />
+                取消已繳費
               </button>
             </div>
           </div>
