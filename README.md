@@ -57,7 +57,7 @@ flowchart LR
 ## 工程 / 品質保證
 - GitHub Actions CI：每次 push / PR 會自動跑 `npm ci` + `npm run build`（防止壞 build 入 main）
 - localStorage schema version：`smartfinance_schema_version`（為將來資料結構升級/migration 做準備）
-- App 版本號：設定頁會顯示版本（取自 `package.json` version；目前 **1.0.7**）
+- App 版本號：設定頁會顯示版本（取自 `package.json` version；目前 **1.0.9**）
 - 日期處理：已統一使用本地 `YYYY-MM-DD`（避免 UTC offset 造成日期偏移）
 - 首次使用：只會首次導到 `/welcome`，之後預設進入 Dashboard
 
