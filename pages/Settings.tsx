@@ -19,7 +19,7 @@ const Settings: React.FC = () => {
       const { year, month0, yearMonth } = getCurrentYearMonth(new Date());
       const cycles = loadCycles();
 
-      return (creditCards || []).slice(0, 3).map((card) => {
+      return (creditCards || []).map((card) => {
          const id = `ccyc_${card.id}_${yearMonth}`;
          const cycle = cycles.find((c: any) => c.id === id) || createOpenCycle(card as any, year, month0);
          return { card, cycle };
@@ -446,33 +446,9 @@ const Settings: React.FC = () => {
                   <span className="text-white">信用卡週期</span>
                   <ChevronRight className="text-gray-500" size={18} />
                </div>
-               <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors" onClick={() => navigate('/subscriptions', { state: { from: '/settings' } })}>
-                  <span className="text-white">訂閱服務</span>
-                  <ChevronRight className="text-gray-500" size={18} />
-               </div>
-               {/* Upcoming subscription preview */}
-               <div className="bg-background px-4 py-3 space-y-2">
-                  <p className="text-xs text-gray-500">最近扣款</p>
-                  {subscriptions
-                     .filter(s => s.nextBillingDate && new Date(s.nextBillingDate) >= new Date(new Date().toDateString()))
-                     .sort((a, b) => new Date(a.nextBillingDate!).getTime() - new Date(b.nextBillingDate!).getTime())
-                     .slice(0, 3)
-                     .map(sub => {
-                        const daysLeft = Math.ceil((new Date(sub.nextBillingDate!).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-                        return (
-                           <div key={sub.id} className="flex items-center justify-between text-xs text-gray-200">
-                              <span className="truncate">{sub.name}</span>
-                              <span className="text-primary">剩餘 {daysLeft} 天</span>
-                           </div>
-                        );
-                     })}
-                  {subscriptions.filter(s => s.nextBillingDate).length === 0 && (
-                     <p className="text-xs text-gray-500">無預定扣款</p>
-                  )}
-               </div>
 
-               {/* Credit card cycle preview (current month only) */}
-               <div className="bg-background px-4 py-3 space-y-2 border-t sf-divider">
+               {/* Credit card cycle preview (current month only) — placed right under credit card cycles */}
+               <div className="bg-background px-4 py-3 space-y-2">
                   <div className="flex items-center justify-between">
                      <p className="text-xs text-gray-500">信用卡週期（本月預覽）</p>
                      <button
@@ -504,6 +480,32 @@ const Settings: React.FC = () => {
                      ))
                   ) : (
                      <p className="text-xs text-gray-500">未有信用卡</p>
+                  )}
+               </div>
+
+               <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors" onClick={() => navigate('/subscriptions', { state: { from: '/settings' } })}>
+                  <span className="text-white">訂閱服務</span>
+                  <ChevronRight className="text-gray-500" size={18} />
+               </div>
+
+               {/* Upcoming subscription preview */}
+               <div className="bg-background px-4 py-3 space-y-2 border-t sf-divider">
+                  <p className="text-xs text-gray-500">最近扣款</p>
+                  {subscriptions
+                     .filter(s => s.nextBillingDate && new Date(s.nextBillingDate) >= new Date(new Date().toDateString()))
+                     .sort((a, b) => new Date(a.nextBillingDate!).getTime() - new Date(b.nextBillingDate!).getTime())
+                     .slice(0, 3)
+                     .map(sub => {
+                        const daysLeft = Math.ceil((new Date(sub.nextBillingDate!).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                        return (
+                           <div key={sub.id} className="flex items-center justify-between text-xs text-gray-200">
+                              <span className="truncate">{sub.name}</span>
+                              <span className="text-primary">剩餘 {daysLeft} 天</span>
+                           </div>
+                        );
+                     })}
+                  {subscriptions.filter(s => s.nextBillingDate).length === 0 && (
+                     <p className="text-xs text-gray-500">無預定扣款</p>
                   )}
                </div>
             </div>
