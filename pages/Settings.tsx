@@ -1,5 +1,5 @@
 
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, RefreshCw, FileDown, Upload, CloudOff, Info, CreditCard } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
@@ -13,6 +13,24 @@ const Settings: React.FC = () => {
    const { resetData, transactions, categories, budgets, subscriptions, currency, setCurrency, themeColor, setThemeColor, creditCards } = useData();
    const fileInputRef = useRef<HTMLInputElement>(null);
    const csvInputRef = useRef<HTMLInputElement>(null);
+
+   // Easter egg: tap version 20 times to unlock credit card rewards entry.
+   const [versionTapCount, setVersionTapCount] = useState(0);
+   const [rewardsUnlocked, setRewardsUnlocked] = useState(false);
+
+   useEffect(() => {
+      try {
+         setRewardsUnlocked(localStorage.getItem('sf_rewards_unlocked') === 'true');
+      } catch {
+         setRewardsUnlocked(false);
+      }
+   }, []);
+
+   useEffect(() => {
+      if (versionTapCount <= 0) return;
+      const t = setTimeout(() => setVersionTapCount(0), 5000);
+      return () => clearTimeout(t);
+   }, [versionTapCount]);
 
    // Credit card cycle preview (current month only)
    const ccPreview = useMemo(() => {
@@ -481,6 +499,17 @@ const Settings: React.FC = () => {
                   ) : (
                      <p className="text-xs text-gray-500">未有信用卡</p>
                   )}
+
+                  {rewardsUnlocked && (
+                     <button
+                        type="button"
+                        onClick={() => navigate('/settings/creditcard-rewards')}
+                        className="w-full sf-control rounded-xl p-3 text-gray-200 flex items-center justify-center gap-2"
+                     >
+                        <CreditCard size={16} />
+                        信用卡回贈
+                     </button>
+                  )}
                </div>
 
                <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors" onClick={() => navigate('/subscriptions', { state: { from: '/settings' } })}>
@@ -631,13 +660,37 @@ const Settings: React.FC = () => {
                   </div>
                </div>
 
-               {/* Version */}
-               <div className="flex items-center justify-between p-4">
+               {/* Version (tap 20x easter egg) */}
+               <div
+                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
+                  onClick={() => {
+                     if (rewardsUnlocked) return;
+                     const next = versionTapCount + 1;
+                     setVersionTapCount(next);
+                     if (next >= 20) {
+                        try {
+                           localStorage.setItem('sf_rewards_unlocked', 'true');
+                        } catch {
+                           // ignore
+                        }
+                        setRewardsUnlocked(true);
+                        setVersionTapCount(0);
+                        alert('已解鎖：信用卡回贈');
+                     }
+                  }}
+                  title={rewardsUnlocked ? '已解鎖' : `再按 ${Math.max(0, 20 - versionTapCount)} 次解鎖`}
+               >
                   <div className="flex items-center gap-3">
                      <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center">
                         <Info size={16} />
                      </div>
                      <span className="text-sm text-gray-300">版本</span>
+                     {!rewardsUnlocked && versionTapCount > 0 && (
+                        <span className="text-xs text-gray-500">（{versionTapCount}/20）</span>
+                     )}
+                     {rewardsUnlocked && (
+                        <span className="text-xs text-primary">（已解鎖）</span>
+                     )}
                   </div>
                   <span className="text-sm text-gray-400">{__APP_VERSION__}</span>
                </div>
