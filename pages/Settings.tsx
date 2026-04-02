@@ -478,11 +478,6 @@ const Settings: React.FC = () => {
                      </button>
                   </div>
 
-                  {rewardsUnlocked && (
-                     <div className="text-xs text-gray-500">
-                        已解鎖信用卡回贈：下方會以新分頁打開 SwipeWhich；本頁『信用卡回贈』頁面會保留你的筆記。
-                     </div>
-                  )}
 
                   {ccPreview.length ? (
                      ccPreview.map(({ card, cycle }) => (
