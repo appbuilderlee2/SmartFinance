@@ -509,26 +509,12 @@ const Settings: React.FC = () => {
                </div>
 
                {rewardsUnlocked && (
-                  <div className="flex items-center justify-between p-4">
-                     <div className="flex items-center gap-2">
-                        <span className="text-white">信用卡回贈</span>
-                        <button
-                           type="button"
-                           onClick={() => window.open('https://www.swipewhich.com', '_blank', 'noopener,noreferrer')}
-                           className="text-xs text-primary"
-                        >
-                           SwipeWhich（新分頁）
-                        </button>
-                     </div>
-                     <button
-                        type="button"
-                        onClick={() => navigate('/settings/creditcard-rewards')}
-                        className="flex items-center gap-2 text-gray-400 hover:text-gray-200"
-                        title="我的回贈筆記"
-                     >
-                        <span className="text-sm">筆記</span>
-                        <ChevronRight className="text-gray-500" size={18} />
-                     </button>
+                  <div
+                     className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
+                     onClick={() => window.open('https://www.swipewhich.com', '_blank', 'noopener,noreferrer')}
+                  >
+                     <span className="text-white">信用卡回贈</span>
+                     <ChevronRight className="text-gray-500" size={18} />
                   </div>
                )}
 
