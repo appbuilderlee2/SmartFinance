@@ -5,6 +5,8 @@ import { ChevronLeft, Plus, CreditCard, Trash2, X, Pencil, ArrowUp, ArrowDown, C
 import { useData } from '../contexts/DataContext';
 import { CardCatalogItem, fetchCardCatalog } from '../services/cardCatalog';
 import { makeId } from '../utils/id';
+import { getCurrentYearMonth, createOpenCycle } from '../utils/creditCardCycles';
+import { loadCycles, saveCycles, upsertCycle } from '../utils/creditCardCycleStorage';
 
 interface CreditCardType {
     id: string;
@@ -101,10 +103,22 @@ const CreditCardManager: React.FC = () => {
         if (editingId) {
             updateCreditCard(editingId, formData);
         } else {
-            addCreditCard({
+            const newCard = {
                 ...formData,
                 id: makeId('card')
-            } as CreditCardType);
+            } as CreditCardType;
+
+            addCreditCard(newCard);
+
+            // Create initial cycle for the newly-added card (current YYYY-MM) so the cycle page isn't empty.
+            const { year, month0, yearMonth } = getCurrentYearMonth(new Date());
+            const existingId = `ccyc_${newCard.id}_${yearMonth}`;
+            const existing = loadCycles().find((c: any) => c.id === existingId);
+            if (!existing) {
+                const cycle = createOpenCycle(newCard, year, month0);
+                const updated = upsertCycle(loadCycles(), cycle);
+                saveCycles(updated);
+            }
         }
 
         setShowModal(false);
