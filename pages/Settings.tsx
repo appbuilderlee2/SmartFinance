@@ -478,6 +478,12 @@ const Settings: React.FC = () => {
                      </button>
                   </div>
 
+                  {rewardsUnlocked && (
+                     <div className="text-xs text-gray-500">
+                        已解鎖信用卡回贈：下方會以新分頁打開 SwipeWhich；本頁『信用卡回贈』頁面會保留你的筆記。
+                     </div>
+                  )}
+
                   {ccPreview.length ? (
                      ccPreview.map(({ card, cycle }) => (
                         <div key={card.id} className="flex items-center justify-between text-xs text-gray-200 gap-2">
@@ -500,17 +506,31 @@ const Settings: React.FC = () => {
                      <p className="text-xs text-gray-500">未有信用卡</p>
                   )}
 
-                  {rewardsUnlocked && (
+               </div>
+
+               {rewardsUnlocked && (
+                  <div className="flex items-center justify-between p-4">
+                     <div className="flex items-center gap-2">
+                        <span className="text-white">信用卡回贈</span>
+                        <button
+                           type="button"
+                           onClick={() => window.open('https://www.swipewhich.com', '_blank', 'noopener,noreferrer')}
+                           className="text-xs text-primary"
+                        >
+                           SwipeWhich（新分頁）
+                        </button>
+                     </div>
                      <button
                         type="button"
                         onClick={() => navigate('/settings/creditcard-rewards')}
-                        className="w-full sf-control rounded-xl p-3 text-gray-200 flex items-center justify-center gap-2"
+                        className="flex items-center gap-2 text-gray-400 hover:text-gray-200"
+                        title="我的回贈筆記"
                      >
-                        <CreditCard size={16} />
-                        信用卡回贈
+                        <span className="text-sm">筆記</span>
+                        <ChevronRight className="text-gray-500" size={18} />
                      </button>
-                  )}
-               </div>
+                  </div>
+               )}
 
                <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors" onClick={() => navigate('/subscriptions', { state: { from: '/settings' } })}>
                   <span className="text-white">訂閱服務</span>

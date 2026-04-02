@@ -1,52 +1,30 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ExternalLink, RefreshCw } from 'lucide-react';
+import { ChevronLeft, ExternalLink, Trash2 } from 'lucide-react';
 
-const STORAGE_KEY = 'sf_rewards_last_url';
 const DEFAULT_URL = 'https://www.swipewhich.com';
+const NOTES_KEY = 'sf_rewards_notes_v1';
 
 const CreditCardRewards: React.FC = () => {
   const navigate = useNavigate();
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
-  const initialUrl = useMemo(() => {
+  const initialNotes = useMemo(() => {
     try {
-      return localStorage.getItem(STORAGE_KEY) || DEFAULT_URL;
+      return localStorage.getItem(NOTES_KEY) || '';
     } catch {
-      return DEFAULT_URL;
+      return '';
     }
   }, []);
 
-  const [url] = useState<string>(initialUrl);
-  const [reloadKey, setReloadKey] = useState<number>(0);
-  const [embedError, setEmbedError] = useState<string | null>(null);
+  const [notes, setNotes] = useState<string>(initialNotes);
 
-  // Best-effort: remember last opened base URL.
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, url);
+      localStorage.setItem(NOTES_KEY, notes);
     } catch {
       // ignore
     }
-  }, [url]);
-
-  // Some sites block iframes (CSP / X-Frame-Options). We can't reliably detect all cases,
-  // but we can show a fallback message if the iframe doesn't load after a short delay.
-  useEffect(() => {
-    setEmbedError(null);
-    const t = setTimeout(() => {
-      try {
-        const el = iframeRef.current;
-        // If blocked, many browsers keep it blank; we show fallback hint.
-        if (el && !el.contentWindow) {
-          setEmbedError('此網站可能不支援內嵌（iframe 被 CSP / X-Frame-Options 阻擋）。');
-        }
-      } catch {
-        setEmbedError('此網站可能不支援內嵌（iframe 被阻擋）。');
-      }
-    }, 2500);
-    return () => clearTimeout(t);
-  }, [reloadKey]);
+  }, [notes]);
 
   return (
     <div className="min-h-screen bg-background pt-safe-top pb-24">
@@ -59,17 +37,9 @@ const CreditCardRewards: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => setReloadKey((k) => k + 1)}
+            onClick={() => window.open(DEFAULT_URL, '_blank', 'noopener,noreferrer')}
             className="text-gray-200 sf-control rounded-xl px-3 py-2 flex items-center gap-2"
-            title="重新載入"
-          >
-            <RefreshCw size={16} />
-          </button>
-          <button
-            type="button"
-            onClick={() => window.open(url, '_blank', 'noopener,noreferrer')}
-            className="text-gray-200 sf-control rounded-xl px-3 py-2 flex items-center gap-2"
-            title="用瀏覽器打開"
+            title="打開 SwipeWhich"
           >
             <ExternalLink size={16} />
           </button>
@@ -77,27 +47,50 @@ const CreditCardRewards: React.FC = () => {
       </div>
 
       <div className="p-4 space-y-3">
-        <div className="text-xs text-gray-500">
-          來源：swipewhich.com（內嵌顯示；如被網站安全策略阻擋，可用右上角「外開」）。
+        <div className="sf-panel rounded-xl p-3 text-xs text-gray-500">
+          SwipeWhich 不支援被內嵌（iframe 會被網站安全策略阻擋），所以改用「外開」方式。
+          你可以喺下面記低你查到嘅回贈結果；內容會自動儲存，之後再入嚟都會保留。
         </div>
 
-        {embedError && (
-          <div className="sf-panel rounded-xl p-3 text-sm text-yellow-300">
-            {embedError}
-            <div className="text-xs text-gray-400 mt-1">建議：按右上角「外開」。</div>
+        <div className="sf-panel rounded-xl p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-gray-200 font-semibold">我的回贈結果 / 筆記</div>
+            <button
+              type="button"
+              onClick={() => {
+                const ok = window.confirm('確定要清除所有回贈筆記？');
+                if (!ok) return;
+                setNotes('');
+              }}
+              className="text-xs text-red-300 flex items-center gap-2"
+              title="清除"
+            >
+              <Trash2 size={14} />
+              清除
+            </button>
           </div>
-        )}
 
-        <div className="sf-panel rounded-xl overflow-hidden" style={{ height: '70vh' }}>
-          <iframe
-            key={reloadKey}
-            ref={iframeRef}
-            src={url}
-            title="SwipeWhich"
-            className="w-full h-full"
-            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-downloads"
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            rows={12}
+            placeholder="例：\n- HSBC EveryMile：餐飲 4%（上限…）\n- Standard Chartered Simply Cash：本地 1.5%…\n\n（支援自由格式；會自動保存）"
+            className="w-full sf-control rounded-xl p-3 text-gray-100 placeholder-gray-500 resize-none"
           />
+
+          <div className="text-xs text-gray-500">
+            已自動保存到本機（localStorage）。
+          </div>
         </div>
+
+        <button
+          type="button"
+          onClick={() => window.open(DEFAULT_URL, '_blank', 'noopener,noreferrer')}
+          className="w-full sf-control rounded-xl p-3 text-gray-200 flex items-center justify-center gap-2"
+        >
+          <ExternalLink size={16} />
+          打開 SwipeWhich
+        </button>
       </div>
     </div>
   );
