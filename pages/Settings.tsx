@@ -1,16 +1,30 @@
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, RefreshCw, FileDown, Upload, CloudOff, Info } from 'lucide-react';
+import { ChevronRight, RefreshCw, FileDown, Upload, CloudOff, Info, CreditCard } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { makeId } from '../utils/id';
 import { toLocalYMD } from '../utils/date';
+import { loadCycles } from '../utils/creditCardCycleStorage';
+import { getCurrentYearMonth, createOpenCycle } from '../utils/creditCardCycles';
 
 const Settings: React.FC = () => {
    const navigate = useNavigate();
    const { resetData, transactions, categories, budgets, subscriptions, currency, setCurrency, themeColor, setThemeColor, creditCards } = useData();
    const fileInputRef = useRef<HTMLInputElement>(null);
    const csvInputRef = useRef<HTMLInputElement>(null);
+
+   // Credit card cycle preview (current month only)
+   const ccPreview = useMemo(() => {
+      const { year, month0, yearMonth } = getCurrentYearMonth(new Date());
+      const cycles = loadCycles();
+
+      return (creditCards || []).slice(0, 3).map((card) => {
+         const id = `ccyc_${card.id}_${yearMonth}`;
+         const cycle = cycles.find((c: any) => c.id === id) || createOpenCycle(card as any, year, month0);
+         return { card, cycle };
+      });
+   }, [creditCards]);
 
 
    const handleExportCSV = () => {
@@ -454,6 +468,42 @@ const Settings: React.FC = () => {
                      })}
                   {subscriptions.filter(s => s.nextBillingDate).length === 0 && (
                      <p className="text-xs text-gray-500">無預定扣款</p>
+                  )}
+               </div>
+
+               {/* Credit card cycle preview (current month only) */}
+               <div className="bg-background px-4 py-3 space-y-2 border-t sf-divider">
+                  <div className="flex items-center justify-between">
+                     <p className="text-xs text-gray-500">信用卡週期（本月預覽）</p>
+                     <button
+                        type="button"
+                        onClick={() => navigate('/settings/creditcard-cycles')}
+                        className="text-xs text-primary"
+                     >
+                        查看
+                     </button>
+                  </div>
+
+                  {ccPreview.length ? (
+                     ccPreview.map(({ card, cycle }) => (
+                        <div key={card.id} className="flex items-center justify-between text-xs text-gray-200 gap-2">
+                           <div className="flex items-center gap-2 min-w-0">
+                              <CreditCard size={14} className="text-gray-400" />
+                              <span className="truncate">{card.name}</span>
+                           </div>
+                           <div className="shrink-0 text-right">
+                              <span className={cycle.status === 'closed' ? 'text-green-400' : 'text-yellow-400'}>
+                                 {cycle.status}
+                              </span>
+                              <span className="text-gray-500"> · </span>
+                              <span className="text-gray-200">
+                                 應繳 {typeof cycle.amountDue === 'number' ? cycle.amountDue : '-'}
+                              </span>
+                           </div>
+                        </div>
+                     ))
+                  ) : (
+                     <p className="text-xs text-gray-500">未有信用卡</p>
                   )}
                </div>
             </div>
