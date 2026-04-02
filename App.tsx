@@ -18,6 +18,9 @@ import NotificationSettings from './pages/NotificationSettings';
 import Calendar from './pages/Calendar';
 import CreditCardManager from './pages/CreditCardManager';
 import CreditCardCycles from './pages/CreditCardCycles';
+import CreditCard2 from './pages/CreditCard2';
+import CreditCard2SwipeWhich from './pages/CreditCard2SwipeWhich';
+import CreditCard2PickCardRebate from './pages/CreditCard2PickCardRebate';
 import Reports from './pages/Reports';
 import AddSubscriptionPage from './pages/AddSubscription';
 
@@ -91,6 +94,9 @@ const App: React.FC = () => {
           <Route path="/settings/notifications" element={<Layout hideNav><NotificationSettings /></Layout>} />
           <Route path="/settings/creditcards" element={<Layout hideNav><CreditCardManager /></Layout>} />
           <Route path="/settings/creditcard-cycles" element={<Layout hideNav><CreditCardCycles /></Layout>} />
+          <Route path="/settings/creditcards2" element={<Layout hideNav><CreditCard2 /></Layout>} />
+          <Route path="/settings/creditcards2/swipewhich" element={<Layout hideNav><CreditCard2SwipeWhich /></Layout>} />
+          <Route path="/settings/creditcards2/pickcardrebate" element={<Layout hideNav><CreditCard2PickCardRebate /></Layout>} />
           <Route path="/reports" element={<Layout><Reports /></Layout>} />
           <Route path="/subscriptions" element={<Layout hideNav><Subscriptions /></Layout>} />
           <Route path="/add-subscription" element={<Layout hideNav><AddSubscriptionPage /></Layout>} />
