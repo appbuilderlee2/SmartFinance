@@ -469,24 +469,13 @@ const Settings: React.FC = () => {
                <div className="bg-background px-4 py-3 space-y-2">
                   <div className="flex items-center justify-between">
                      <p className="text-xs text-gray-500">信用卡週期（本月預覽）</p>
-                     <div className="flex items-center gap-3">
-                        {rewardsUnlocked && (
-                           <button
-                              type="button"
-                              onClick={() => navigate('/settings/creditcard-rewards')}
-                              className="text-xs text-primary"
-                           >
-                              信用卡回贈
-                           </button>
-                        )}
-                        <button
-                           type="button"
-                           onClick={() => navigate('/settings/creditcard-cycles')}
-                           className="text-xs text-primary"
-                        >
-                           查看
-                        </button>
-                     </div>
+                     <button
+                        type="button"
+                        onClick={() => navigate('/settings/creditcard-cycles')}
+                        className="text-xs text-primary"
+                     >
+                        查看
+                     </button>
                   </div>
 
                   {ccPreview.length ? (
@@ -509,6 +498,17 @@ const Settings: React.FC = () => {
                      ))
                   ) : (
                      <p className="text-xs text-gray-500">未有信用卡</p>
+                  )}
+
+                  {rewardsUnlocked && (
+                     <button
+                        type="button"
+                        onClick={() => navigate('/settings/creditcard-rewards')}
+                        className="w-full sf-control rounded-xl p-3 text-gray-200 flex items-center justify-center gap-2"
+                     >
+                        <CreditCard size={16} />
+                        信用卡回贈
+                     </button>
                   )}
                </div>
 
