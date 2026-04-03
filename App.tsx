@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
 
@@ -18,12 +18,14 @@ import NotificationSettings from './pages/NotificationSettings';
 import Calendar from './pages/Calendar';
 import CreditCardManager from './pages/CreditCardManager';
 import CreditCardCycles from './pages/CreditCardCycles';
-import CreditCard2 from './pages/CreditCard2';
-import CreditCard2Match from './pages/CreditCard2Match';
-import CreditCard2SwipeWhich from './pages/CreditCard2SwipeWhich';
-import CreditCard2PickCardRebate from './pages/CreditCard2PickCardRebate';
 import Reports from './pages/Reports';
 import AddSubscriptionPage from './pages/AddSubscription';
+
+// Lazy pages (non-core / hidden behind Easter egg)
+const CreditCard2 = lazy(() => import('./pages/CreditCard2'));
+const CreditCard2Match = lazy(() => import('./pages/CreditCard2Match'));
+const CreditCard2SwipeWhich = lazy(() => import('./pages/CreditCard2SwipeWhich'));
+const CreditCard2PickCardRebate = lazy(() => import('./pages/CreditCard2PickCardRebate'));
 
 // Layout
 import Layout from './components/Layout';
@@ -95,10 +97,38 @@ const App: React.FC = () => {
           <Route path="/settings/notifications" element={<Layout hideNav><NotificationSettings /></Layout>} />
           <Route path="/settings/creditcards" element={<Layout hideNav><CreditCardManager /></Layout>} />
           <Route path="/settings/creditcard-cycles" element={<Layout hideNav><CreditCardCycles /></Layout>} />
-          <Route path="/settings/creditcards2" element={<Layout hideNav><CreditCard2 /></Layout>} />
-          <Route path="/settings/creditcards2/match" element={<Layout hideNav><CreditCard2Match /></Layout>} />
-          <Route path="/settings/creditcards2/a" element={<Layout hideNav><CreditCard2SwipeWhich /></Layout>} />
-          <Route path="/settings/creditcards2/b" element={<Layout hideNav><CreditCard2PickCardRebate /></Layout>} />
+          <Route
+            path="/settings/creditcards2"
+            element={
+              <Suspense fallback={<Layout hideNav><div className="p-4 text-gray-400">載入中…</div></Layout>}>
+                <Layout hideNav><CreditCard2 /></Layout>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/settings/creditcards2/match"
+            element={
+              <Suspense fallback={<Layout hideNav><div className="p-4 text-gray-400">載入中…</div></Layout>}>
+                <Layout hideNav><CreditCard2Match /></Layout>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/settings/creditcards2/a"
+            element={
+              <Suspense fallback={<Layout hideNav><div className="p-4 text-gray-400">載入中…</div></Layout>}>
+                <Layout hideNav><CreditCard2SwipeWhich /></Layout>
+              </Suspense>
+            }
+          />
+          <Route
+            path="/settings/creditcards2/b"
+            element={
+              <Suspense fallback={<Layout hideNav><div className="p-4 text-gray-400">載入中…</div></Layout>}>
+                <Layout hideNav><CreditCard2PickCardRebate /></Layout>
+              </Suspense>
+            }
+          />
           <Route path="/reports" element={<Layout><Reports /></Layout>} />
           <Route path="/subscriptions" element={<Layout hideNav><Subscriptions /></Layout>} />
           <Route path="/add-subscription" element={<Layout hideNav><AddSubscriptionPage /></Layout>} />
