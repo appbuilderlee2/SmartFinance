@@ -6,6 +6,7 @@ import { useData } from '../contexts/DataContext';
 import { Icon } from '../components/Icon';
 import { Currency, TransactionType } from '../types';
 import { getCurrencySymbol } from '../utils/currency';
+import { parseLocalYMD } from '../utils/date';
 
 const Records: React.FC = () => {
   const navigate = useNavigate();
@@ -54,8 +55,12 @@ const Records: React.FC = () => {
     return acc;
   }, {} as Record<string, typeof filteredTransactions>);
 
-  // Sort dates descending
-  const sortedDates = Object.keys(grouped).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+  // Sort dates descending (treat YYYY-MM-DD as local date to avoid timezone day shifts)
+  const sortedDates = Object.keys(grouped).sort((a, b) => {
+    const da = parseLocalYMD(a)?.getTime() ?? 0;
+    const db = parseLocalYMD(b)?.getTime() ?? 0;
+    return db - da;
+  });
 
   return (
     <div className="min-h-screen bg-background pt-safe-top pb-24 px-4">

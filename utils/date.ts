@@ -11,10 +11,35 @@ export function toLocalYMD(date: Date): string {
   return `${y}-${m}-${d}`;
 }
 
+/**
+ * Parse a local YYYY-MM-DD string into a Date at local midnight.
+ *
+ * Important: DO NOT use `new Date('YYYY-MM-DD')` because JS treats it as UTC and
+ * may shift the day when displayed in local timezones.
+ */
+export function parseLocalYMD(ymd: string): Date | null {
+  if (typeof ymd !== 'string') return null;
+  const m = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/.exec(ymd);
+  if (!m) return null;
+  const y = Number(m[1]);
+  const mo = Number(m[2]);
+  const d = Number(m[3]);
+  const dt = new Date(y, mo - 1, d);
+  return isNaN(dt.getTime()) ? null : dt;
+}
+
 /** Parse various stored date formats into a Date. */
 export function parseDate(value: unknown): Date | null {
   if (value instanceof Date && !isNaN(value.getTime())) return value;
-  if (typeof value === 'string' || typeof value === 'number') {
+  if (typeof value === 'string') {
+    // If it's a plain date (YYYY-MM-DD), parse as local midnight to avoid day shifts.
+    const local = parseLocalYMD(value);
+    if (local) return local;
+
+    const dt = new Date(value);
+    if (!isNaN(dt.getTime())) return dt;
+  }
+  if (typeof value === 'number') {
     const dt = new Date(value);
     if (!isNaN(dt.getTime())) return dt;
   }
