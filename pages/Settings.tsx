@@ -5,6 +5,7 @@ import { ChevronRight, RefreshCw, FileDown, Upload, CloudOff, Info, CreditCard }
 import { useData } from '../contexts/DataContext';
 import { makeId } from '../utils/id';
 import { toLocalYMD } from '../utils/date';
+import { forceReloadPwa } from '../utils/pwa';
 import { loadCycles } from '../utils/creditCardCycleStorage';
 import { getCurrentYearMonth, createOpenCycle } from '../utils/creditCardCycles';
 
@@ -749,6 +750,18 @@ const Settings: React.FC = () => {
                      <div className="text-gray-400">資料只儲存喺本機（無登入／無雲端備份）。建議定期匯出 JSON/CSV 自己留底。</div>
                   </div>
                </div>
+               <button
+                  type="button"
+                  onClick={async () => {
+                     const ok = window.confirm('將會清除 PWA 快取並重新載入（不會刪除你的記帳資料）。要繼續嗎？');
+                     if (!ok) return;
+                     await forceReloadPwa();
+                  }}
+                  className="w-full p-4 text-white text-center hover:bg-surface/80 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+               >
+                  <RefreshCw size={18} /> 清除快取並重新載入
+               </button>
+
                <button onClick={resetData} className="w-full p-4 text-red-400 text-center hover:bg-surface/80 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
                   <RefreshCw size={18} /> 重置所有資料 (Reset)
                </button>

@@ -1,4 +1,5 @@
 import { TransactionType, Currency } from '../types';
+import { toLocalYMD } from './date';
 import type { Transaction, Budget, Subscription } from '../types';
 import type { CreditCard } from '../contexts/DataContext';
 
@@ -19,7 +20,7 @@ export const DEMO_PAYLOAD: DemoPayload = {
     {
       id: 'demo-t1',
       amount: 68,
-      date: new Date().toISOString().split('T')[0],
+      date: toLocalYMD(new Date()),
       note: '示範：午餐',
       categoryId: '1',
       type: TransactionType.EXPENSE,
@@ -28,7 +29,7 @@ export const DEMO_PAYLOAD: DemoPayload = {
     {
       id: 'demo-t2',
       amount: 1200,
-      date: new Date(Date.now() - 86400000).toISOString().split('T')[0],
+      date: toLocalYMD(new Date(Date.now() - 86400000)),
       note: '示範：交通月票',
       categoryId: '2',
       type: TransactionType.EXPENSE,
@@ -37,7 +38,7 @@ export const DEMO_PAYLOAD: DemoPayload = {
     {
       id: 'demo-t3',
       amount: 25000,
-      date: new Date(Date.now() - 3 * 86400000).toISOString().split('T')[0],
+      date: toLocalYMD(new Date(Date.now() - 3 * 86400000)),
       note: '示範：出糧',
       categoryId: '7',
       type: TransactionType.INCOME,
@@ -54,7 +55,7 @@ export const DEMO_PAYLOAD: DemoPayload = {
       name: 'Netflix (Demo)',
       amount: 78,
       billingCycle: 'Monthly',
-      nextBillingDate: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
+      nextBillingDate: toLocalYMD(new Date(Date.now() + 7 * 86400000)),
       autoRenewal: true,
       lastProcessedDate: '',
       notes: 'demo',
