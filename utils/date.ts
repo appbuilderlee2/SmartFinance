@@ -12,6 +12,18 @@ export function toLocalYMD(date: Date): string {
 }
 
 /**
+ * Convert a local YYYY-MM-DD into a stable stored ISO string representing local midnight.
+ *
+ * We store as: new Date(y, m-1, d).toISOString()
+ * This makes persistence consistent, while display should always convert back to local.
+ */
+export function localYMDToStoredISOString(ymd: string): string | null {
+  const dt = parseLocalYMD(ymd);
+  if (!dt) return null;
+  return dt.toISOString();
+}
+
+/**
  * Parse a local YYYY-MM-DD string into a Date at local midnight.
  *
  * Important: DO NOT use `new Date('YYYY-MM-DD')` because JS treats it as UTC and

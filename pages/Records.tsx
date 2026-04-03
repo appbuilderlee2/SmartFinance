@@ -6,7 +6,7 @@ import { useData } from '../contexts/DataContext';
 import { Icon } from '../components/Icon';
 import { Currency, TransactionType } from '../types';
 import { getCurrencySymbol } from '../utils/currency';
-import { parseLocalYMD } from '../utils/date';
+import { parseLocalYMD, toLocalYMD } from '../utils/date';
 
 const Records: React.FC = () => {
   const navigate = useNavigate();
@@ -49,7 +49,8 @@ const Records: React.FC = () => {
 
   // Group transactions by date
   const grouped = filteredTransactions.reduce((acc, tx) => {
-    const dateStr = tx.date.split('T')[0];
+    // IMPORTANT: tx.date is stored as ISO (UTC). Use local date for grouping.
+    const dateStr = toLocalYMD(new Date(tx.date));
     if (!acc[dateStr]) acc[dateStr] = [];
     acc[dateStr].push(tx);
     return acc;
