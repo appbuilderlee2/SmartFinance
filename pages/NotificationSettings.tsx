@@ -321,12 +321,12 @@ const NotificationSettings: React.FC = () => {
                               <div className="text-white font-semibold">{open.length}</div>
                            </div>
                            <div className="bg-background/50 rounded-lg p-2">
-                              <div className="text-gray-500">今日</div>
-                              <div className="text-white font-semibold">{dueToday}</div>
+                              <div className={dueToday > 0 ? 'text-red-400 font-semibold' : 'text-gray-500'}>今日</div>
+                              <div className={dueToday > 0 ? 'text-red-400 font-bold text-base' : 'text-white font-semibold'}>{dueToday}</div>
                            </div>
                            <div className="bg-background/50 rounded-lg p-2">
-                              <div className="text-gray-500">7日內</div>
-                              <div className="text-white font-semibold">{within7}</div>
+                              <div className={within7 > 0 ? 'text-red-400 font-semibold' : 'text-gray-500'}>7日內</div>
+                              <div className={within7 > 0 ? 'text-red-400 font-bold text-base' : 'text-white font-semibold'}>{within7}</div>
                            </div>
                         </div>
                      );
@@ -385,11 +385,11 @@ const NotificationSettings: React.FC = () => {
                   ) : (
                      <div className="space-y-2">
                         {reminders.filter(r => r.status === 'open').map((r) => (
-                           <div key={r.id} className="bg-background/40 rounded-lg p-3">
+                           <div key={r.id} className={`bg-background/40 rounded-lg p-3 ${r.severity === 'urgent' ? 'border border-red-500/40' : r.severity === 'warn' ? 'border border-yellow-500/30' : ''}`}>
                               <div className="flex items-start justify-between gap-3">
                                  <div className="min-w-0">
                                     <div className="text-white text-sm font-medium truncate">{r.title}</div>
-                                    <div className="text-xs text-gray-400 mt-0.5">
+                                    <div className={r.severity === 'urgent' ? 'text-xs text-red-300 mt-0.5' : r.severity === 'warn' ? 'text-xs text-yellow-200 mt-0.5' : 'text-xs text-gray-400 mt-0.5'}>
                                        {r.dueYmd}{r.detail ? ` · ${r.detail}` : ''}
                                     </div>
                                  </div>
