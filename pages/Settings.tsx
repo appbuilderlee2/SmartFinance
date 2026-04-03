@@ -507,7 +507,7 @@ const Settings: React.FC = () => {
                   <>
                      <div
                         className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
-                        onClick={() => window.open('https://example.com', '_blank', 'noopener,noreferrer')}
+                        onClick={() => window.open('https://www.swipewhich.com', '_blank', 'noopener,noreferrer')}
                      >
                         <span className="text-white">信用卡回贈</span>
                         <ChevronRight className="text-gray-500" size={18} />
