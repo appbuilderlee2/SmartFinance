@@ -26,6 +26,17 @@ const CreditCard2: React.FC = () => {
         <div className="sf-panel overflow-hidden divide-y sf-divider">
           <div
             className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
+            onClick={() => navigate('/settings/creditcards2/match')}
+          >
+            <div>
+              <div className="text-white font-medium">信用卡配對</div>
+              <div className="text-xs text-gray-500">將本地信用卡配對到 SwipeWhich / PickCardRebate</div>
+            </div>
+            <ChevronRight className="text-gray-500" size={18} />
+          </div>
+
+          <div
+            className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
             onClick={() => navigate('/settings/creditcards2/swipewhich')}
           >
             <div>

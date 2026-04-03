@@ -19,6 +19,7 @@ import Calendar from './pages/Calendar';
 import CreditCardManager from './pages/CreditCardManager';
 import CreditCardCycles from './pages/CreditCardCycles';
 import CreditCard2 from './pages/CreditCard2';
+import CreditCard2Match from './pages/CreditCard2Match';
 import CreditCard2SwipeWhich from './pages/CreditCard2SwipeWhich';
 import CreditCard2PickCardRebate from './pages/CreditCard2PickCardRebate';
 import Reports from './pages/Reports';
@@ -95,6 +96,7 @@ const App: React.FC = () => {
           <Route path="/settings/creditcards" element={<Layout hideNav><CreditCardManager /></Layout>} />
           <Route path="/settings/creditcard-cycles" element={<Layout hideNav><CreditCardCycles /></Layout>} />
           <Route path="/settings/creditcards2" element={<Layout hideNav><CreditCard2 /></Layout>} />
+          <Route path="/settings/creditcards2/match" element={<Layout hideNav><CreditCard2Match /></Layout>} />
           <Route path="/settings/creditcards2/swipewhich" element={<Layout hideNav><CreditCard2SwipeWhich /></Layout>} />
           <Route path="/settings/creditcards2/pickcardrebate" element={<Layout hideNav><CreditCard2PickCardRebate /></Layout>} />
           <Route path="/reports" element={<Layout><Reports /></Layout>} />
