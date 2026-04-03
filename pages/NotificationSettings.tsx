@@ -1,13 +1,24 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, CalendarCheck } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { getStatementAndDueForMonth } from '../utils/creditCardSchedule';
 import { loadCycles } from '../utils/creditCardCycleStorage';
+import {
+  DEFAULT_REMINDER_SETTINGS,
+  loadReminderSettings,
+  markReminderDone,
+  regenerateReminders,
+  saveReminderSettings,
+  snoozeReminder,
+  stampBackupExportToday,
+  type Reminder,
+  type ReminderSettings,
+} from '../utils/reminders';
 
 const NotificationSettings: React.FC = () => {
   const navigate = useNavigate();
-  const { creditCards } = useData();
+  const { creditCards, subscriptions } = useData();
 
   const [enabled, setEnabled] = useState(true);
   const [time, setTime] = useState("20:00");
@@ -18,9 +29,58 @@ const NotificationSettings: React.FC = () => {
   const [ccAmountRemindEnabled, setCcAmountRemindEnabled] = useState(true); // 截數後 +1 日：提醒輸入應繳金額
   const [ccFeeRemindEnabled, setCcFeeRemindEnabled] = useState(true); // 年費提醒
 
-  // avoid TS6133 when toggles are not rendered yet
+  // keep setters "used" (these toggles will be rendered later)
   void setCcAmountRemindEnabled;
   void setCcFeeRemindEnabled;
+
+  // Reminder Center settings
+  const [remSettings, setRemSettings] = useState<ReminderSettings>(DEFAULT_REMINDER_SETTINGS);
+  const [reminders, setReminders] = useState<Reminder[]>([]);
+
+  useEffect(() => {
+    const s = loadReminderSettings();
+    // keep in sync with existing credit card toggles
+    setRemSettings(s);
+  }, []);
+
+  // Sync Reminder Center settings with existing ICS toggles
+  useEffect(() => {
+    setRemSettings(prev => ({
+      ...prev,
+      enabled,
+      ccEnabled,
+      ccAdvanceDays,
+      ccAmountEnabled: ccAmountRemindEnabled,
+      ccFeeEnabled: ccFeeRemindEnabled,
+    }));
+  }, [enabled, ccEnabled, ccAdvanceDays, ccAmountRemindEnabled, ccFeeRemindEnabled]);
+
+  useEffect(() => {
+    // persist settings whenever changed
+    saveReminderSettings(remSettings);
+  }, [remSettings]);
+
+  const refreshReminders = () => {
+    const list = regenerateReminders({ creditCards: creditCards || [], subscriptions: subscriptions || [] });
+    setReminders(list);
+  };
+
+  useEffect(() => {
+    // generate on load and whenever inputs change
+    refreshReminders();
+  }, [
+    creditCards,
+    subscriptions,
+    remSettings.enabled,
+    remSettings.ccEnabled,
+    remSettings.ccAdvanceDays,
+    remSettings.ccAmountEnabled,
+    remSettings.ccFeeEnabled,
+    remSettings.subEnabled,
+    remSettings.subAheadDays,
+    remSettings.backupEnabled,
+    remSettings.backupEveryDays,
+  ]);
 
   // Format date for ICS (YYYYMMDDTHHMMSS)
   const formatICSDate = (date: Date) => {
@@ -228,6 +288,197 @@ const NotificationSettings: React.FC = () => {
       </div>
 
       <div className="p-4 mt-2 space-y-6">
+         {/* Reminder Center */}
+         <div>
+            <p className="text-gray-500 text-xs mb-2 ml-4">提醒中心</p>
+            <div className="sf-panel overflow-hidden divide-y sf-divider">
+               <div className="p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                     <div className="text-white font-medium">未處理提醒</div>
+                     <button
+                        type="button"
+                        onClick={refreshReminders}
+                        className="text-xs text-primary"
+                     >
+                        重新計算
+                     </button>
+                  </div>
+                  {(() => {
+                     const open = reminders.filter(r => r.status === 'open');
+                     const today = new Date();
+                     const todayYmd = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+                     const dueToday = open.filter(r => r.dueYmd === todayYmd).length;
+                     const within7 = open.filter(r => {
+                        const a = new Date(r.dueYmd + 'T00:00:00');
+                        const b = new Date(todayYmd + 'T00:00:00');
+                        const diff = Math.round((a.getTime() - b.getTime()) / 86400000);
+                        return diff >= 0 && diff <= 7;
+                     }).length;
+                     return (
+                        <div className="grid grid-cols-3 gap-2 text-xs">
+                           <div className="bg-background/50 rounded-lg p-2">
+                              <div className="text-gray-500">總數</div>
+                              <div className="text-white font-semibold">{open.length}</div>
+                           </div>
+                           <div className="bg-background/50 rounded-lg p-2">
+                              <div className="text-gray-500">今日</div>
+                              <div className="text-white font-semibold">{dueToday}</div>
+                           </div>
+                           <div className="bg-background/50 rounded-lg p-2">
+                              <div className="text-gray-500">7日內</div>
+                              <div className="text-white font-semibold">{within7}</div>
+                           </div>
+                        </div>
+                     );
+                  })()}
+               </div>
+
+               <div className="p-4 space-y-2">
+                  {/* Toggles */}
+                  <div className="flex items-center justify-between">
+                     <span className="text-white">開啟提醒中心</span>
+                     <div
+                        onClick={() => setRemSettings(prev => ({ ...prev, enabled: !prev.enabled }))}
+                        className={`w-12 h-7 rounded-full relative cursor-pointer transition-colors ${remSettings.enabled ? 'bg-green-500' : 'bg-gray-600'}`}
+                     >
+                        <div className={`w-6 h-6 bg-white rounded-full absolute top-0.5 shadow-md transition-all ${remSettings.enabled ? 'translate-x-5' : 'translate-x-0.5'}`}></div>
+                     </div>
+                  </div>
+
+                  {remSettings.enabled && (
+                     <>
+                        <div className="flex items-center justify-between">
+                           <span className="text-gray-200">訂閱提醒（提前）</span>
+                           <select
+                              value={remSettings.subAheadDays}
+                              onChange={(e) => setRemSettings(prev => ({ ...prev, subAheadDays: Number(e.target.value), subEnabled: true }))}
+                              className="bg-transparent text-right text-gray-400 focus:outline-none cursor-pointer"
+                           >
+                              <option value={3}>3 日</option>
+                              <option value={5}>5 日</option>
+                              <option value={7}>7 日</option>
+                              <option value={14}>14 日</option>
+                           </select>
+                        </div>
+                        <div className="flex items-center justify-between">
+                           <span className="text-gray-200">備份提醒（每）</span>
+                           <select
+                              value={remSettings.backupEveryDays}
+                              onChange={(e) => setRemSettings(prev => ({ ...prev, backupEveryDays: Number(e.target.value), backupEnabled: true }))}
+                              className="bg-transparent text-right text-gray-400 focus:outline-none cursor-pointer"
+                           >
+                              <option value={7}>7 日</option>
+                              <option value={14}>14 日</option>
+                              <option value={30}>30 日</option>
+                           </select>
+                        </div>
+                     </>
+                  )}
+               </div>
+
+               {/* List */}
+               <div className="p-4">
+                  {!remSettings.enabled ? (
+                     <p className="text-xs text-gray-500">提醒中心已關閉</p>
+                  ) : reminders.filter(r => r.status === 'open').length === 0 ? (
+                     <p className="text-xs text-gray-500">暫時未有提醒</p>
+                  ) : (
+                     <div className="space-y-2">
+                        {reminders.filter(r => r.status === 'open').map((r) => (
+                           <div key={r.id} className="bg-background/40 rounded-lg p-3">
+                              <div className="flex items-start justify-between gap-3">
+                                 <div className="min-w-0">
+                                    <div className="text-white text-sm font-medium truncate">{r.title}</div>
+                                    <div className="text-xs text-gray-400 mt-0.5">
+                                       {r.dueYmd}{r.detail ? ` · ${r.detail}` : ''}
+                                    </div>
+                                 </div>
+                                 <div className="shrink-0 text-xs">
+                                    <span className={r.severity === 'urgent' ? 'text-red-400' : r.severity === 'warn' ? 'text-yellow-400' : 'text-gray-400'}>
+                                       {r.severity === 'urgent' ? '緊急' : r.severity === 'warn' ? '重要' : '提示'}
+                                    </span>
+                                 </div>
+                              </div>
+                              <div className="flex flex-wrap gap-2 mt-2">
+                                 <button
+                                    type="button"
+                                    onClick={() => {
+                                       markReminderDone(r.id);
+                                       refreshReminders();
+                                    }}
+                                    className="px-3 py-1.5 rounded-lg text-xs bg-primary/20 text-primary"
+                                 >
+                                    完成
+                                 </button>
+                                 <button
+                                    type="button"
+                                    onClick={() => {
+                                       snoozeReminder(r.id, 1);
+                                       refreshReminders();
+                                    }}
+                                    className="px-3 py-1.5 rounded-lg text-xs bg-surface/60 text-gray-200"
+                                 >
+                                    延後 1 日
+                                 </button>
+                                 <button
+                                    type="button"
+                                    onClick={() => {
+                                       snoozeReminder(r.id, 3);
+                                       refreshReminders();
+                                    }}
+                                    className="px-3 py-1.5 rounded-lg text-xs bg-surface/60 text-gray-200"
+                                 >
+                                    延後 3 日
+                                 </button>
+                                 {r.type === 'backup_export_json' ? (
+                                    <button
+                                       type="button"
+                                       onClick={() => {
+                                          // Navigate back to Settings for export (JSON export lives there)
+                                          navigate('/settings');
+                                       }}
+                                       className="px-3 py-1.5 rounded-lg text-xs bg-surface/60 text-gray-200"
+                                    >
+                                       去匯出
+                                    </button>
+                                 ) : r.action?.kind === 'navigate' ? (
+                                    <button
+                                       type="button"
+                                       onClick={() => navigate(r.action!.to)}
+                                       className="px-3 py-1.5 rounded-lg text-xs bg-surface/60 text-gray-200"
+                                    >
+                                       前往
+                                    </button>
+                                 ) : null}
+                              </div>
+                           </div>
+                        ))}
+                     </div>
+                  )}
+
+                  {/* Backup quick action */}
+                  {remSettings.enabled && remSettings.backupEnabled && (
+                     <div className="mt-3">
+                        <button
+                           type="button"
+                           onClick={() => {
+                              // we can't directly call Settings' export function from here; so provide a stamp helper for now.
+                              // user can export JSON from Settings; after export, they can tap this to reset the backup reminder timer.
+                              const ok = window.confirm('已匯出 JSON 備份？按「確定」會將備份提醒計時重置。');
+                              if (!ok) return;
+                              stampBackupExportToday();
+                              refreshReminders();
+                           }}
+                           className="w-full px-3 py-2 rounded-lg text-xs bg-surface/60 text-gray-200"
+                        >
+                           我已匯出備份（重置備份提醒）
+                        </button>
+                     </div>
+                  )}
+               </div>
+            </div>
+         </div>
+
          <div>
             <p className="text-gray-500 text-xs mb-2 ml-4">記帳提醒</p>
             <div className="sf-panel overflow-hidden divide-y sf-divider">
@@ -303,7 +554,7 @@ const NotificationSettings: React.FC = () => {
                       <p className="text-xs text-gray-500">本月 / 下月（如接近月底）將加入行事曆嘅提醒</p>
                       {creditCardEvents.length ? (
                         <div className="space-y-1">
-                          {creditCardEvents.slice(0, 6).map((e) => (
+                          {creditCardEvents.map((e) => (
                             <div key={e.uid} className="flex items-center justify-between text-xs text-gray-200">
                               <span className="truncate">{e.summary}</span>
                               <span className="text-primary">{e.dt.toLocaleDateString()}</span>
