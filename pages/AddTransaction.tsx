@@ -56,6 +56,7 @@ const AddTransaction: React.FC = () => {
       amount: amountValue,
       categoryId: selectedCategory,
       note: note,
+      // Store as ISO string, but make sure the UI always displays it as local date.
       date: localDate.toISOString(),
       type: transactionType,
       isRecurring: recurrence !== 'none',
