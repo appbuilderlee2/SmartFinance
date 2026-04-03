@@ -227,13 +227,24 @@ export function regenerateReminders(params: {
             const dedupeKey = `cc_payment_due|${c.id}|${yearMonth}`;
             const prev = existingByKey.get(dedupeKey);
             const amt = typeof cy?.amountDue === 'number' ? cy.amountDue : null;
+
+            // Severity (option B):
+            // - <= 3 days: urgent
+            // - <= 7 days: warn
+            // - otherwise: info
+            const daysToDue = daysBetweenYmd(todayYmd, ymd);
+            const severity = daysToDue != null && daysToDue <= 3 ? 'urgent' : daysToDue != null && daysToDue <= 7 ? 'warn' : 'info';
+
+            // Only show amount due if > 0 (avoid "應繳 0")
+            const amtSuffix = amt != null && amt > 0 ? `（應繳 ${amt}）` : '';
+
             out.push({
               id: prev?.id ?? uid(),
               type: 'cc_payment_due',
-              title: `信用卡繳費：${c.name}${amt != null ? `（應繳 ${amt}）` : ''}`,
+              title: `信用卡繳費：${c.name}${amtSuffix}`,
               detail: `繳費日：${dueDate}${settings.ccAdvanceDays ? `（提前 ${settings.ccAdvanceDays} 日提醒）` : ''}`,
               dueYmd: ymd,
-              severity: 'urgent',
+              severity,
               status: prev?.status ?? 'open',
               createdAt: prev?.createdAt ?? new Date().toISOString(),
               doneAt: prev?.doneAt,
