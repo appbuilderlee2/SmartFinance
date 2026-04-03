@@ -266,7 +266,7 @@ const Calendar: React.FC = () => {
                     {displayTransactions.length === 0 ? (
                         <p className="text-gray-500 text-sm text-center py-4">無記錄</p>
                     ) : (
-                        <div className="space-y-2 max-h-80 overflow-y-auto">
+                        <div className="space-y-2 overflow-y-auto">
                             {displayTransactions.map(tx => {
                                 const category = getCategory(tx.categoryId);
                                 return (
