@@ -20,6 +20,8 @@ type SwipeWhichData = {
   cards: SwipeWhichCard[];
 };
 
+const KEY_SW = 'sf_cc_match_swipewhich_v1';
+
 const CreditCard2SwipeWhich: React.FC = () => {
   const navigate = useNavigate();
   const { creditCards } = useData();
@@ -42,18 +44,21 @@ const CreditCard2SwipeWhich: React.FC = () => {
   const rows = useMemo(() => {
     if (!data) return [];
 
-    const normalize = (s: string) => (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
-
-    const myNames = (creditCards || []).map((c: any) => normalize(c.name || '')).filter(Boolean);
-
-    const isMine = (cardName: string) => {
-      const n = normalize(cardName || '');
-      if (!n) return false;
-      return myNames.some((m) => m && (n.includes(m) || m.includes(n)));
-    };
+    let matchedIds: string[] = [];
+    if (onlyMine) {
+      try {
+        const map = JSON.parse(localStorage.getItem(KEY_SW) || '{}') as Record<string, string>;
+        const ids = (creditCards || [])
+          .map((c: any) => map[c.id])
+          .filter(Boolean);
+        matchedIds = Array.from(new Set(ids));
+      } catch {
+        matchedIds = [];
+      }
+    }
 
     const list = (data.cards || [])
-      .filter((c) => (onlyMine ? isMine(c.name) : true))
+      .filter((c) => (onlyMine ? matchedIds.includes(c.id) : true))
       .map((c) => {
         const r =
           typeof c.bonusRates?.[scenario] === 'number'
@@ -105,8 +110,18 @@ const CreditCard2SwipeWhich: React.FC = () => {
               checked={onlyMine}
               onChange={(e) => setOnlyMine(e.target.checked)}
             />
-            只顯示我擁有的信用卡
+            只顯示我擁有的信用卡（需要先配對）
           </label>
+
+          {onlyMine && (
+            <button
+              type="button"
+              onClick={() => navigate('/settings/creditcards2/match')}
+              className="text-xs text-primary text-left"
+            >
+              去配對信用卡
+            </button>
+          )}
 
           <div className="text-[11px] text-gray-500">
             資料：SwipeWhich（本機快照 v1.5）
