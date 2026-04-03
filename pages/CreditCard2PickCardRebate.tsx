@@ -29,7 +29,7 @@ type PCRData = {
   cards: PCRCard[];
 };
 
-const KEY_PCR = 'sf_cc_match_pickcardrebate_v1';
+const KEY_PCR = 'sf_cc_match_source_b_v1';
 
 const CreditCard2PickCardRebate: React.FC = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const CreditCard2PickCardRebate: React.FC = () => {
   const [onlyMatched, setOnlyMatched] = useState<boolean>(false);
 
   useEffect(() => {
-    fetch('./data/pickcardrebate_cards_v1.json')
+    fetch('./data/rebate_source_b_v1.json')
       .then((r) => r.json())
       .then((j) => setData(j))
       .catch(() => setData(null));
@@ -107,7 +107,7 @@ const CreditCard2PickCardRebate: React.FC = () => {
             </button>
           )}
 
-          <div className="text-[11px] text-gray-500">資料：PickCardRebate（本機快照 v1）</div>
+          <div className="text-[11px] text-gray-500">資料：來源B（本機快照 v1）</div>
         </div>
 
         <div className="space-y-2">

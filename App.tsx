@@ -97,8 +97,8 @@ const App: React.FC = () => {
           <Route path="/settings/creditcard-cycles" element={<Layout hideNav><CreditCardCycles /></Layout>} />
           <Route path="/settings/creditcards2" element={<Layout hideNav><CreditCard2 /></Layout>} />
           <Route path="/settings/creditcards2/match" element={<Layout hideNav><CreditCard2Match /></Layout>} />
-          <Route path="/settings/creditcards2/swipewhich" element={<Layout hideNav><CreditCard2SwipeWhich /></Layout>} />
-          <Route path="/settings/creditcards2/pickcardrebate" element={<Layout hideNav><CreditCard2PickCardRebate /></Layout>} />
+          <Route path="/settings/creditcards2/a" element={<Layout hideNav><CreditCard2SwipeWhich /></Layout>} />
+          <Route path="/settings/creditcards2/b" element={<Layout hideNav><CreditCard2PickCardRebate /></Layout>} />
           <Route path="/reports" element={<Layout><Reports /></Layout>} />
           <Route path="/subscriptions" element={<Layout hideNav><Subscriptions /></Layout>} />
           <Route path="/add-subscription" element={<Layout hideNav><AddSubscriptionPage /></Layout>} />

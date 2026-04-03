@@ -1,12 +1,10 @@
 {
   "source": {
-    "site": "pickcardrebate.com",
-    "pageSource": "sitemap.xml",
     "extractedAt": "2026-04-02T16:18:57.779Z",
     "method": "chunk-scan-eval",
     "note": "Parsed card objects from Next.js chunks referenced by each /cards/<slug> page."
   },
-  "format": "smartfinance-pickcardrebate-v1",
+  "format": "rebate-source",
   "cards": [
     {
       "id": "aeon-jcb",
@@ -927,7 +925,7 @@
       ],
       "note": "## 📌 AEON CARD WAKUWAKU\n**推廣期：2026/3/1 至 2026/8/31**\n\n### 💳 回贈率及上限\n| 簽賬類別 | 回贈率 | 簽賬上限 | 回贈上限 |\n|:---|:---:|:---:|:---:|\n| 網上簽賬 | **6%** | $3,571 | $200 (共用) |\n| 日本簽賬 | **3%** | $7,692 | $200 (共用) |\n| 本地餐飲 | 1% | $33,333 | $200 (共用) |\n| 其他簽賬 | 0.4% | 無上限 | - |\n\n⚠️ 網上/日本/餐飲 **共用額外 $200 回贈上限/月**\n\n---\n\n### 📝 回贈形式\n以 **WAKU COIN** 發放，需於 AEON 香港 App 兌換回贈\nWAKU COIN 有效期：發出月份起 24 個月\n\n---\n\n### 🛍️ 每月20日 AEON 95折\n購物時**直接減價**，非事後回贈\n\n---\n\n### ❌ 不計簽賬\n- 電子錢包（AlipayHK/PayMe/WeChat Pay）\n- 八達通增值（包括自動增值、Apple Pay/Google Pay 增值）\n- 保險繳費\n- AEON Netmember 繳費\n- AEON 商戶免息分期\n\n---\n\n📅 **2026年2月27日更新** | [官方條款](https://www.aeon.com.hk/tc/pdf/credit-card/AEONCARDWAKUWAKU_RBBD_TC.pdf)",
       "officialApplyUrl": "https://www.aeon.com.hk/tc/credit-card/aeon-card-wakuwaku/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=505&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=505&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/aeon-wakuwaku.png",
       "rules": [
         {
@@ -1296,7 +1294,7 @@
       ],
       "note": "## 🔥 經本網指定連結申請額外獎賞\n**優惠期：2026年1月14日下午6時至1月30日下午6時**\n\n### 🎁 獨家禮品（6選1）\n| 禮品 | 價值 |\n|:---|:---:|\n| LG 43吋 QNED 4K QNED80 智能電視 | **$5,480** |\n| Bambu Lab P2S 3D Printer 單機 (國際版) | **$4,999** |\n| Dyson PencilVac Fluffycones 無線吸塵機 | **$4,990** |\n| HK$4,500 Apple Store 禮品卡 | $4,500 |\n| HK$4,500 HKTVmall電子購物禮券 | $4,500 |\n| HK$4,500 現金回贈 (轉數快) | $4,500 |\n\n### 📋 申請條件\n1. ✅ 全新美國運通白金卡客戶\n2. ✅ 收到換領表格後 **7日內** 填妥及遞交\n3. ✅ 2026年2月28日或之前成功獲批\n4. ✅ 發卡後 **2個月內** 簽賬滿 **$15,000** + 已清繳年費\n\n⚠️ **注意**：領取經本網指定連結申請之額外迎新禮品**不能同時獲取**銀行迎新優惠！\n\n---\n\n## 🏪 OK便利店優惠（至2026/2/25）\n簽 $50 回 $10，**20% 回贈**！[查看詳情](/discover/ae-ok-convenience-store-2026)\n\n---\n\n## 🎌 日本簽賬優惠（至2026/4/12）\n| 商戶 | 簽賬要求 | 回贈 | 最多 |\n|:---|:---:|:---:|:---:|\n| Donki | ¥20,000 | HK$80 | 2次 |\n| LOFT | ¥10,000 | HK$50 | 2次 |\n| Osaka Metro | ¥1,000 | HK$5 | 2次 |\n\n⚠️ 需在 Amex HK App 登記！[查看詳情](/discover/ae-japan-promo-2026)\n\n---\n\n## 💎 高端禮遇\n- ✈️ **無限次** Priority Pass 全球機場貴賓室\n- 🛡️ **免費旅遊保險**\n- 🎩 **24小時禮賓服務**\n- ⛴️ **天星小輪 $1 優惠**\n\n💳 **支付寶（內地錢包）優惠**（至2026/6/30）：[查看詳情](/discover/ae-alipay-mainland-2026)\n\n📅 **2026年1月29日更新**",
       "officialApplyUrl": "https://www.americanexpress.com/hk/zh/credit-cards/platinum-card/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=500&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=amex-platinum-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=500&a=228&sub_id1=&sub_id2=web&promo_id=amex-platinum-moneyhero-20260130",
       "imageUrl": "/images/cards/amex-platinum.png",
       "rules": [
         {
@@ -2076,7 +2074,7 @@
         "機場貴賓室"
       ],
       "officialApplyUrl": "https://www.bochk.com/tc/creditcard/products/cheers.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=452&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=boc-cheers-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=452&a=228&sub_id1=&sub_id2=web&promo_id=boc-cheers-moneyhero-20260130",
       "rewardTimeline": "積分",
       "imageUrl": "/images/cards/boc-cheers.png",
       "rules": [
@@ -2166,7 +2164,7 @@
       ],
       "note": "## 📌 餐飲及旅遊簽賬 8X 積分優惠\n**推廣期：2026/1/1 - 2026/6/30**\n\n| 簽賬類別 | 積分 | 回贈 | 每月上限 |\n|:---|:---:|:---:|:---:|\n| 本地餐飲 | 8X | 3.2% | $7,500 |\n| 外幣零售 | 8X | 3.2% | $18,750 |\n| **合共** | - | - | **$22,500** |\n\n⚠️ **條件**：月簽滿 $5,000 方可享用\n❌ **不適用**：BoC Pay+、AlipayHK、WeChat Pay、PayMe\n\n---\n\n📅 **2025年12月31日更新**",
       "officialApplyUrl": "https://www.bochk.com/tc/creditcard/products/cheers.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=452&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=452&a=228&sub_id1=&sub_id2=web",
       "rewardTimeline": "積分",
       "imageUrl": "/images/cards/boc-cheers-signature.png",
       "rules": [
@@ -2299,7 +2297,7 @@
       ],
       "note": "## 📌 中銀 Chill World Mastercard\n**推廣期：至 2026/6/30**\n\n### 🌐 網上及海外簽賬\n| 項目 | 詳情 |\n|:---|:---|\n| 回贈率 | **5%**（0.4%基本 + 4.6%額外）|\n| 簽賬門檻 | **無** |\n| 月簽上限 | **$3,260**（額外回贈$150）|\n\n### 🛍️ Chill 商戶簽賬\n| 項目 | 詳情 |\n|:---|:---|\n| 回贈率 | **10%**（0.4%基本 + 9.6%額外）|\n| 簽賬門檻 | 月簽**實體店** $1,500 |\n| 月簽上限 | **$1,562**（額外回贈$150）|\n\n### 🏪 Chill 商戶名單\n**購物消閒**：McDonald's、Pacific Coffee、Starbucks、UNIQLO、GU、IKEA、Dyson、Samsung、Sony、LOG-ON\n\n**影視娛樂**：全港戲院、Apple TV/Music、App Store、Disney+、Google Play、JOOX、KK Box、MOOV、Netflix、Nintendo、PlayStation、Spotify、YouTube\n\n👉 [完整商戶名單](https://www.bochk.com/s/a/chill)\n\n---\n\n## ⚠️ 重要提示\n\n- 額外回贈上限 **$150/月**（Chill商戶 + 網上/海外**合併計算**）\n- 同一簽賬符合多個類別，以較高回贈計算\n- CBF 手續費：**0.95%**（海外網站簽港幣）\n- 外幣手續費：**1.95%**\n- 八達通自動增值：**0.4%**\n\n---\n\n## 🎁 迎新優惠（至 2026/12/31）\n- **全新客戶**：發卡月及其後首2個月內簽滿 $5,000 → **$500 現金回贈**\n- **現有客戶**：發卡月及其後首2個月內簽滿 $5,000 → **$200 現金回贈**\n\n⚠️ 不計迎新：電子錢包轉賬、八達通增值\n\n---\n\n## ❌ 不計回贈\n- BoC Pay+、AlipayHK、WeChat Pay HK\n- 八達通增值（額外回贈）\n- 網上繳費、公共事務費用、保險\n- P2P 轉賬\n\n---\n\n## 💡 門檻較低？查看 [Chill Platinum 版本](/cards/boc-chill-platinum)\n年薪 $150,000 / 學生可申請，網上/海外 4%、Chill 商戶 8%、永久免年費\n\n📅 **2026年2月更新**",
       "officialApplyUrl": "https://www.bochk.com/tc/creditcard/products/chillcard.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=456&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=boc-chill-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=456&a=228&sub_id1=&sub_id2=web&promo_id=boc-chill-moneyhero-20260130",
       "rewardTimeline": "現金回贈（結算後3個月內入賬）",
       "imageUrl": "/images/cards/boc-chill-world.png",
       "rules": [
@@ -2478,7 +2476,7 @@
       ],
       "note": "## 📌 中銀 Chill Platinum Mastercard\n**推廣期：至 2026/6/30**\n\n### 🌐 網上及海外簽賬\n| 項目 | 詳情 |\n|:---|:---|\n| 回贈率 | **4%**（0.4%基本 + 3.6%額外）|\n| 簽賬門檻 | **無** |\n| 月簽上限 | **$4,166**（額外回贈$150）|\n\n### 🛍️ Chill 商戶簽賬\n| 項目 | 詳情 |\n|:---|:---|\n| 回贈率 | **8%**（0.4%基本 + 7.6%額外）|\n| 簽賬門檻 | 月簽**實體店** $1,000 |\n| 月簽上限 | **$1,973**（額外回贈$150）|\n\n### 🏪 Chill 商戶名單\n**購物消閒**：McDonald's、Pacific Coffee、Starbucks、UNIQLO、GU、IKEA、Dyson、Samsung、Sony、LOG-ON\n\n**影視娛樂**：全港戲院、Apple TV/Music、App Store、Disney+、Google Play、JOOX、KK Box、MOOV、Netflix、Nintendo、PlayStation、Spotify、YouTube\n\n👉 [完整商戶名單](https://www.bochk.com/s/a/chill)\n\n---\n\n## ⚠️ 重要提示\n\n- 額外回贈上限 **$150/月**（Chill商戶 + 網上/海外**合併計算**）\n- 同一簽賬符合多個類別，以較高回贈計算\n- CBF 手續費：**0.95%**（海外網站簽港幣）\n- 外幣手續費：**1.95%**\n- 八達通自動增值：**0.4%**\n\n---\n\n## 🎁 銀行迎新回贈（Chill Platinum）\n- **全新信用卡客戶**：發卡月及其後首2個月內累積簽賬滿 **$3,000** → **$300 現金回贈**\n- **現有信用卡客戶**：發卡月及其後首2個月內累積簽賬滿 **$5,000** → **$200 現金回贈**\n\n⚠️ 迎新受條款及細則約束；現金透支及分期相關費用不計。\n\n---\n\n## ❌ 不計回贈\n- BoC Pay+、AlipayHK、WeChat Pay HK\n- 八達通增值（額外回贈）\n- 網上繳費、公共事務費用、保險\n- P2P 轉賬\n\n---\n\n## 💡 World 版本\n如年薪達 $300,000，可申請 **Chill World Mastercard**：\n- 網上/海外：**5%**（門檻：無）\n- Chill 商戶：**10%**（門檻：月簽實體店 $1,500）\n- 年薪要求：$300,000\n- 回贈更高但門檻也更高\n\n📅 **2026年3月更新**",
       "officialApplyUrl": "https://www.bochk.com/tc/creditcard/products/chillcard.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=456&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=boc-chill-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=456&a=228&sub_id1=&sub_id2=web&promo_id=boc-chill-moneyhero-20260130",
       "rewardTimeline": "現金回贈（結算後3個月內入賬）",
       "imageUrl": "/images/cards/boc-chill-platinum.png",
       "rules": [
@@ -2617,7 +2615,7 @@
       ],
       "note": "## 📌 中銀 Go 銀聯鑽石卡\n**手機支付優惠推廣期：2026/4/1 至 2026/6/30**\n\n### 📱 本地手機支付\n| 項目 | 詳情 |\n|:---|:---|\n| 回贈率 | **4%**（10X 積分）|\n| 月簽上限 | **$2,778** |\n| 每月額外積分上限 | 25,000 分（= $100 回贈）|\n\n### 🇨🇳 內地手機簽賬\n| 項目 | 詳情 |\n|:---|:---|\n| 回贈率 | **8%**（20X 積分）|\n| 月簽上限 | **$1,316** |\n\n### 📲 指定手機簽賬渠道\nApple Pay、Samsung Pay、Huawei Pay、BoC Pay+、雲閃付 App 二維碼\n\n⚠️ **不包括**：AlipayHK、WeChat Pay\n\n### ⚠️ 重要\n- 需登記（名額 30,000，先到先得）\n- 登記後該月及往後月份生效\n- 與「指定Go商戶5%」不可同時享用\n- 人民幣 1 元 = 港幣 1 元計算\n\n📄 [條款及細則](https://www.bochk.com/dam/boccreditcard/gopmq126/tnc_tc.pdf)\n\n📅 **2026年4月更新**",
       "officialApplyUrl": "https://www.bochk.com/tc/creditcard/products/gocard.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=456&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=boc-go-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=456&a=228&sub_id1=&sub_id2=web&promo_id=boc-go-moneyhero-20260130",
       "imageUrl": "/images/cards/boc-go-diamond.png",
       "rules": [
         {
@@ -2725,7 +2723,7 @@
       ],
       "note": "## 📌 中銀 Go 銀聯白金卡\n**手機支付優惠推廣期：2026/4/1 至 2026/6/30**\n\n### 📱 本地手機支付\n| 項目 | 詳情 |\n|:---|:---|\n| 回贈率 | **2%**（5X 積分）|\n| 月簽上限 | **$6,250** |\n| 每月額外積分上限 | 25,000 分（= $100 回贈）|\n\n### 🇨🇳 內地手機簽賬\n| 項目 | 詳情 |\n|:---|:---|\n| 回贈率 | **4%**（10X 積分）|\n| 月簽上限 | **$2,778** |\n\n### 📲 指定手機簽賬渠道\nApple Pay、Samsung Pay、Huawei Pay、BoC Pay+、雲閃付 App 二維碼\n\n⚠️ **不包括**：AlipayHK、WeChat Pay\n\n### ⚠️ 重要\n- 需登記（名額 30,000，先到先得）\n- 登記後該月及往後月份生效\n- 與「指定Go商戶5%」不可同時享用\n- 人民幣 1 元 = 港幣 1 元計算\n\n📄 [條款及細則](https://www.bochk.com/dam/boccreditcard/gopmq126/tnc_tc.pdf)\n\n📅 **2026年4月更新**",
       "officialApplyUrl": "https://www.bochk.com/tc/creditcard/products/gocard.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=456&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=boc-go-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=456&a=228&sub_id1=&sub_id2=web&promo_id=boc-go-moneyhero-20260130",
       "imageUrl": "/images/cards/boc-go-platinum.png",
       "rules": [
         {
@@ -3457,7 +3455,7 @@
         "無上限，自動入賬"
       ],
       "officialApplyUrl": "https://www.citibank.com.hk/zh-hk/credit-cards/citi-cash-back-card.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=168&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=168&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/citi-cashback.png",
       "rules": [
         {
@@ -3529,7 +3527,7 @@
         "隧道/泊車 5% (月簽$10,000)"
       ],
       "officialApplyUrl": "https://www.citibank.com.hk/zh-hk/credit-cards/citi-octopus-card.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=166&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=166&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/citi-octopus.png",
       "rules": [
         {
@@ -3689,7 +3687,7 @@
         "免費旅遊保險"
       ],
       "officialApplyUrl": "https://www.citibank.com.hk/zh-hk/credit-cards/citi-premiermiles-card.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=172&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=172&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/citi-premiermiles.png",
       "rules": [
         {
@@ -3756,7 +3754,7 @@
         "免費旅遊保險"
       ],
       "officialApplyUrl": "https://www.citibank.com.hk/zh-hk/credit-cards/citi-prestige-card.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=171&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=citi-prestige-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=171&a=228&sub_id1=&sub_id2=web&promo_id=citi-prestige-moneyhero-20260130",
       "imageUrl": "/images/cards/citi-prestige.png",
       "rules": [
         {
@@ -3822,7 +3820,7 @@
         "里數兌換免手續費"
       ],
       "officialApplyUrl": "https://www.citibank.com.hk/zh-hk/credit-cards/citi-rewards-card.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=169&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=169&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/citi-rewards.png",
       "rules": [
         {
@@ -3926,7 +3924,7 @@
         "積分永不過期"
       ],
       "officialApplyUrl": "https://www.citibank.com.hk/zh-hk/credit-cards/citi-rewards-unionpay-card.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=170&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=170&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/citi-rewards-unionpay.png",
       "rules": [
         {
@@ -4196,7 +4194,7 @@
       ],
       "note": "## 中信銀行(國際)香港航空Mastercard®卡重點\n- 香港航空簽賬 HK$2 = 1 FWC 積分\n- 海外及網上簽賬 HK$4 = 1 FWC 積分\n- 本地簽賬 HK$6 = 1 FWC 積分\n- 首年免年費（年費 HK$2,000）\n\n## 銀行迎新（全新信用卡客戶）\n成功申請並於發卡後 150 日內累積指定零售簽賬，可享最高 104,000 FWC 積分：\n- 簽滿 HK$25,000：26,000 FWC（換領費 HK$0）\n- 簽滿 HK$40,000：52,000 FWC（換領費 HK$800）\n- 簽滿 HK$55,000：78,000 FWC（換領費 HK$1,600）\n- 簽滿 HK$70,000：104,000 FWC（換領費 HK$2,400）\n\n## 銀行迎新（現有信用卡客戶）\n發卡後 150 日內累積零售簽賬滿 HK$25,000，可享 20,000 FWC 積分。\n\n## MoneyHero 限時獨家獎賞（全新客戶）\n- 2026-03-05 下午6時至 2026-03-16 下午6時期間，經本網指定連結成功申請並遞交獎賞換領表格\n- 2026-04-30 或之前成功獲批\n- 收到表格後 7 日內填妥遞交\n- 批卡後 30 日內簽賬滿 HK$100\n- 可選：HK$1,100 惠康 / HK$900 FPS / HK$900 Apple Store / 12,000 Max Miles / 家電禮品\n\n## 其他禮遇\n- 啟動信用卡並作任何零售簽賬，可獲 2 張可共享香港航空機場貴賓室禮券（至2026/6/30）\n- 香港航空官網及 App 購票達指定金額，可享額外最高 2,000 FWC 積分（至2026/6/30）\n- 免費旅遊保險（登記後每次保額高達 10 萬美元，至2026/12/31）\n- 免費 12 個月 HoteLux Elite 會籍",
       "officialApplyUrl": "https://www.cncbinternational.com/personal/credit-card/hongkong-airlines/tc/index.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=178&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=178&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/cncbi-hkairlines.png",
       "rules": [
         {
@@ -4311,7 +4309,7 @@
       ],
       "note": "## 🔥 經本網指定連結申請額外獎賞\n**優惠期：2026年3月18日中午12時至3月27日下午6時**\n\n### 🎁 獨家禮品（7選1）\n| 禮品 | 價值 |\n|:---|:---:|\n| LG AS35GGW20 PuriCare™ AeroHit 空氣清新機（寵物版） | **$3,690** |\n| Philips 輕量強效無線吸塵機 XC2011/61 | **$2,498** |\n| Philips 飛利浦 RO 純淨即熱飲水機 ADD6901（顏色隨機） | **$1,998** |\n| 14,000 Max Miles 飛行里數 | ~$1,400 |\n| HK$1,300 惠康購物現金券 | $1,300 |\n| HK$1,100 Apple Store 禮品卡 | $1,100 |\n| HK$1,100 現金回贈（轉數快） | $1,100 |\n\n### 📋 申請條件\n1. ✅ 全新信銀國際信用卡客戶\n2. ✅ 經 MoneyHero 成功申請並遞交獎賞換領表格\n3. ✅ 2026年4月30日或之前成功獲批\n4. ✅ 收到獎賞換領表格後 **7日內** 填妥及遞交\n5. ✅ 批卡後30日內簽賬滿 **$100**\n\n---\n\n## 📌 銀行迎新優惠（2選1）\n**推廣期：即日至 2026/6/30**\n\n| 選項 | 內容 |\n|:---|:---|\n| 🌍 外幣回贈 | 首3個月外幣簽賬（含人民幣）**10%** 回贈，上限 $1,000 |\n| 💵 現金回贈 | 首2個月簽滿 $6,000 送 **$600** 現金回贈 |\n\n---\n\n## 🚨 重要提示：簽賬門檻高過上限！\n簽賬門檻 $3,800 > 簽賬上限 $3,670\n最後 $130 只有 0.55% 基本回贈\n\n📅 **2026年3月6日更新**",
       "officialApplyUrl": "https://www.cncbinternational.com/personal/credit-card/motion/tc/index.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=178&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=178&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/cncbi-motion.png",
       "rules": [
         {
@@ -4415,7 +4413,7 @@
       ],
       "note": "## 大新ANA World萬事達卡重點\n- 海外簽賬一般可享 HK$4 = 1 ANA 里數\n- 本地及其他合資格簽賬 HK$8 = 1 ANA 里數\n- 迎新期（至 2026/6/30）：首6個月每月首 HK$5,000 海外簽賬可享 HK$2 = 1 ANA 里數\n- 發卡後首2個月本地簽賬滿 HK$8,000 / HK$20,000，可享 8,000 / 15,000 迎新里數\n- 發卡後首3個月開立指定大新理財戶口，可獲額外 5,000 里數\n\n## 經本網指定連結申請額外獎賞（MoneyHero）\n2026/2/27 18:00 至 2026/3/31 18:00，全新大新信用卡客戶經本網指定連結成功申請指定大新信用卡並於 2026/4/30 前成功批核，可享 HK$400 Apple Store 禮品卡或 HK$400 惠康超市現金券。\n\n## 注意事項\n- 申請參考編號格式：000000 + 6 位數字（例：000000123456）\n- 任何超市禮券/Apple Store 禮品卡爭議由 MoneyHero 最終決定",
       "officialApplyUrl": "https://www.dahsing.com/html/tc/credit_card/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/dahsing-ana.png",
       "rules": [
         {
@@ -4494,7 +4492,7 @@
       ],
       "note": "🔥 **冬日狂賞**（2025/12/8 - 2026/2/28）：登記後本地食肆享額外5%、網上/旅遊/海外享額外3%現金回贈！每階段上限 $300，整個推廣期最高 $900。名額只限 8,000 人！[查看詳情及登記](/discover/dahsing-winter-promo)",
       "officialApplyUrl": "https://www.dahsing.com/html/tc/credit_card/british_airways.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/dahsing-ba.png",
       "rules": [
         {
@@ -4538,7 +4536,7 @@
         "專為車主而設"
       ],
       "officialApplyUrl": "https://www.dahsing.com/html/tc/credit_card/myauto/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=dahsing-myauto-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=&sub_id2=web&promo_id=dahsing-myauto-moneyhero-20260130",
       "imageUrl": "/images/cards/dahsing-myauto.png",
       "rules": [
         {
@@ -4591,7 +4589,7 @@
         "簡單易用無門檻"
       ],
       "officialApplyUrl": "https://www.dahsing.com/html/tc/credit_card/one_plus.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=dahsing-one-moneyhero-20260127",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=&sub_id2=web&promo_id=dahsing-one-moneyhero-20260127",
       "imageUrl": "/images/cards/dahsing-one.png",
       "rules": [
         {
@@ -4641,7 +4639,7 @@
       ],
       "note": "🔥 **冬日狂賞**（2025/12/8 - 2026/2/28）：登記後本地食肆享額外5%、網上/旅遊/海外享額外3%現金回贈！每階段上限 $300，整個推廣期最高 $900。名額只限 8,000 人！[查看詳情及登記](/discover/dahsing-winter-promo)\n\n---\n\n💡 **香港唯一**可賺聯合航空 MileagePlus 里數的信用卡！\n\n**貴賓室優惠**：主卡客戶於上一個信用卡季度內，憑卡累積零售簽賬達 HK$40,000 或以上，可獲聯合航空貴賓室單次電子通行證 1 張（每季最多 1 張）。\n\n**里數不設限期**：只要持有有效合資格信用卡及良好紀錄，MileagePlus 賬戶內的里數將不設到期日。\n\n**85折買里數**：可於 united.com/buymiles 以 85 折購買聯合航空里數。\n\n⚠️ **不計里數**：PayMe、TNG、AlipayHK、WeChat Pay HK、網上繳費、交稅、現金透支、分期計劃。八達通增值只有 HK$12/里（較低回贈）。\n\n⚠️ **注意**：新卡發出後 13 個月內取消主卡，將扣除 $800 手續費。迎新推廣期至 2025/12/31。",
       "officialApplyUrl": "https://www.dahsing.com/html/tc/credit_card/united.html",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=604&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/dahsing-united.png",
       "rules": [
         {
@@ -4760,7 +4758,7 @@
       ],
       "note": "## 🔥 海外簽賬低至 HK$2 = 1 里推廣\n**推廣期：2026/1/1 - 2026/12/31**\n\n### 📊 里數獎賞表\n| 簽賬類別 | 基本獎賞 | 額外獎賞 | 合計 |\n|:---|:---:|:---:|:---:|\n| 海外簽賬（登記後） | 3X DBS$ ($4/里) | +3X DBS$ | **6X DBS$ ($2/里)** |\n| 海外簽賬（無登記） | 3X DBS$ | - | $4/里 |\n| 本地簽賬 | 2X DBS$ | - | $6/里 |\n\n### ⚠️ $2/里條件\n- 需 **DBS Card+ App** 登記（全年只需登記一次）\n- 登記後翌日起生效\n- 某曆月累積零售簽賬達 **$20,000**\n- 每月額外獎賞上限 **DBS$240**（≈ 5,000里 / $20,000海外簽賬）\n- 全年額外獎賞上限 **DBS$2,880**（≈ 60,000里）\n\n---\n\n## ✈️ 里數兌換\n- **亞洲萬里通 Asia Miles** — 即時兌換！\n- **Avios**\n- **KrisFlyer**\n- **鳳凰知音**\n- 兌換比率：DBS$48 = 1,000 里\n- ✅ **免手續費**，積分**無限期**\n\n---\n\n## 🎁 iGO Rewards\n- DBS$ 可低至 **55折** 兌換機票或酒店\n- DBS$8 當 HK$10 使（即8折）\n- 🔥 **MAD Sale 推廣**（2026全年）：DBS Black Card [Facebook 專頁](http://www.facebook.com/DBSBlackCardHongKong)不定期發放優惠碼，可享額外折扣\n- 需選擇「DBS$自選換領計劃」方可使用 iGO Rewards\n- 每次預訂需付 HK$50 行政費\n- Flexi Shopping 旅遊商戶分期 **50%手續費回贈**（上限$100/次，3次）\n\n---\n\n## 🎁 迎新優惠\n新客戶於發卡後首3個月內累積合資格簽賬，並登記及登入 DBS Card+ 確認實體新卡：\n\n| 簽賬金額 | 里數獎賞 |\n|:---|:---:|\n| 滿 HK$8,000 | 8,000 里 |\n| 滿 HK$20,000 | 12,000 里 |\n| 滿 HK$60,000 | **30,000 里** |\n\n額外 **2,000 里**：首3個月內成功申請一次 Flexi Shopping 分期\n\n合共高達 **32,000 里**\n\n---\n\n⚠️ 電子錢包（PayMe/支付寶/微信支付/八達通增值）**每月首 $5,000** 計入合資格簽賬，超過不計。Apple Pay/Google Pay/Samsung Pay 不受此限。\n❌ 不計回贈：繳稅、繳費、保費、籌碼、外幣兌換、信用卡年費、結餘轉戶\n\n📅 **2026年2月23日更新**（根據[官方條款](https://www.dbs.com.hk/iwov-resources/pdf/creditcards/BlackMC_CVP_2026_TnC_CN.pdf)）",
       "officialApplyUrl": "https://www.dbs.com.hk/personal-zh/cards/credit-cards/dbs-black-world-mastercard",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=188&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=188&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/dbs-black.png",
       "rules": [
         {
@@ -4847,7 +4845,7 @@
       ],
       "note": "## 🛒 週三大折日：超市 8%\n**推廣期：2026/1/7 - 2026/5/27**\n\n逢星期三於全港超市單一簽賬滿 $300，即享 8% COMPASS Dollar 回贈！每月首 $2,000 簽賬。\n\n---\n\n## 🏷️ 指定類別 2%\n百貨公司、家居傢俬、油站、AliPay/WeChat Pay 零售簽賬。單筆滿 $300，每月首 $12,500。需 DBS Card+ App 登記。\n\n---\n\n## 🛡️ Flexi Shopping 保費 50% 手續費回贈\n**推廣期：2026/1/1 - 2026/12/31**\n\n繳交保費滿 $500，經 DBS Card+ 申請 Flexi Shopping 3/6/12個月分期，可享 **50% 一次性手續費回贈**（上限 $100/次，最多 3 次）。\n\n---\n\n## ✈️ iGO Rewards 旅遊預訂\n- $1 COMPASS Dollar = HK$1 兌換機票或酒店\n- 經 DBS Card+ App 登入 iGO Rewards\n- 每次預訂需付 HK$50 行政費\n\n📅 **2026年2月23日更新**",
       "officialApplyUrl": "https://www.dbs.com.hk/personal-zh/cards/credit-cards/dbs-compass-visa",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=185&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=dbs-compass-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=185&a=228&sub_id1=&sub_id2=web&promo_id=dbs-compass-moneyhero-20260130",
       "imageUrl": "/images/cards/dbs-compass.png",
       "rules": [
         {
@@ -5025,7 +5023,7 @@
       ],
       "note": "## 🎁 迎新優惠\n新客戶於發卡後首3個月內：\n- 累積零售合資格簽賬滿 **HK$5,000** → **HK$500 現金回贈**\n- 成功申請一次 Flexi Shopping 分期 → 額外 **HK$100 現金回贈**\n- 經指定連結透過 DBS Card+ App 申請 → 高達 **HK$200「一扣即享」獎賞**\n\n合共高達 **HK$800**\n\n---\n\n⚠️ 指定類別及海外簽賬 5% 需單筆消費滿 $300 並透過 DBS Card+ App 登記！未滿 $300 只有 1%。Signature卡每月首 $8,000 享 5%。餐飲不包括酒席宴會/酒店內食肆。醫療不包括獸醫。✅ DBS$ 積分無限期！⚠️ 電子錢包（八達通增值/PayMe/支付寶/微信支付增值及簽賬）**每月首 $5,000 可獲 DBS$**，超過不計。Apple Pay/Google Pay/Samsung Pay 不受此限。❌ 不計回贈：繳稅、繳費、保費、籌碼、外幣兌換、信用卡年費、結餘轉戶。\n\n---\n\n## 🏥 Flexi Shopping 醫療服務 50% 手續費回贈\n**推廣期：2026/1/1 - 2026/12/31**\n\n醫療服務簽賬滿 $500，經 DBS Card+ 申請 Flexi Shopping 3/6/12個月分期，可享 **50% 一次性手續費回贈**（上限 $220/次，最多 3 次）。\n\n---\n\n## ✈️ iGO Rewards 旅遊預訂\n- DBS$1 = HK$1 兌換機票或酒店\n- 需選擇「DBS$自選換領計劃」方可使用\n- 經 DBS Card+ App 登入 iGO Rewards\n- 每次預訂需付 HK$50 行政費\n\n📅 **2026年2月23日更新**",
       "officialApplyUrl": "https://www.dbs.com.hk/personal-zh/cards/credit-cards/dbs-eminent-card",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=187&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=187&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/dbs-eminent.png",
       "rules": [
         {
@@ -5428,7 +5426,7 @@
       ],
       "note": "## DBS Live Fresh 大專生信用卡重點\n- 大專生可申請，無最低年薪要求\n- 網購簽賬高達 6%（外幣網購 1% + 自選額外 5%）\n- 自選交易類別包括娛樂旅遊、潮流、慈善（需預先於 DBS Card+ 登記）\n- 其他簽賬 0.4% 基本回贈\n- 首年免年費（需符合發卡後首3個月簽賬及首月登記/啟動 Card+ 要求）\n\n⚠️ 額外5%自選獎賞每月上限 HK$150，需於交易後45個曆日內在 DBS Card+ 按「一扣即享」\n⚠️ 以港幣進行的網上簽賬、電子錢包增值及八達通自動增值只可賺取基本0.4%回贈",
       "officialApplyUrl": "https://www.dbs.com.hk/personal-zh/cards/credit-cards/live-fresh-card",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=286&a=228&sub_id1=web&aff_click_id=pickcardrebate",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=286&a=228&sub_id1=web&aff_click_id=",
       "imageUrl": "/images/cards/dbs-live-fresh.png",
       "rules": [
         {
@@ -5600,7 +5598,7 @@
       ],
       "note": "## 🔥 全城最高 2% 全方位回贈！\n**優惠期：2026年1月1日至2026年6月30日**\n\n呢張卡個 2% 回贈，可以話係全城最高！基本上係買咩都有 2% 呀！\n\n---\n\n## 📌 2026 Q1 回贈條款重點\n\n| 項目 | 詳情 |\n|:---|:---|\n| 回贈率 | **2%**（1% 基本 + 1% 加碼）|\n| 簽賬上限 | **每半年首 $80,000** |\n| 超出上限 | **1%** 基本回贈 |\n| 加碼上限 | $800/半年 |\n\n### ✅ 2% 回贈適用\n- 本地/海外零售簽賬\n- 網上消費\n- **Apple Pay 手動增值八達通** 🎉\n- **AlipayHK 繳費及交稅** 🎉\n- 流動支付（Apple Pay/Google Pay）\n\n### ❌ 不計 2% 回贈\n- 八達通自動增值（只有 0.4%）\n- 電子錢包充值（WeChat Pay 實測 1%）\n- P2P 轉賬、賭場交易\n\n---\n\n## 🔥 經本網指定連結申請額外獎賞\n**優惠期：2026年1月1日至1月31日**\n\n### 🎁 獨家優惠（額外 $300）\n- 網上申請額外 $300 現金回贈\n- 簽賬要求：批卡後 30 日內簽 $100\n\n### 📋 申請條件\n1. ✅ 全新安信信用卡客戶（過去12個月內未持有）\n2. ✅ 2026年2月28日或之前成功獲批\n\n---\n\n## 📌 銀行迎新優惠（2026/1/1-3/31）\n\n| 簽賬要求 | 迎新禮品 |\n|:---|:---|\n| $8,800 (90天內) | PHILIPS RO 純淨飲水機 (ADD6901) |\n| $8,800 (90天內) | Garmin Forerunner 165 GPS 智能手錶 |\n| $8,500 (90天內) | $500 現金回贈 |\n| **$2,000（學生）** | **$200 現金回贈** 🎓 |\n| 無簽賬要求 | 高達 $90,000 免息免手續費現金分期 |\n\n---\n\n## 🔥 中澳台日韓簽賬優惠（至 2026/6/30）\n- 中國內地、澳門、台灣、日本、韓國實體店\n- 基本 2% + 額外 5% = **7%**（扣 1% 手續費後淨 6%）\n- 每張卡每月上限 $10,000\n- ⚠️ **需入 OmyCard App 登記！**\n\n---\n\n## 💡 小貼士\n- 現金回贈直接於**月結單扣減**，無需手動兌換！\n- **學生都申請得**，無最低入息要求\n- 銀聯卡外幣手續費僅 **1%**\n\n📅 **2026年1月26日更新**\n\n👉 [查看完整條款](https://www.primecredit.com/wp-content/uploads/2025/12/C20251153_EarnMORE2026Q1_MKTWEB_300.pdf) 增值手續費\n🚨 **網友回報**：用銀聯 EarnMORE 增值 Alipay HK 會收取 **1.5% 手續費**！\n• 2% 回贈 - 1.5% 手續費 = **實際只有 0.5%**\n• 建議用其他方法增值 Alipay（如 PayMe 轉賬）\n\n📅 **2026年1月23日更新**",
       "officialApplyUrl": "https://www.primecredit.com/tc/credit-card/earnmore/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=182&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=earnmore-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=182&a=228&sub_id1=&sub_id2=web&promo_id=earnmore-moneyhero-20260130",
       "rewardTimeline": "現金回贈下期月結單入賬",
       "imageUrl": "/images/cards/earnmore.png",
       "rules": [
@@ -6131,7 +6129,7 @@
         "保險"
       ],
       "officialApplyUrl": "https://www.hangseng.com/zh-hk/personal/cards/products/enjoy-card/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=213&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=hangseng-enjoy-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=213&a=228&sub_id1=&sub_id2=web&promo_id=hangseng-enjoy-moneyhero-20260130",
       "imageUrl": "/images/cards/hangseng-enjoy.png",
       "rules": [
         {
@@ -6329,7 +6327,7 @@
         "分期付款"
       ],
       "officialApplyUrl": "https://www.hangseng.com/zh-hk/personal/cards/products/mmpower-world-mastercard/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=212&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=212&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/hangseng-mmpower.png",
       "rules": [
         {
@@ -6471,7 +6469,7 @@
         "🚨 需月簽滿$6,000先有高回贈"
       ],
       "officialApplyUrl": "https://www.hangseng.com/zh-hk/personal/cards/products/travel-plus-visa-signature/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=688&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=hangseng-travel-plus-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=688&a=228&sub_id1=&sub_id2=web&promo_id=hangseng-travel-plus-moneyhero-20260130",
       "imageUrl": "/images/cards/hangseng-travel-plus.png",
       "rules": [
         {
@@ -6737,7 +6735,7 @@
       ],
       "note": "⚠️ **$2/里 (2.5%) 只適用於「指定日常及旅遊消費」**：\n• 咖啡店：Starbucks、Pacific Coffee、Lady M、Pret A Manger 等\n• 本地交通：港鐵、巴士、的士、停車場、隧道費\n• 旅遊服務：AVIS、HERTZ、Toyota Rent a Car\n\n📌 **一般網購（如 Apple Store）屬於「本地及海外簽賬」= $5/里 (1%)**\n\n迎新：全新客戶 $600/$800 (網上申請)、現有客戶 $200。不適用於電子錢包（Alipay/WeChat Pay/PayMe）、繳稅。\n\n🌍 **Travel Guru 會員計劃**（至 2026/12/31）：海外實體店外幣簽賬額外回贈！\n• GO級 +3%（連續3個月簽≥$8,000解鎖，上限$500/年）→ 合共 **5.5%**\n• GING級 +4%（累積≥$30,000，上限$1,200/年）→ 合共 **6.5%**\n• GURU級 +6%（累積≥$70,000，上限$2,200/年）→ 合共 **8.5%**\n⚠️ 2024/9起只限海外實體店，不包括網購、電子錢包、八達通增值。\n⚠️ 2025/4起 EveryMile 卡不再享 GURU 級專享禮遇（Plaza Premium First 等）。\n👉 [查看 Travel Guru 完整攻略](/discover/hsbc-travel-guru-2026)\n\n🔥 **最紅冬日賞百老滙**（至2026/2/28）：累積簽賬滿$10,000享6%回贈！[查看詳情](/discover/hsbc-broadway-winter-2025)",
       "officialApplyUrl": "https://www.hsbc.com.hk/zh-hk/credit-cards/products/everymile/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=245&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=245&a=228&sub_id1=&sub_id2=web",
       "rewardTimeline": "獎賞錢於月結單入賬",
       "imageUrl": "/images/cards/hsbc-everymile.png",
       "rules": [
@@ -7033,7 +7031,7 @@
       ],
       "note": "## 📌 基本回贈\n\n| 類別 | 回贈率 | 上限 |\n|:---|:---:|:---:|\n| 內地/澳門 QR Code/流動支付 | **4.4%** | 每年 $80,000 |\n| 最紅自主獎賞（自選類別） | **2.4%** | 每年 $100,000 |\n| 基本簽賬 | 0.4% | 無上限 |\n\n> ⚠️ 內地/澳門 4.4% 需透過 QR Code (Reward+/雲閃付) 或流動支付 (Apple Pay/Google Pay/Samsung Pay)\n\n---\n\n## 🌍 Travel Guru 會員計劃（至 2026/12/31）\n\n**海外實體店外幣簽賬，需透過 Reward+ App 登記**\n\n| 會籍等級 | 額外回贈 | 回贈上限 |\n|:---|:---:|:---:|\n| GO級旅人 | +3% | $500/年 |\n| GING級旅人 | +4% | $1,200/年 |\n| GURU級旅人 | +6% | $2,200/年 |\n\n配合「賞世界」2.4% + 基本 0.4% = **高達 8.4%**\n\n[查看 Travel Guru 攻略](/discover/hsbc-travel-guru-2026)\n\n---\n\n## ❌ 不計回贈\n電子錢包（Alipay/WeChat Pay/PayMe）增值/轉賬、八達通增值、繳稅、網上繳費\n\n📅 **2026年3月7日更新**",
       "officialApplyUrl": "https://www.hsbc.com.hk/zh-hk/credit-cards/products/pulse-unionpay/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=259&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=259&a=228&sub_id1=&sub_id2=web",
       "rewardTimeline": "獎賞錢於月結單入賬",
       "imageUrl": "/images/cards/hsbc-pulse.png",
       "rules": [
@@ -7268,7 +7266,7 @@
       ],
       "note": "🍔 **麥當勞印花獎賞 2026**（全年）：\n- 簽賬滿 $30 = 1 個印花（每日限1個）\n- 同月儲齊 4 個印花 = $15 獎賞錢\n- 每月上限 8 印花 = $30，全年上限 $360\n- 用麥當勞 App 可疊加 4% 網上回贈，最高 **16.5%**！\n- ⚠️ 只限主卡，附屬卡不適用\n\n👉 [查看麥當勞印花詳情](/discover/hsbc-red-mcdonalds-2026)\n\n---\n\n⚠️ 【推廣期 2026/4/1-2026/6/30】指定商戶 8%：🍽️ 壽司郎/譚仔三哥/譚仔雲南米線；👕 GU/Decathlon；🎮 NAMCO/TAITO STATION（只限香港分店，百貨公司專櫃除外）。每月上限 $100 獎賞錢（首 $1,250）。網上簽賬 4% 每月上限 $400（首 $10,000）。網上不計：網上繳費、電子錢包簽賬、保費、證券、租金、廣告、八達通增值。實體超市只有 0.4%！\n\n📄 [條款及細則](https://www.hsbc.com.hk/content/dam/hsbc/hk/tc/docs/credit-cards/reward-scheme-terms-and-conditions.pdf)\n\n🔥 **最紅冬日賞萬寧**（至2026/2/28）：週末高達10%回贈！[查看詳情](/discover/hsbc-mannings-winter-2025)\n\n🔥 **最紅冬日賞百老滙**（至2026/2/28）：累積簽賬滿$10,000享6%回贈！[查看詳情](/discover/hsbc-broadway-winter-2025)",
       "officialApplyUrl": "https://www.hsbc.com.hk/zh-hk/credit-cards/products/red/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=896&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=896&a=228&sub_id1=&sub_id2=web",
       "rewardTimeline": "獎賞錢於月結單入賬",
       "imageUrl": "/images/cards/hsbc-red.png",
       "rules": [
@@ -7630,7 +7628,7 @@
       ],
       "note": "## 📌 最紅自主獎賞（需登記）\n\n**Visa Signature 專享**：9X = 5X額外 + 1X基本 + 3X VS專享 = **3.6%**\n\n| 類別 | 自選類別 | 非自選類別 |\n|:---|:---:|:---:|\n| 賞滋味 | **3.6%** | 1.6% |\n| 賞購物 | **3.6%** | 1.6% |\n| 賞家居 | **3.6%** | 1.6% |\n| 賞享受 | **3.6%** | 1.6% |\n| 賞世界 | **3.6%** | 1.6% |\n\n- 每年簽賬上限 **$100,000**\n- 需於 Reward+ App 登記\n\n📌 **賞滋味**：酒席宴會、私人宴會、包場派對、酒店/百貨公司/俱樂部內飲食專櫃除外\n📌 **賞世界**：只限海外外幣簽賬（香港/港幣簽賬除外）\n\n---\n\n## 🌍 Travel Guru 會員計劃（至 2026/12/31）\n\n**只限海外實體店外幣簽賬，需透過 Reward+ App 登記**\n\n| 會籍等級 | 額外回贈 | 升級條件 | 回贈上限 |\n|:---|:---:|:---|:---:|\n| GO級旅人 | +3% | 連續3個月累積簽≥$8,000 | $500/年 |\n| GING級旅人 | +4% | 累積≥$30,000 + 3次預訂≥$800 | $1,200/年 |\n| GURU級旅人 | +6% | 累積≥$70,000 + 6次預訂≥$800 | $2,200/年 |\n\n**配合最紅自主獎賞「賞世界」3.6%**：\n- GO級：3.6% + 3% = **6.6%**\n- GING級：3.6% + 4% = **7.6%**\n- GURU級：3.6% + 6% = **9.6%**\n\n⚠️ **Travel Guru 不計**：網購、電子錢包、八達通增值、繳費、繳稅\n\n👉 [查看 Travel Guru 完整攻略](/discover/hsbc-travel-guru-2026)\n\n---\n\n## 🎁 迎新優惠（至 2026/2/28）\n\n| 客戶類型 | 簽賬要求 | 獎賞 |\n|:---|:---:|:---|\n| 新客（網上申請） | 60日內簽$8,000 | **$800 獎賞錢** |\n| 新客（櫃檯申請） | 60日內簽$8,000 | $600 獎賞錢 |\n| 現有客戶 | 60日內簽$8,000 | $200 獎賞錢 |\n\n⚠️ 不計迎新：電子錢包、八達通增值、繳費、繳稅\n\n---\n\n## 💡 附屬卡大法\n\n幫無滙豐卡的親友開附屬卡，可以揀不同自選類別，各享 3.6%！\n\n---\n\n## ⚠️ 注意事項\n\n- 海外簽賬手續費：**1.95%**\n- 海外商戶簽港幣（CBF）：**1%**\n- E-banking繳費：0.4%（每月首$10,000）\n- E-banking交稅：無回贈\n- 基本回贈：0.4%\n- ❌ PayMe/支付寶/微信支付：無回贈\n\n📅 **2026年1月7日更新**",
       "officialApplyUrl": "https://www.hsbc.com.hk/zh-hk/credit-cards/products/visa-signature/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=255&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=255&a=228&sub_id1=&sub_id2=web",
       "rewardTimeline": "獎賞錢於月結單入賬",
       "imageUrl": "/images/cards/hsbc-vs.png",
       "rules": [
@@ -7899,7 +7897,7 @@
       ],
       "note": "## Mox Credit\n\n### 回贈率\n| 類別 | 回贈 |\n|:---|:---|\n| 指定超市 | **3%** (無上限) |\n| 所有簽賬 (出糧 ≥$25,000) | **2%** / HKD4=1里 (無上限) |\n| 所有簽賬 (基本) | **1%** / HKD10=1里 (無上限) |\n\n### ⚠️ 2026年4月1日起條件變動\n- 2% / $4=1里條件由**存款 $25萬**改為**真出糧 $25,000**\n- 不符條件：1% / HKD10=1里\n- 電子錢包簽賬**無回贈**\n\n### 費用\n- 外幣交易手續費：**1.95%** (Mastercard 1% + Mox 0.95%)\n- 跨境港幣交易手續費：**1.95%**\n- 年費：**$0**\n\n### ❌ 不計回贈\n- 電子錢包簽賬 (AlipayHK / WeChat Pay / PayMe / 八達通)\n\n### 指定超市名單\n惠康、百佳、AEON、HKTVmall、Don Don Donki、759、一田、city'super\n\n[條款修訂通知](https://mox.com/static/260227_Notice_of_Amendment.pdf)",
       "officialApplyUrl": "https://mox.com/zh/credit/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=402&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=402&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/mox-credit.png",
       "rules": [
         {
@@ -8025,7 +8023,7 @@
       ],
       "note": "## 📌 渣打國泰Mastercard迎新優惠\n**優惠期：2026年1月16日至4月30日**\n\n### 🎯 普通版迎新（高達 40,000 里）\n發卡後首 **2 個月**內簽賬（3選1）：\n| 簽賬金額 | 里數 | 換算 |\n|:---|:---:|:---:|\n| $5,000 | 10,000里 | $0.5/里 🔥 |\n| $40,000 | 20,000里 | $2/里 |\n| $110,000 | 40,000里 | $2.75/里 |\n\n### 🏦 優先理財版迎新（高達 100,000 里）\n| 簽賬金額 | 里數 | 換算 |\n|:---|:---:|:---:|\n| $5,000 | 10,000里 | $0.5/里 |\n| $40,000 | 30,000里 | $1.33/里 |\n| $110,000 | 100,000里 | $1.1/里 🔥 |\n\n### 🌟 Priority Private版迎新（高達 120,000 里）\n| 簽賬金額 | 里數 |\n|:---|:---:|\n| $5,000 | 10,000里 |\n| $40,000 | 40,000里 |\n| $110,000 | 120,000里 |\n\n---\n\n## ✈️ 里數回贈\n| 簽賬類別 | 里數比率 |\n|:---|:---:|\n| 國泰航空 / HK Express | **$2/里** 🔥 |\n| 餐飲 / 本地酒店 / 海外簽賬 | $4/里 |\n| 其他港幣簽賬 | $6/里 |\n\n✅ 里數自動存入亞洲萬里通，無須手動兌換\n\n---\n\n## 🎁 9折里數兌換\n以 **9折里數** 兌換以下亞洲萬里通獎勵：\n- 酒店住宿、租車服務及旅遊體驗\n- 餐膳美食獎勵或使用里數支付賬單\n- 延續里數有效期、轉贈里數或禮贈里數\n\n---\n\n⚠️ 不合資格簽賬：八達通銀包、支付寶、FPS轉數快、網上繳費\n✅ 八達通自動增值計里數！\n\n📅 **2026年2月23日更新**",
       "officialApplyUrl": "https://www.sc.com/hk/zh/credit-cards/cathay/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=177&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=177&a=228&sub_id1=&sub_id2=web",
       "rewardTimeline": "里數自動存入 (月結單後7個工作天)",
       "imageUrl": "/images/cards/sc-cathay.png",
       "rules": [
@@ -8141,7 +8139,7 @@
       ],
       "note": "## 渣打國泰Mastercard - 優先理財重點\n- 每年享 4 張國泰商務貴賓室入場券\n- 國泰 / HK Express 合資格簽賬可低至 HK$2/里\n- 網購、餐飲及海外合資格簽賬 HK$4/里\n- 其他合資格簽賬 HK$6/里\n\n## 銀行迎新（至2026/4/30）\n全新信用卡客戶成功申請並符合要求，發卡後首2個月累積合資格簽賬：\n- 滿 HK$5,000 → 10,000里\n- 滿 HK$40,000 → 30,000里\n- 滿 HK$110,000 → 100,000里\n\n## 經本網指定連結申請額外獎賞（MoneyHero）\n全新渣打信用卡客戶於 2026/2/27 18:00 至 2026/3/31 18:00 經本網指定連結成功申請，並於 2026/4/30 或之前成功批核，可享指定額外禮品（HK$900 Apple Store 禮品卡 / 惠康現金券 / HKTVmall電子券 或指定實物禮品），收到換領表格後7日內需提交表格。\n\n## 申請與客戶要求\n- 最低年齡：18歲\n- 最低年薪：HK$96,000\n- 優先理財版本需配合「優先理財」戶口及相關平均結餘要求，方可完全享有產品優惠\n\n## 主要不合資格簽賬\n- 信用卡轉賬/增值到指定電子賬戶（包括但不限於八達通銀包、支付寶）\n- FPS或銀行指定電子付款交易\n- 透過渣打網上理財繳費",
       "officialApplyUrl": "https://www.sc.com/hk/zh/credit-cards/cathay/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=177&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=177&a=228&sub_id1=&sub_id2=web",
       "rewardTimeline": "里數自動存入 (月結單後7個工作天)",
       "imageUrl": "/images/cards/sc-cathay-priority.png",
       "rules": [
@@ -8249,7 +8247,7 @@
       ],
       "note": "## 渣打國泰 Mastercard - 優先私人理財重點\n- 每個信用卡年度享國泰航空貴賓室禮遇：**頭等2次 + 商務8次**\n- 於商務客艙櫃檯辦理登機及享商務艙優先登機通道\n- 國泰 / HK Express 合資格簽賬低至 HK$2/里\n- 食肆、海外、網上合資格簽賬 HK$4/里；其他 HK$6/里\n\n## 銀行迎新（至2026/4/30）\n全新信用卡客戶成功申請並符合要求，發卡後首2個月累積合資格簽賬：\n- 滿 HK$5,000 → 10,000里\n- 滿 HK$40,000 → 40,000里\n- 滿 HK$110,000 → 120,000里\n\n## 經本網指定連結申請額外獎賞（MoneyHero）\n全新渣打信用卡客戶於 2026/2/27 18:00 至 2026/3/31 18:00 經本網指定連結成功申請，並於 2026/4/30 或之前成功批核，可享指定額外禮品（HK$900 Apple Store 禮品卡 / 惠康現金券 / HKTVmall電子券 或指定實物禮品），收到換領表格後7日內需提交表格。\n\n## 優先私人理財客戶要求\n- 申請人須為現有「優先私人理財」客戶，或申請此卡時同步開立優先私人理財戶口\n- 由發卡日起計第二個曆月起，需維持不少於 HK$8,000,000 每日平均總結餘，方可完全享有此卡優惠\n\n## 主要不合資格簽賬\n- 信用卡戶口轉賬/增值到指定電子賬戶（包括但不限於八達通銀包、支付寶）\n- FPS或銀行指定電子付款交易\n- 透過渣打網上理財繳費",
       "officialApplyUrl": "https://www.sc.com/hk/zh/credit-cards/cathay/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=177&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=177&a=228&sub_id1=&sub_id2=web",
       "rewardTimeline": "里數自動存入 (月結單後7個工作天)",
       "imageUrl": "/images/cards/sc-cathay-priority-private.png",
       "rules": [
@@ -8367,7 +8365,7 @@
         "繳稅"
       ],
       "officialApplyUrl": "https://www.sc.com/hk/zh/credit-cards/simply-cash-visa/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=176&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=sc-simplycash-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=176&a=228&sub_id1=&sub_id2=web&promo_id=sc-simplycash-moneyhero-20260130",
       "rewardTimeline": "現金回贈於下期賬單顯示，需手動換領 ($50倍數)",
       "imageUrl": "/images/cards/sc-simply-cash.png",
       "rules": [
@@ -8474,7 +8472,7 @@
       ],
       "note": "## 🔥 經本網指定連結申請額外獎賞（無需簽賬！）\n**優惠期：2026年1月19日下午6時至1月30日下午6時**\n\n### 🎁 獨家禮品（6選1）\n| 禮品 | 價值 |\n|:---|:---:|\n| Delsey 30\" GRENELLE SE 行李箱 | **$4,980** |\n| NESCAFÉ® Dolce Gusto® 咖啡機+6盒膠囊 | **$1,780** |\n| Marshall Emberton II 藍牙喇叭 | **$1,499** |\n| HK$800 Apple Store 禮品卡 | $800 |\n| HK$800 惠康購物現金券 | $800 |\n| HK$800 HKTVmall電子購物禮券 | $800 |\n\n### 📋 申請條件\n1. ✅ 全新渣打信用卡客戶\n2. ✅ 收到獎賞換領表格後 **7日內** 填妥及遞交\n3. ✅ 2026年2月28日或之前成功獲批\n4. ✅ 批卡後 **7日內** 填寫表格及上傳批核證明\n\n---\n\n## 📌 銀行迎新優惠（至 2026/4/15）\n發卡後首 **1個月** 內簽滿 **$3,500**：\n- **$800 現金回贈**\n\n---\n\n## 💳 回贈率（階梯制）\n| 月簽金額 | 回贈率 |\n|:---|:---:|\n| < $4,000 | **0%** ⚠️ |\n| $4,000-$14,999 | 0.56% |\n| $15,000+ | 1.2% |\n| 特約商戶 | **5%** |\n\n✅ 永久免年費 + 免外幣手續費！\n\n📅 **2026年1月22日更新**",
       "officialApplyUrl": "https://www.sc.com/hk/zh/credit-cards/smart-card/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=176&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=sc-smart-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=176&a=228&sub_id1=&sub_id2=web&promo_id=sc-smart-moneyhero-20260130",
       "rewardTimeline": "現金回贈於「360°全面賞」平台顯示，需手動換領 (最低$50)",
       "imageUrl": "/images/cards/sc-smart.png",
       "rules": [
@@ -8989,7 +8987,7 @@
       ],
       "note": "🔥 **中澳台日韓簽賬優惠**（即日起至 2026/6/30）：\n中國內地、澳門、台灣、日本、韓國實體店當地貨幣簽賬，每月累積滿 $500 享額外 **5%** 回贈！\n• 玩樂類別揀「海外」4% + 額外 5% = **9%**（扣 1% 手續費後淨 8%）\n• 每張卡每月上限 $10,000\n• ⚠️ **需入 OmyCard App 登記！**\n\n---\n\n## 🎁 迎新優惠（至2026/2/28）\n全新安信信用卡客戶（過往6個月未持有），批卡90日內簽滿合資格簽賬，四揀一：\n\n| 簽賬要求 | 迎新禮品 |\n|:---|:---|\n| $8,800 | Marshall Emberton II 便攜式藍芽喇叭 + $35 回贈 |\n| $8,800 | LG 27吋全高清IPS智能顯示器 + $35 回贈 |\n| $8,500 | $500 現金回贈 + $34 回贈 |\n| $2,000（大專生）| $200 現金回贈 + $8 回贈 |\n\n✅ 合資格簽賬包括八達通自動增值！\n\n---\n\n## 💡 玩樂類別 4 選 1（推廣期 2025/7/1-2026/6/30）\n\n| 類別 | 回贈率 | 備註 |\n|:---|:---|:---|\n| 手機支付 | 4% | Apple Pay/銀聯手機閃付/雲閃付 |\n| 旅遊 | 4% | 航空公司/酒店/旅行社 |\n| 海外 | 4% | 外幣簽賬（淨約 3%） |\n| 線上娛樂 | 4% | Netflix/Spotify/Steam 等 |\n\n⚠️ **門檻**：每月簽滿 $1,500 才享 4%\n⚠️ **上限**：每月回贈上限 $200（即首 $5,556 簽賬）\n⚠️ **選擇**：透過 OmyCard App 自選，未選擇自動選「手機支付」\n\n📌 **手機支付包括**：Apple Pay / 銀聯手機閃付 / 雲閃付（銀聯二維碼）\n📌 **線上娛樂包括**：App Store / Disney+ / Google Play / JOOX / KKBOX / MyTV SUPER / Netflix / Nintendo / Patreon / PlayStation / Spotify / Steam / Xbox / YouTube\n\n✅ 八達通自動增值計 0.4%（無上限）！\n❌ 玩樂4%不計：電子錢包充值/轉賬、分期、賭場、繳費\n⚠️ 銀聯外幣手續費 1%（2025/1/1起），海外淨回贈約 3%\n\n📅 **2026年1月7日更新**",
       "officialApplyUrl": "https://www.primecredit.com/tc/credit-card/wewa/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=180&a=228&sub_id1=pickcardrebate&sub_id2=web",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=180&a=228&sub_id1=&sub_id2=web",
       "imageUrl": "/images/cards/wewa-unionpay.png",
       "rules": [
         {
@@ -9184,7 +9182,7 @@
         "Android 手機支付（僅 iOS 支援）"
       ],
       "officialApplyUrl": "https://www.primecredit.com/tc/credit-card/wewa/",
-      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=180&a=228&sub_id1=pickcardrebate&sub_id2=web&promo_id=wewa-visa-moneyhero-20260130",
+      "applyUrl": "https://apply.creatory.moneyhero.com.hk/click?o=180&a=228&sub_id1=&sub_id2=web&promo_id=wewa-visa-moneyhero-20260130",
       "imageUrl": "/images/cards/wewa-visa-signature.png",
       "rules": [
         {
