@@ -12,7 +12,7 @@ const CreditCard2: React.FC = () => {
           <ChevronLeft size={24} />
           <span>設定</span>
         </button>
-        <h2 className="text-lg font-semibold">信用卡2</h2>
+        <h2 className="text-lg font-semibold">回贈助手</h2>
         <div className="w-16" />
       </div>
 
