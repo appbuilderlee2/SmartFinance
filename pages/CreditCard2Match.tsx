@@ -9,8 +9,8 @@ type PCRCard = { id: string; slug: string; name: string; bank?: string };
 type SwipeWhichData = { cards: SwipeWhichCard[] };
 type PCRData = { cards: PCRCard[] };
 
-const KEY_SW = 'sf_cc_match_swipewhich_v1';
-const KEY_PCR = 'sf_cc_match_pickcardrebate_v1';
+const KEY_SW = 'sf_cc_match_source_a_v1';
+const KEY_PCR = 'sf_cc_match_source_b_v1';
 
 const safeJsonParse = <T,>(raw: string | null): T | null => {
   if (!raw) return null;
@@ -39,12 +39,12 @@ const CreditCard2Match: React.FC = () => {
   });
 
   useEffect(() => {
-    fetch('./data/swipewhich_rewards_v1_5.json')
+    fetch('./data/rebate_source_a_v1.json')
       .then((r) => r.json())
       .then((j) => setSwData(j))
       .catch(() => setSwData(null));
 
-    fetch('./data/pickcardrebate_cards_v1.json')
+    fetch('./data/rebate_source_b_v1.json')
       .then((r) => r.json())
       .then((j) => setPcrData(j))
       .catch(() => setPcrData(null));
@@ -117,7 +117,7 @@ const CreditCard2Match: React.FC = () => {
 
       <div className="p-4 space-y-3">
         <div className="sf-panel rounded-xl p-3 text-xs text-gray-500">
-          將你本地信用卡配對到 SwipeWhich / PickCardRebate 卡庫，之後 A/B 頁面就可以準確「只顯示我有的信用卡」。
+          將你本地信用卡配對到 來源A / 來源B 卡庫，之後 A/B 頁面就可以準確「只顯示我有的信用卡」。
         </div>
 
         <div className="sf-panel rounded-xl p-3 flex items-center gap-2">
@@ -150,7 +150,7 @@ const CreditCard2Match: React.FC = () => {
 
               <div className="grid grid-cols-1 gap-2">
                 <div>
-                  <div className="text-xs text-gray-500 mb-1">SwipeWhich（A）</div>
+                  <div className="text-xs text-gray-500 mb-1">來源A（A）</div>
                   <select
                     value={mapSW[lc.id] || ''}
                     onChange={(e) => setMapSW((prev) => ({ ...prev, [lc.id]: e.target.value }))}
@@ -166,7 +166,7 @@ const CreditCard2Match: React.FC = () => {
                 </div>
 
                 <div>
-                  <div className="text-xs text-gray-500 mb-1">PickCardRebate（B）</div>
+                  <div className="text-xs text-gray-500 mb-1">來源B（B）</div>
                   <select
                     value={mapPCR[lc.id] || ''}
                     onChange={(e) => setMapPCR((prev) => ({ ...prev, [lc.id]: e.target.value }))}

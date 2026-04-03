@@ -30,17 +30,17 @@ const CreditCard2: React.FC = () => {
           >
             <div>
               <div className="text-white font-medium">信用卡配對</div>
-              <div className="text-xs text-gray-500">將本地信用卡配對到 SwipeWhich / PickCardRebate</div>
+              <div className="text-xs text-gray-500">將本地信用卡配對到 來源A / 來源B</div>
             </div>
             <ChevronRight className="text-gray-500" size={18} />
           </div>
 
           <div
             className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
-            onClick={() => navigate('/settings/creditcards2/swipewhich')}
+            onClick={() => navigate('/settings/creditcards2/a')}
           >
             <div>
-              <div className="text-white font-medium">A：場景比較（SwipeWhich）</div>
+              <div className="text-white font-medium">A：場景比較（來源A）</div>
               <div className="text-xs text-gray-500">按場景查看各卡回贈率/上限提示</div>
             </div>
             <ChevronRight className="text-gray-500" size={18} />
@@ -48,10 +48,10 @@ const CreditCard2: React.FC = () => {
 
           <div
             className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
-            onClick={() => navigate('/settings/creditcards2/pickcardrebate')}
+            onClick={() => navigate('/settings/creditcards2/b')}
           >
             <div>
-              <div className="text-white font-medium">B：回贈規則庫（PickCardRebate）</div>
+              <div className="text-white font-medium">B：回贈規則庫（來源B）</div>
               <div className="text-xs text-gray-500">卡片目錄 + 規則（merchant/category/cap/日期）</div>
             </div>
             <ChevronRight className="text-gray-500" size={18} />

@@ -20,7 +20,7 @@ type SwipeWhichData = {
   cards: SwipeWhichCard[];
 };
 
-const KEY_SW = 'sf_cc_match_swipewhich_v1';
+const KEY_SW = 'sf_cc_match_source_a_v1';
 
 const CreditCard2SwipeWhich: React.FC = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const CreditCard2SwipeWhich: React.FC = () => {
   const [onlyMine, setOnlyMine] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch('./data/swipewhich_rewards_v1_5.json')
+    fetch('./data/rebate_source_a_v1.json')
       .then((r) => r.json())
       .then((j) => {
         setData(j);
@@ -124,7 +124,7 @@ const CreditCard2SwipeWhich: React.FC = () => {
           )}
 
           <div className="text-[11px] text-gray-500">
-            資料：SwipeWhich（本機快照 v1.5）
+            資料：來源A（本機快照 v1）
           </div>
         </div>
 

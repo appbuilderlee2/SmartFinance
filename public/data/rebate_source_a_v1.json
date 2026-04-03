@@ -1,10 +1,8 @@
 {
   "source": {
-    "site": "swipewhich.com",
-    "bundle": "https://www.swipewhich.com/assets/index-KqUNQ6nc.js",
     "fetchedAt": "2026-04-02T15:38:39Z"
   },
-  "format": "smartfinance-rewards-v1.5",
+  "format": "rebate-source",
   "scenarios": [
     "dining",
     "flightDirect",
