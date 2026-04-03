@@ -57,8 +57,10 @@ flowchart LR
 ## 工程 / 品質保證
 - GitHub Actions CI：每次 push / PR 會自動跑 `npm ci` + `npm run build`（防止壞 build 入 main）
 - localStorage schema version：`smartfinance_schema_version`（為將來資料結構升級/migration 做準備）
-- App 版本號：設定頁會顯示版本（取自 `package.json` version；目前 **1.1.2**）
-- 日期處理：已統一使用本地 `YYYY-MM-DD`（避免 UTC offset 造成日期偏移）
+- App 版本號：設定頁會顯示版本（取自 `package.json` version；請確保**每次改動都 bump version**）
+- 日期處理：
+  - 儲存：交易日期以 ISO 字串（UTC）保存
+  - 顯示/分組/排序：一律用 `toLocalYMD(new Date(tx.date))`，**唔好用** `split('T')[0]`，亦避免 `new Date('YYYY-MM-DD')`（會因 UTC 解析導致日期偏移）
 - 首次使用：只會首次導到 `/welcome`，之後預設進入 Dashboard
 
 ## 信用卡週期 / 提醒（本機）
