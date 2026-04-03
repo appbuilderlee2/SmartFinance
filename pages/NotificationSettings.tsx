@@ -321,12 +321,12 @@ const NotificationSettings: React.FC = () => {
                               <div className="text-white font-semibold">{open.length}</div>
                            </div>
                            <div className="bg-background/50 rounded-lg p-2">
-                              <div className="text-gray-500">今日</div>
-                              <div className="text-white font-semibold">{dueToday}</div>
+                              <div className={dueToday > 0 ? 'text-red-400 font-semibold' : 'text-gray-500'}>今日</div>
+                              <div className={dueToday > 0 ? 'text-red-400 font-bold text-base' : 'text-white font-semibold'}>{dueToday}</div>
                            </div>
                            <div className="bg-background/50 rounded-lg p-2">
-                              <div className="text-gray-500">7日內</div>
-                              <div className="text-white font-semibold">{within7}</div>
+                              <div className={within7 > 0 ? 'text-red-400 font-semibold' : 'text-gray-500'}>7日內</div>
+                              <div className={within7 > 0 ? 'text-red-400 font-bold text-base' : 'text-white font-semibold'}>{within7}</div>
                            </div>
                         </div>
                      );
