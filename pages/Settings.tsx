@@ -464,10 +464,6 @@ const Settings: React.FC = () => {
                   <span className="text-white">信用卡週期</span>
                   <ChevronRight className="text-gray-500" size={18} />
                </div>
-               <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors" onClick={() => navigate('/settings/creditcards2')}>
-                  <span className="text-white">信用卡2</span>
-                  <ChevronRight className="text-gray-500" size={18} />
-               </div>
 
                {/* Credit card cycle preview (current month only) — placed right under credit card cycles */}
                <div className="bg-background px-4 py-3 space-y-2">
@@ -508,13 +504,23 @@ const Settings: React.FC = () => {
                </div>
 
                {rewardsUnlocked && (
-                  <div
-                     className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
-                     onClick={() => window.open('https://www.swipewhich.com', '_blank', 'noopener,noreferrer')}
-                  >
-                     <span className="text-white">信用卡回贈</span>
-                     <ChevronRight className="text-gray-500" size={18} />
-                  </div>
+                  <>
+                     <div
+                        className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
+                        onClick={() => window.open('https://www.swipewhich.com', '_blank', 'noopener,noreferrer')}
+                     >
+                        <span className="text-white">信用卡回贈</span>
+                        <ChevronRight className="text-gray-500" size={18} />
+                     </div>
+
+                     <div
+                        className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
+                        onClick={() => navigate('/settings/creditcards2')}
+                     >
+                        <span className="text-white">回贈助手</span>
+                        <ChevronRight className="text-gray-500" size={18} />
+                     </div>
+                  </>
                )}
 
                <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors" onClick={() => navigate('/subscriptions', { state: { from: '/settings' } })}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import { useData } from '../contexts/DataContext';
 
 type SwipeWhichCard = {
   id: string;
@@ -21,8 +22,10 @@ type SwipeWhichData = {
 
 const CreditCard2SwipeWhich: React.FC = () => {
   const navigate = useNavigate();
+  const { creditCards } = useData();
   const [data, setData] = useState<SwipeWhichData | null>(null);
   const [scenario, setScenario] = useState<string>('onlineHKD');
+  const [onlyMine, setOnlyMine] = useState<boolean>(true);
 
   useEffect(() => {
     fetch('./data/swipewhich_rewards_v1_5.json')
@@ -38,10 +41,28 @@ const CreditCard2SwipeWhich: React.FC = () => {
 
   const rows = useMemo(() => {
     if (!data) return [];
-    const list = (data.cards || []).map((c) => {
-      const r = typeof c.bonusRates?.[scenario] === 'number' ? c.bonusRates?.[scenario] : (typeof c.baseReturn === 'number' ? c.baseReturn : null);
-      return { ...c, rate: r };
-    });
+
+    const normalize = (s: string) => (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+
+    const myNames = (creditCards || []).map((c: any) => normalize(c.name || '')).filter(Boolean);
+
+    const isMine = (cardName: string) => {
+      const n = normalize(cardName || '');
+      if (!n) return false;
+      return myNames.some((m) => m && (n.includes(m) || m.includes(n)));
+    };
+
+    const list = (data.cards || [])
+      .filter((c) => (onlyMine ? isMine(c.name) : true))
+      .map((c) => {
+        const r =
+          typeof c.bonusRates?.[scenario] === 'number'
+            ? c.bonusRates?.[scenario]
+            : typeof c.baseReturn === 'number'
+              ? c.baseReturn
+              : null;
+        return { ...c, rate: r };
+      });
 
     // Sort by rate desc, null last
     list.sort((a: any, b: any) => {
@@ -50,7 +71,7 @@ const CreditCard2SwipeWhich: React.FC = () => {
       return rb - ra;
     });
     return list;
-  }, [data, scenario]);
+  }, [data, scenario, onlyMine, creditCards]);
 
   return (
     <div className="min-h-screen bg-background pt-safe-top pb-24">
@@ -77,6 +98,16 @@ const CreditCard2SwipeWhich: React.FC = () => {
               </option>
             ))}
           </select>
+
+          <label className="flex items-center gap-2 text-xs text-gray-300">
+            <input
+              type="checkbox"
+              checked={onlyMine}
+              onChange={(e) => setOnlyMine(e.target.checked)}
+            />
+            只顯示我擁有的信用卡
+          </label>
+
           <div className="text-[11px] text-gray-500">
             資料：SwipeWhich（本機快照 v1.5）
           </div>
