@@ -2,21 +2,22 @@ import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
 
-// Keep only the true first-screen pages synchronous.
+// Keep the bottom-nav core routes synchronous to avoid noticeable pauses when switching tabs.
+// These are the pages users expect to be instant: 記帳 / 月曆 / 記錄 / 設定.
 import Welcome from './pages/Welcome';
 import Dashboard from './pages/Dashboard';
+import AddTransaction from './pages/AddTransaction';
+import Calendar from './pages/Calendar';
+import Records from './pages/Records';
+import Settings from './pages/Settings';
 
-// Lazy-load everything else to shrink initial bundle.
-const AddTransaction = lazy(() => import('./pages/AddTransaction'));
+// Lazy-load everything else to keep the initial open reasonably fast.
 const TransactionDetail = lazy(() => import('./pages/TransactionDetail'));
 const TransactionView = lazy(() => import('./pages/TransactionView'));
-const Records = lazy(() => import('./pages/Records'));
-const Settings = lazy(() => import('./pages/Settings'));
 const CategoryManager = lazy(() => import('./pages/CategoryManager'));
 const BudgetSettings = lazy(() => import('./pages/BudgetSettings'));
 const Subscriptions = lazy(() => import('./pages/Subscriptions'));
 const NotificationSettings = lazy(() => import('./pages/NotificationSettings'));
-const Calendar = lazy(() => import('./pages/Calendar'));
 const CreditCardManager = lazy(() => import('./pages/CreditCardManager'));
 const CreditCardCycles = lazy(() => import('./pages/CreditCardCycles'));
 const AddSubscriptionPage = lazy(() => import('./pages/AddSubscription'));
