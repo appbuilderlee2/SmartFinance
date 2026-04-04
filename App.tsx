@@ -29,7 +29,6 @@ const Reports = lazy(() => import('./pages/Reports'));
 const CreditCard2 = lazy(() => import('./pages/CreditCard2'));
 const CreditCard2Match = lazy(() => import('./pages/CreditCard2Match'));
 const CreditCard2SwipeWhich = lazy(() => import('./pages/CreditCard2SwipeWhich'));
-const CreditCard2PickCardRebate = lazy(() => import('./pages/CreditCard2PickCardRebate'));
 
 // Layout
 import Layout from './components/Layout';
@@ -205,14 +204,6 @@ const App: React.FC = () => {
             element={
               <Suspense fallback={<Layout hideNav><Loading /></Layout>}>
                 <Layout hideNav><CreditCard2SwipeWhich /></Layout>
-              </Suspense>
-            }
-          />
-          <Route
-            path="/settings/creditcards2/b"
-            element={
-              <Suspense fallback={<Layout hideNav><Loading /></Layout>}>
-                <Layout hideNav><CreditCard2PickCardRebate /></Layout>
               </Suspense>
             }
           />

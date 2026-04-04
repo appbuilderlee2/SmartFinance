@@ -46,16 +46,6 @@ const CreditCard2: React.FC = () => {
             <ChevronRight className="text-gray-500" size={18} />
           </div>
 
-          <div
-            className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface/80 active:bg-gray-700/50 transition-colors"
-            onClick={() => navigate('/settings/creditcards2/b')}
-          >
-            <div>
-              <div className="text-white font-medium">B：回贈規則庫（來源B）</div>
-              <div className="text-xs text-gray-500">卡片目錄 + 規則（merchant/category/cap/日期）</div>
-            </div>
-            <ChevronRight className="text-gray-500" size={18} />
-          </div>
         </div>
       </div>
     </div>
