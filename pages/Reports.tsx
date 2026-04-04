@@ -13,6 +13,10 @@ type RangePreset = 'this-month' | 'this-year' | 'all' | 'custom';
 const Reports: React.FC = () => {
   const navigate = useNavigate();
   const { transactions, categories, currency, budgets } = useData();
+
+  const categoryById = useMemo(() => {
+    return new Map(categories.map(c => [c.id, c] as const));
+  }, [categories]);
   const [selectedCurrency, setSelectedCurrency] = useState<Currency>(currency);
 
   const availableCurrencies = useMemo(() => {
@@ -48,31 +52,6 @@ const Reports: React.FC = () => {
     return Array.from(set);
   }, [transactions]);
 
-  const filteredTransactions = useMemo(() => {
-    return transactions.filter(tx => {
-      const txCurrency = (tx.currency as Currency) || currency;
-      if (txCurrency !== selectedCurrency) return false;
-      const date = parseDate(tx.date);
-      if (!date) return false;
-      const startOk = range.start ? new Date(range.start) <= date : true;
-      const endOk = range.end ? date <= new Date(range.end) : true;
-      return startOk && endOk;
-    }).filter(tx => {
-      if (selectedCategories.length && !selectedCategories.includes(tx.categoryId)) return false;
-      if (selectedTags.length && !tx.tags?.some(t => selectedTags.includes(t))) return false;
-      const amt = tx.amount;
-      if (minAmount && amt < Number(minAmount)) return false;
-      if (maxAmount && amt > Number(maxAmount)) return false;
-      if (keyword.trim()) {
-        const k = keyword.trim().toLowerCase();
-        const noteMatch = tx.note?.toLowerCase().includes(k);
-        const tagMatch = tx.tags?.some(t => t.toLowerCase().includes(k));
-        if (!noteMatch && !tagMatch) return false;
-      }
-      return true;
-    });
-  }, [transactions, range.start, range.end, selectedCategories, selectedTags, minAmount, maxAmount, keyword, currency, selectedCurrency]);
-
   const hasOtherCurrencies = useMemo(() => {
     return transactions.some((t) => {
       const txCurrency = (t.currency as Currency) || currency;
@@ -80,19 +59,159 @@ const Reports: React.FC = () => {
     });
   }, [transactions, currency, selectedCurrency]);
 
-  const totals = useMemo(() => {
-    return filteredTransactions.reduce(
-      (acc, tx) => {
-        if (tx.type === TransactionType.EXPENSE) acc.expense += tx.amount;
-        if (tx.type === TransactionType.INCOME) acc.income += tx.amount;
-        const cat = categories.find(c => c.id === tx.categoryId);
-        const key = cat?.name || '未分類';
-        acc.byCategory[key] = (acc.byCategory[key] || 0) + tx.amount * (tx.type === TransactionType.EXPENSE ? -1 : 1);
-        return acc;
-      },
-      { income: 0, expense: 0, byCategory: {} as Record<string, number> }
-    );
-  }, [filteredTransactions, categories]);
+  const reportAgg = useMemo(() => {
+    const startDate = range.start ? new Date(range.start) : null;
+    const endDate = range.end ? new Date(range.end) : null;
+    const keywordLower = keyword.trim().toLowerCase();
+    const minAmt = minAmount ? Number(minAmount) : null;
+    const maxAmt = maxAmount ? Number(maxAmount) : null;
+
+    const byCategory: Record<string, number> = {};
+    const topExpenseByCategory = new Map<string, number>();
+    const seriesBucket = new Map<string, { income: number; expense: number }>();
+
+    let income = 0;
+    let expense = 0;
+
+    let thisMonthExpense = 0;
+    let thisMonthIncome = 0;
+    let lastMonthExpense = 0;
+    let thisYearExpense = 0;
+    let lastYearExpense = 0;
+
+    let minTime: number | null = null;
+    let maxTime: number | null = null;
+
+    const now = new Date();
+    const nowY = now.getFullYear();
+    const nowM = now.getMonth();
+    const prev = new Date(nowY, nowM - 1, 1);
+    const prevY = prev.getFullYear();
+    const prevM = prev.getMonth();
+
+    const currentYear = nowY;
+
+    const filtered: typeof transactions = [];
+
+    for (const tx of transactions) {
+      const txCurrency = (tx.currency as Currency) || currency;
+      if (txCurrency !== selectedCurrency) continue;
+
+      const date = parseDate(tx.date);
+      if (!date) continue;
+      if (startDate && date < startDate) continue;
+      if (endDate && date > endDate) continue;
+
+      if (selectedCategories.length && !selectedCategories.includes(tx.categoryId)) continue;
+      if (selectedTags.length && !tx.tags?.some(t => selectedTags.includes(t))) continue;
+
+      const amt = tx.amount;
+      if (minAmt !== null && amt < minAmt) continue;
+      if (maxAmt !== null && amt > maxAmt) continue;
+
+      if (keywordLower) {
+        const noteMatch = tx.note?.toLowerCase().includes(keywordLower);
+        const tagMatch = tx.tags?.some(t => t.toLowerCase().includes(keywordLower));
+        if (!noteMatch && !tagMatch) continue;
+      }
+
+      filtered.push(tx);
+
+      const time = date.getTime();
+      minTime = minTime === null ? time : Math.min(minTime, time);
+      maxTime = maxTime === null ? time : Math.max(maxTime, time);
+
+      if (tx.type === TransactionType.EXPENSE) expense += amt;
+      if (tx.type === TransactionType.INCOME) income += amt;
+
+      const catName = categoryById.get(tx.categoryId)?.name || '未分類';
+      byCategory[catName] = (byCategory[catName] || 0) + amt * (tx.type === TransactionType.EXPENSE ? -1 : 1);
+
+      if (tx.type === TransactionType.EXPENSE) {
+        topExpenseByCategory.set(catName, (topExpenseByCategory.get(catName) || 0) + amt);
+      }
+
+      // series bucket
+      let key = '';
+      if (periodView === 'month') {
+        key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      } else if (periodView === 'quarter') {
+        const q = Math.floor(date.getMonth() / 3) + 1;
+        key = `${date.getFullYear()}-Q${q}`;
+      } else {
+        key = `${date.getFullYear()}`;
+      }
+      const current = seriesBucket.get(key) || { income: 0, expense: 0 };
+      if (tx.type === TransactionType.EXPENSE) current.expense += amt;
+      else current.income += amt;
+      seriesBucket.set(key, current);
+
+      // month/year KPIs
+      const y = date.getFullYear();
+      const m = date.getMonth();
+      if (y == nowY && m == nowM) {
+        if (tx.type === TransactionType.EXPENSE) thisMonthExpense += amt;
+        else thisMonthIncome += amt;
+      }
+      if (y == prevY && m == prevM && tx.type === TransactionType.EXPENSE) {
+        lastMonthExpense += amt;
+      }
+      if (y == currentYear && tx.type === TransactionType.EXPENSE) thisYearExpense += amt;
+      if (y == currentYear - 1 && tx.type === TransactionType.EXPENSE) lastYearExpense += amt;
+    }
+
+    const monthsCount = (() => {
+      if (!filtered.length || minTime === null || maxTime === null) return 1;
+      const min = new Date(minTime);
+      const max = new Date(maxTime);
+      const diffMonths = (max.getFullYear() - min.getFullYear()) * 12 + (max.getMonth() - min.getMonth()) + 1;
+      return Math.max(1, diffMonths);
+    })();
+
+    const sortedKeys = Array.from(seriesBucket.keys()).sort((a, b) => (a > b ? 1 : -1));
+    const seriesByPeriod = sortedKeys.map(k => ({ key: k, ...seriesBucket.get(k)! }));
+
+    const expenseTop5 = Array.from(topExpenseByCategory.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+
+    return {
+      filteredTransactions: filtered,
+      totals: { income, expense, byCategory },
+      seriesByPeriod,
+      expenseTop5,
+      monthsCount,
+      thisMonthExpense,
+      thisMonthIncome,
+      lastMonthExpense,
+      thisYearExpense,
+      lastYearExpense,
+    };
+  }, [
+    transactions,
+    currency,
+    selectedCurrency,
+    range.start,
+    range.end,
+    selectedCategories,
+    selectedTags,
+    minAmount,
+    maxAmount,
+    keyword,
+    periodView,
+    categoryById,
+  ]);
+
+  const filteredTransactions = reportAgg.filteredTransactions;
+  const totals = reportAgg.totals;
+  const seriesByPeriod = reportAgg.seriesByPeriod;
+  const expenseTop5 = reportAgg.expenseTop5;
+  const monthsCount = reportAgg.monthsCount;
+  const thisMonthExpense = reportAgg.thisMonthExpense;
+  const thisMonthIncome = reportAgg.thisMonthIncome;
+  const lastMonthExpense = reportAgg.lastMonthExpense;
+  const thisYearExpense = reportAgg.thisYearExpense;
+  const lastYearExpense = reportAgg.lastYearExpense;
 
   const pieData = useMemo(() => {
     const entries = Object.entries(totals.byCategory).filter(([, v]) => v !== 0);
@@ -144,88 +263,12 @@ const Reports: React.FC = () => {
     applyPreset(preset);
   }, [preset]);
 
-  const seriesByPeriod = useMemo(() => {
-    const bucket = new Map<string, { income: number; expense: number }>();
-    filteredTransactions.forEach(tx => {
-      const d = new Date(tx.date);
-      let key = '';
-      if (periodView === 'month') {
-        key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-      } else if (periodView === 'quarter') {
-        const q = Math.floor(d.getMonth() / 3) + 1;
-        key = `${d.getFullYear()}-Q${q}`;
-      } else {
-        key = `${d.getFullYear()}`;
-      }
-      const current = bucket.get(key) || { income: 0, expense: 0 };
-      if (tx.type === TransactionType.EXPENSE) current.expense += tx.amount;
-      else current.income += tx.amount;
-      bucket.set(key, current);
-    });
-    const sortedKeys = Array.from(bucket.keys()).sort((a, b) => a > b ? 1 : -1);
-    return sortedKeys.map(k => ({ key: k, ...bucket.get(k)! }));
-  }, [filteredTransactions, periodView]);
-
-  const expenseTop5 = useMemo(() => {
-    const map = new Map<string, number>();
-    filteredTransactions.forEach(tx => {
-      if (tx.type !== TransactionType.EXPENSE) return;
-      const name = categories.find(c => c.id === tx.categoryId)?.name || '未分類';
-      map.set(name, (map.get(name) || 0) + tx.amount);
-    });
-    return Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, 5);
-  }, [filteredTransactions, categories]);
-
   const net = totals.income - totals.expense;
-
-  const monthsCount = useMemo(() => {
-    if (!filteredTransactions.length) return 1;
-    const dates = filteredTransactions.map(t => new Date(t.date).getTime());
-    const min = Math.min(...dates);
-    const max = Math.max(...dates);
-    const diffMonths = (new Date(max).getFullYear() - new Date(min).getFullYear()) * 12 +
-      (new Date(max).getMonth() - new Date(min).getMonth()) + 1;
-    return Math.max(1, diffMonths);
-  }, [filteredTransactions]);
 
   const monthlyAvg = totals.expense / monthsCount;
 
-  const thisMonthExpense = useMemo(() => {
-    const now = new Date();
-    return filteredTransactions.filter(tx => {
-      const d = new Date(tx.date);
-      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && tx.type === TransactionType.EXPENSE;
-    }).reduce((s, t) => s + t.amount, 0);
-  }, [filteredTransactions]);
-
-  const thisMonthIncome = useMemo(() => {
-    const now = new Date();
-    return filteredTransactions.filter(tx => {
-      const d = new Date(tx.date);
-      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth() && tx.type === TransactionType.INCOME;
-    }).reduce((s, t) => s + t.amount, 0);
-  }, [filteredTransactions]);
-
-  const lastMonthExpense = useMemo(() => {
-    const now = new Date();
-    const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    return filteredTransactions.filter(tx => {
-      const d = new Date(tx.date);
-      return d.getFullYear() === prev.getFullYear() && d.getMonth() === prev.getMonth() && tx.type === TransactionType.EXPENSE;
-    }).reduce((s, t) => s + t.amount, 0);
-  }, [filteredTransactions]);
-
   const mom = lastMonthExpense ? ((thisMonthExpense - lastMonthExpense) / lastMonthExpense) * 100 : null;
 
-  const currentYear = new Date().getFullYear();
-  const thisYearExpense = filteredTransactions.filter(tx => {
-    const d = new Date(tx.date);
-    return d.getFullYear() === currentYear && tx.type === TransactionType.EXPENSE;
-  }).reduce((s, t) => s + t.amount, 0);
-  const lastYearExpense = filteredTransactions.filter(tx => {
-    const d = new Date(tx.date);
-    return d.getFullYear() === currentYear - 1 && tx.type === TransactionType.EXPENSE;
-  }).reduce((s, t) => s + t.amount, 0);
   const yoy = lastYearExpense ? ((thisYearExpense - lastYearExpense) / lastYearExpense) * 100 : null;
 
   const budgetTotal = useMemo(() => budgets.reduce((sum, b) => sum + (b.limit || 0), 0), [budgets]);
@@ -234,7 +277,7 @@ const Reports: React.FC = () => {
   const exportCSV = () => {
     const headers = ['Date', 'Type', 'Category', 'Amount', 'Note'];
     const rows = filteredTransactions.map(tx => {
-      const cat = categories.find(c => c.id === tx.categoryId)?.name || '未分類';
+      const cat = categoryById.get(tx.categoryId)?.name || '未分類';
       const date = toLocalYMD(new Date(tx.date));
       const safeNote = `"${(tx.note || '').replace(/"/g, '""')}"`;
       return [date, tx.type, cat, tx.amount, safeNote].join(',');
