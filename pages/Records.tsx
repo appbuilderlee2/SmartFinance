@@ -11,6 +11,10 @@ import { parseLocalYMD, toLocalYMD } from '../utils/date';
 const Records: React.FC = () => {
   const navigate = useNavigate();
   const { transactions, categories, currency } = useData();
+
+  const categoryById = useMemo(() => {
+    return new Map(categories.map(c => [c.id, c] as const));
+  }, [categories]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const [showFilters, setShowFilters] = useState(false);
@@ -178,7 +182,7 @@ const Records: React.FC = () => {
               <h3 className="text-gray-500 text-sm mb-2 ml-1">{date}</h3>
               <div className="sf-panel overflow-hidden divide-y sf-divider">
                 {grouped[date].map(tx => {
-                  const category = categories.find(c => c.id === tx.categoryId);
+                  const category = categoryById.get(tx.categoryId);
                   const isExpense = tx.type === TransactionType.EXPENSE;
                   return (
                     <div

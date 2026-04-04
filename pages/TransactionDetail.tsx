@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Camera, X, Tag } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
@@ -12,6 +12,10 @@ const TransactionDetail: React.FC = () => {
    const { id } = useParams();
    const navigate = useNavigate();
    const { transactions, categories, updateTransaction, currency } = useData();
+
+   const categoryById = useMemo(() => {
+      return new Map(categories.map(c => [c.id, c] as const));
+   }, [categories]);
    const fileInputRef = useRef<HTMLInputElement>(null);
 
    const tx = transactions.find(t => t.id === id);
@@ -29,7 +33,7 @@ const TransactionDetail: React.FC = () => {
 
    if (!tx) return <div className="pt-safe-top p-4 text-white">Not found</div>;
 
-   const currentCategory = categories.find(c => c.id === selectedCategory);
+   const currentCategory = categoryById.get(selectedCategory);
    const transactionType = currentCategory?.type || tx.type;
 
    const handleSave = () => {

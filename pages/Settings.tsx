@@ -12,6 +12,10 @@ import { getCurrentYearMonth, createOpenCycle } from '../utils/creditCardCycles'
 const Settings: React.FC = () => {
    const navigate = useNavigate();
    const { resetData, transactions, categories, budgets, subscriptions, currency, setCurrency, themeColor, setThemeColor, creditCards } = useData();
+
+   const categoryById = useMemo(() => {
+      return new Map(categories.map(c => [c.id, c] as const));
+   }, [categories]);
    const fileInputRef = useRef<HTMLInputElement>(null);
    const csvInputRef = useRef<HTMLInputElement>(null);
 
@@ -60,7 +64,7 @@ const Settings: React.FC = () => {
       const defaultCurrencyCode = currency;
 
       const txRows = transactions.map(tx => {
-         const category = categories.find(c => c.id === tx.categoryId);
+         const category = categoryById.get(tx.categoryId);
          const tags = tx.tags ? tx.tags.join(';') : '';
          const dateStr = new Date(tx.date).toISOString();
          const safeNote = `"${(tx.note || '').replace(/"/g, '""')}"`;
@@ -96,7 +100,7 @@ const Settings: React.FC = () => {
       });
 
       const budgetRows = budgets.map(b => {
-         const category = categories.find(c => c.id === b.categoryId);
+         const category = categoryById.get(b.categoryId);
          return [
             'budget',
             `budget-${b.categoryId}`,
@@ -415,7 +419,9 @@ const Settings: React.FC = () => {
                     if (currencyIdx >= 0 && cols[currencyIdx]) importedCurrency = cols[currencyIdx];
                     if (themeIdx >= 0 && cols[themeIdx]) importedTheme = cols[themeIdx];
                   } else {
-                    const catId = catIdIdx >= 0 ? cols[catIdIdx] : categories.find(c => c.name === cols[catNameIdx])?.id || categories[0]?.id || '';
+                    const catId = catIdIdx >= 0
+                      ? cols[catIdIdx]
+                      : categories.find(c => c.name === cols[catNameIdx])?.id || categories[0]?.id || '';
                     const parsedCurrency = currencyIdx >= 0 ? parseCurrency(cols[currencyIdx]) : null;
                     importedTx.push({
                       id: cols[idIdx] || makeId('tx'),

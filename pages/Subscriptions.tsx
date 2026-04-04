@@ -10,6 +10,10 @@ const Subscriptions: React.FC = () => {
    const navigate = useNavigate();
    const location = useLocation();
    const { subscriptions, currency, categories } = useData();
+
+   const categoryById = useMemo(() => {
+      return new Map(categories.map(c => [c.id, c] as const));
+   }, [categories]);
    const [filterCategory, setFilterCategory] = useState<string>('all');
    const fromPath = (location.state as any)?.from || '/settings';
 
@@ -93,7 +97,7 @@ const Subscriptions: React.FC = () => {
                   <div className="text-center text-gray-500 py-10">尚無訂閱</div>
                ) : (
                   filteredSubs.map(sub => {
-                     const catName = categories.find(c => c.id === sub.categoryId)?.name || '未分類';
+                     const catName = categoryById.get(sub.categoryId || '')?.name || '未分類';
                      const daysLeft = sub.nextBillingDate
                         ? Math.ceil((new Date(sub.nextBillingDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
                         : null;

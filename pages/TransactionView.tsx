@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronLeft, Trash2, Edit2 } from 'lucide-react';
 import { Icon } from '../components/Icon';
@@ -12,6 +12,10 @@ const TransactionView: React.FC = () => {
   const { id } = useParams();
   const { transactions, categories, deleteTransaction, currency } = useData();
 
+  const categoryById = useMemo(() => {
+    return new Map(categories.map(c => [c.id, c] as const));
+  }, [categories]);
+
   // Find transaction from dynamic state
   const transaction = transactions.find(t => t.id === id);
 
@@ -19,7 +23,7 @@ const TransactionView: React.FC = () => {
     return <div className="text-white p-10 pt-safe-top">Transaction Not Found</div>;
   }
 
-  const category = categories.find(c => c.id === transaction.categoryId);
+  const category = categoryById.get(transaction.categoryId);
   const txCurrency = (transaction.currency as Currency) || currency;
 
   const isExpense = transaction.type === TransactionType.EXPENSE;

@@ -11,6 +11,10 @@ type PeriodMode = 'month' | 'year';
 const Dashboard: React.FC = () => {
   const { transactions, categories, budgets, currency } = useData();
 
+  const categoryById = useMemo(() => {
+    return new Map(categories.map(c => [c.id, c] as const));
+  }, [categories]);
+
   // Year / Month selectors (default to current)
   const now = new Date();
   const [selectedYear, setSelectedYear] = useState(now.getFullYear());
@@ -68,14 +72,14 @@ const Dashboard: React.FC = () => {
     });
 
     return Array.from(map.entries()).map(([catId, val]) => {
-      const cat = categories.find(c => c.id === catId);
+      const cat = categoryById.get(catId);
       return {
         name: cat?.name || 'Unknown',
         value: val,
         color: cat?.color.replace('bg-', 'text-').replace('text-', '#') || '#8884d8' // Hacky color mapping for demo
       };
     }).sort((a, b) => b.value - a.value).slice(0, 5); // Top 5
-  }, [transactions, categories, selectedMonth, selectedYear, currency, selectedCurrency, periodMode]);
+  }, [transactions, categoryById, selectedMonth, selectedYear, currency, selectedCurrency, periodMode]);
 
   // Helper to map Tailwind colors to Hex for Recharts
   const getColorHex = (tailwindClass: string) => {
@@ -92,9 +96,13 @@ const Dashboard: React.FC = () => {
     return '#64748b';
   };
 
+  const categoryByName = useMemo(() => {
+    return new Map(categories.map(c => [c.name, c] as const));
+  }, [categories]);
+
   const finalPieData = pieData.map(p => {
     // Find category to get original tailwind class
-    const cat = categories.find(c => c.name === p.name);
+    const cat = categoryByName.get(p.name);
     return { ...p, color: getColorHex(cat?.color || '') };
   });
 

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
@@ -9,6 +9,10 @@ import { getCurrencySymbol } from '../utils/currency';
 const BudgetSettings: React.FC = () => {
   const navigate = useNavigate();
   const { budgets, categories, updateBudget, currency } = useData();
+
+  const categoryById = useMemo(() => {
+    return new Map(categories.map(c => [c.id, c] as const));
+  }, [categories]);
 
   const totalBudget = budgets.reduce((acc, b) => acc + b.limit, 0);
   const totalSpent = budgets.reduce((acc, b) => acc + b.spent, 0);
@@ -61,7 +65,7 @@ const BudgetSettings: React.FC = () => {
             </div>
           )}
           {budgets.map((budget) => {
-            const cat = categories.find(c => c.id === budget.categoryId);
+            const cat = categoryById.get(budget.categoryId);
             if (!cat) return null;
 
             // Avoid division by zero
