@@ -18,7 +18,8 @@ import NotificationSettings from './pages/NotificationSettings';
 import Calendar from './pages/Calendar';
 import CreditCardManager from './pages/CreditCardManager';
 import CreditCardCycles from './pages/CreditCardCycles';
-import Reports from './pages/Reports';
+// Reports is heavy (recharts). Lazy-load to reduce initial bundle.
+const Reports = lazy(() => import('./pages/Reports'));
 import AddSubscriptionPage from './pages/AddSubscription';
 
 // Lazy pages (non-core / hidden behind Easter egg)
@@ -129,7 +130,14 @@ const App: React.FC = () => {
               </Suspense>
             }
           />
-          <Route path="/reports" element={<Layout><Reports /></Layout>} />
+          <Route
+            path="/reports"
+            element={
+              <Suspense fallback={<Layout><div className="p-4 text-gray-400">載入中…</div></Layout>}>
+                <Layout><Reports /></Layout>
+              </Suspense>
+            }
+          />
           <Route path="/subscriptions" element={<Layout hideNav><Subscriptions /></Layout>} />
           <Route path="/add-subscription" element={<Layout hideNav><AddSubscriptionPage /></Layout>} />
           <Route path="/subscriptions/:id/edit" element={<Layout hideNav><AddSubscriptionPage /></Layout>} />
