@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
 
@@ -37,16 +37,11 @@ import { hasOnboarded } from './utils/firstRun';
 
 const Loading: React.FC = () => <div className="p-4 text-gray-400">載入中…</div>;
 
-const sleep = (ms: number) => new Promise<void>((resolve) => window.setTimeout(resolve, ms));
 
 const App: React.FC = () => {
   const [swUpdate, setSwUpdate] = useState<ServiceWorkerRegistration | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  // After entering the app, prefetch *selected* pages in the background so future navigations feel instant.
-  // Only targets frequently-used non-bottom-nav pages to avoid unnecessary CPU/network work.
-  // NOTE: We can stop prefetching as soon as the user interacts.
-  const didPrefetchRef = useRef(false);
 
   useEffect(() => {
     const handler = (event: Event) => {
@@ -59,75 +54,6 @@ const App: React.FC = () => {
     return () => window.removeEventListener('sf-sw-update', handler as EventListener);
   }, []);
 
-  useEffect(() => {
-    if (didPrefetchRef.current) return;
-    didPrefetchRef.current = true;
-
-    let stopped = false;
-    const stop = () => {
-      stopped = true;
-    };
-
-    // Stop prefetch as soon as the user interacts.
-    window.addEventListener('pointerdown', stop, { passive: true });
-    window.addEventListener('touchstart', stop, { passive: true });
-    window.addEventListener('keydown', stop);
-    window.addEventListener('scroll', stop, { passive: true });
-
-    const prefetch = async () => {
-      // Targeted list (Buzz): 信用卡管理、信用卡周期、訂閱服務、分類管理、月預算設定
-      const loaders: Array<() => Promise<unknown>> = [
-        () => import('./pages/CreditCardManager'),
-        () => import('./pages/CreditCardCycles'),
-        () => import('./pages/Subscriptions'),
-        () => import('./pages/CategoryManager'),
-        () => import('./pages/BudgetSettings'),
-      ];
-
-      // Stagger prefetch to reduce CPU/network spikes on mobile.
-      for (const loader of loaders) {
-        if (stopped) break;
-        try {
-          await loader();
-        } catch {
-          // best effort
-        }
-        // Give the main thread breathing room between chunks.
-        await sleep(900);
-      }
-    };
-
-    const ric = (window as any).requestIdleCallback as
-      | undefined
-      | ((cb: () => void, opts?: { timeout: number }) => number);
-    const cancelRic = (window as any).cancelIdleCallback as undefined | ((id: number) => void);
-
-    // Start a bit later to prioritize immediate interactivity.
-    if (ric) {
-      const id = ric(() => {
-        void prefetch();
-      }, { timeout: 5000 });
-      return () => {
-        cancelRic?.(id);
-        window.removeEventListener('pointerdown', stop);
-        window.removeEventListener('touchstart', stop);
-        window.removeEventListener('keydown', stop);
-        window.removeEventListener('scroll', stop);
-      };
-    }
-
-    const t = window.setTimeout(() => {
-      void prefetch();
-    }, 2500);
-
-    return () => {
-      window.clearTimeout(t);
-      window.removeEventListener('pointerdown', stop);
-      window.removeEventListener('touchstart', stop);
-      window.removeEventListener('keydown', stop);
-      window.removeEventListener('scroll', stop);
-    };
-  }, []);
 
   useEffect(() => {
     if (!swUpdate || refreshing) return;
