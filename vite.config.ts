@@ -14,6 +14,20 @@ export default defineConfig(({ command }) => ({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        // Split big vendor deps for better caching and smaller initial chunk.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('react-router-dom')) return 'vendor-router';
+          if (id.includes('react-dom') || id.includes('react')) return 'vendor-react';
+          if (id.includes('recharts')) return 'vendor-recharts';
+          if (id.includes('lucide-react')) return 'vendor-icons';
+          // Let Rollup decide the rest to avoid circular manual chunk deps.
+          return undefined;
+        },
+      },
+    },
   },
   server: {
     port: 3000,
