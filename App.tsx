@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
 
@@ -37,9 +37,15 @@ import { hasOnboarded } from './utils/firstRun';
 
 const Loading: React.FC = () => <div className="p-4 text-gray-400">載入中…</div>;
 
+const sleep = (ms: number) => new Promise<void>((resolve) => window.setTimeout(resolve, ms));
+
 const App: React.FC = () => {
   const [swUpdate, setSwUpdate] = useState<ServiceWorkerRegistration | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+
+  // After entering the app, prefetch non-core pages in the background so future navigations feel instant.
+  // Excludes Easter-egg pages (CreditCard2*) to avoid unnecessary downloads.
+  const didPrefetchRef = useRef(false);
 
   useEffect(() => {
     const handler = (event: Event) => {
@@ -50,6 +56,53 @@ const App: React.FC = () => {
     };
     window.addEventListener('sf-sw-update', handler as EventListener);
     return () => window.removeEventListener('sf-sw-update', handler as EventListener);
+  }, []);
+
+  useEffect(() => {
+    if (didPrefetchRef.current) return;
+    didPrefetchRef.current = true;
+
+    const prefetch = async () => {
+      const loaders: Array<() => Promise<unknown>> = [
+        () => import('./pages/TransactionView'),
+        () => import('./pages/TransactionDetail'),
+        () => import('./pages/CategoryManager'),
+        () => import('./pages/BudgetSettings'),
+        () => import('./pages/Subscriptions'),
+        () => import('./pages/AddSubscription'),
+        () => import('./pages/NotificationSettings'),
+        () => import('./pages/CreditCardManager'),
+        () => import('./pages/CreditCardCycles'),
+        () => import('./pages/Reports'),
+      ];
+
+      // Stagger prefetch to reduce CPU/network spikes on mobile.
+      for (const loader of loaders) {
+        try {
+          await loader();
+        } catch {
+          // best effort
+        }
+        await sleep(250);
+      }
+    };
+
+    const ric = (window as any).requestIdleCallback as
+      | undefined
+      | ((cb: () => void, opts?: { timeout: number }) => number);
+    const cancelRic = (window as any).cancelIdleCallback as undefined | ((id: number) => void);
+
+    if (ric) {
+      const id = ric(() => {
+        void prefetch();
+      }, { timeout: 2500 });
+      return () => cancelRic?.(id);
+    }
+
+    const t = window.setTimeout(() => {
+      void prefetch();
+    }, 1200);
+    return () => window.clearTimeout(t);
   }, []);
 
   useEffect(() => {
