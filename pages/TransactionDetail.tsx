@@ -7,6 +7,7 @@ import { Icon } from '../components/Icon';
 import { getCurrencySymbol } from '../utils/currency';
 import { Currency, TransactionType } from '../types';
 import { toLocalYMD } from '../utils/date';
+import { loadTagHistory, rememberTags } from '../utils/tagHistory';
 
 const TransactionDetail: React.FC = () => {
    const { id } = useParams();
@@ -26,6 +27,7 @@ const TransactionDetail: React.FC = () => {
    const [note, setNote] = useState(tx?.note || '');
    const [tags, setTags] = useState<string[]>(tx?.tags || []);
    const [tagInput, setTagInput] = useState('');
+   const [tagHistory, setTagHistory] = useState<string[]>(() => loadTagHistory());
    const [receiptUrl, setReceiptUrl] = useState<string | undefined>(tx?.receiptUrl);
    const [isRecurring, setIsRecurring] = useState(tx?.isRecurring || false);
    const [date, setDate] = useState(tx?.date ? toLocalYMD(new Date(tx.date)) : '');
@@ -55,6 +57,12 @@ const TransactionDetail: React.FC = () => {
          alert('日期格式不正確');
          return;
       }
+      // Persist tags MRU on save as well
+      if (tags.length > 0) {
+         rememberTags(tags);
+         setTagHistory(loadTagHistory());
+      }
+
       updateTransaction(tx.id, {
          amount: amountValue,
          categoryId: selectedCategory || tx.categoryId,
@@ -81,9 +89,13 @@ const TransactionDetail: React.FC = () => {
    };
 
    const addTag = () => {
-      if (tagInput.trim() && !tags.includes(tagInput.trim())) {
-         setTags([...tags, tagInput.trim()]);
+      const t = tagInput.trim();
+      if (t && !tags.includes(t)) {
+         setTags([...tags, t]);
          setTagInput('');
+
+         rememberTags([t]);
+         setTagHistory(loadTagHistory());
       }
    };
 
@@ -209,6 +221,32 @@ const TransactionDetail: React.FC = () => {
                         />
                      </div>
                   </div>
+
+                  {/* 常用標籤（最近使用 MRU） */}
+                  {tagHistory.length > 0 && (
+                     <div className="mt-3 flex flex-wrap gap-2">
+                        {tagHistory.slice(0, 12).map(t => {
+                           const active = tags.includes(t);
+                           return (
+                              <button
+                                 key={t}
+                                 type="button"
+                                 onClick={() => {
+                                    if (!active) setTags(prev => [...prev, t]);
+                                    rememberTags([t]);
+                                    setTagHistory(loadTagHistory());
+                                 }}
+                                 className={`text-xs px-3 py-1 rounded-full border transition-colors ${active
+                                    ? 'bg-primary/20 text-primary border-primary/30'
+                                    : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10'
+                                 }`}
+                              >
+                                 {t}
+                              </button>
+                           );
+                        })}
+                     </div>
+                  )}
                </div>
 
                <div className="flex justify-between items-center p-4">
