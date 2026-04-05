@@ -197,6 +197,25 @@ const Records: React.FC = () => {
                         <div>
                           <p className="text-white font-medium">{category?.name || '未分類'}</p>
                           <p className="text-xs text-gray-400 line-clamp-1">{tx.note || '無備註'}</p>
+
+                          {/* Tags */}
+                          {Array.isArray(tx.tags) && tx.tags.length > 0 && (
+                            <div className="mt-1 flex flex-wrap gap-1.5">
+                              {tx.tags.slice(0, 3).map(tag => (
+                                <span
+                                  key={tag}
+                                  className="text-[10px] leading-4 px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/25"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                              {tx.tags.length > 3 && (
+                                <span className="text-[10px] leading-4 px-2 py-0.5 rounded-full bg-white/5 text-gray-300 border border-white/10">
+                                  +{tx.tags.length - 3}
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
                       <span className={`font-semibold whitespace-nowrap ${isExpense ? 'text-white' : 'text-green-500'}`}>
