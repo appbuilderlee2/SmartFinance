@@ -7,6 +7,7 @@ import NumPad from '../components/NumPad';
 import { getCurrencySymbol } from '../utils/currency';
 import { Currency, TransactionType } from '../types';
 import { triggerHaptic, HapticPatterns } from '../utils/haptics';
+import { loadTagHistory, rememberTags } from '../utils/tagHistory';
 
 const AddTransaction: React.FC = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const AddTransaction: React.FC = () => {
   const [receiptPreview, setReceiptPreview] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
+  const [tagHistory, setTagHistory] = useState<string[]>(() => loadTagHistory());
   const [transactionType, setTransactionType] = useState<TransactionType>(TransactionType.EXPENSE);
   const [txCurrency, setTxCurrency] = useState<Currency>(currency);
   const [showDetails, setShowDetails] = useState(false);
@@ -53,6 +55,11 @@ const AddTransaction: React.FC = () => {
     if (Number.isNaN(localDate.getTime())) {
       alert("日期格式不正確");
       return;
+    }
+
+    // Persist tags MRU on save as well (covers cases where user typed but didn't blur/add)
+    if (tags.length > 0) {
+      rememberTags(tags);
     }
 
     addTransaction({
@@ -86,9 +93,14 @@ const AddTransaction: React.FC = () => {
   };
 
   const addTag = () => {
-    if (tagInput.trim() && !tags.includes(tagInput.trim())) {
-      setTags([...tags, tagInput.trim()]);
+    const t = tagInput.trim();
+    if (t && !tags.includes(t)) {
+      setTags([...tags, t]);
       setTagInput('');
+
+      // persist + refresh MRU chips
+      rememberTags([t]);
+      setTagHistory(loadTagHistory());
     }
   };
 
@@ -228,12 +240,12 @@ const AddTransaction: React.FC = () => {
               {/* Tags Input */}
               <div className="w-full sf-control rounded-xl p-3 flex flex-wrap items-center gap-2 min-h-[56px]">
                 <Tag size={18} className="text-gray-500 mr-1" />
-                  {tags.map(tag => (
-                    <span key={tag} className="bg-primary/15 text-primary text-xs px-2 py-1 rounded-full flex items-center gap-1 border border-primary/25">
-                      {tag}
-                      <button onClick={() => removeTag(tag)} className="hover:text-white"><X size={12} /></button>
-                    </span>
-                  ))}
+                {tags.map(tag => (
+                  <span key={tag} className="bg-primary/15 text-primary text-xs px-2 py-1 rounded-full flex items-center gap-1 border border-primary/25">
+                    {tag}
+                    <button onClick={() => removeTag(tag)} className="hover:text-white"><X size={12} /></button>
+                  </span>
+                ))}
                 <input
                   type="text"
                   placeholder={tags.length === 0 ? "新增標籤..." : ""}
@@ -244,6 +256,32 @@ const AddTransaction: React.FC = () => {
                   className="bg-transparent text-white text-sm focus:outline-none flex-1 min-w-[80px]"
                 />
               </div>
+
+              {/* 常用標籤（最近使用 MRU） */}
+              {tagHistory.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {tagHistory.slice(0, 12).map(t => {
+                    const active = tags.includes(t);
+                    return (
+                      <button
+                        key={t}
+                        type="button"
+                        onClick={() => {
+                          if (!active) setTags(prev => [...prev, t]);
+                          rememberTags([t]);
+                          setTagHistory(loadTagHistory());
+                        }}
+                        className={`text-xs px-3 py-1 rounded-full border transition-colors ${active
+                          ? 'bg-primary/20 text-primary border-primary/30'
+                          : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10'
+                        }`}
+                      >
+                        {t}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
 
               <input
                 type="file"
