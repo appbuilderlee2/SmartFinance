@@ -7,7 +7,7 @@ import { Icon } from '../components/Icon';
 import { getCurrencySymbol } from '../utils/currency';
 import { Currency, TransactionType } from '../types';
 import { toLocalYMD } from '../utils/date';
-import { loadTagHistory, rememberTags } from '../utils/tagHistory';
+import { clearTagHistory, deleteTagFromHistory, loadTagHistory, rememberTags } from '../utils/tagHistory';
 
 const TransactionDetail: React.FC = () => {
    const { id } = useParams();
@@ -242,27 +242,57 @@ const TransactionDetail: React.FC = () => {
 
                   {/* 常用標籤（最近使用 MRU） */}
                   {tagHistory.length > 0 && (
-                     <div className="mt-3 flex flex-wrap gap-2">
-                        {tagHistory.slice(0, 12).map(t => {
-                           const active = tags.includes(t);
-                           return (
-                              <button
-                                 key={t}
-                                 type="button"
-                                 onClick={() => {
-                                    if (!active) setTags(prev => [...prev, t]);
-                                    rememberTags([t]);
-                                    setTagHistory(loadTagHistory());
-                                 }}
-                                 className={`text-xs px-3 py-1 rounded-full border transition-colors ${active
-                                    ? 'bg-primary/20 text-primary border-primary/30'
-                                    : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10'
-                                 }`}
-                              >
-                                 {t}
-                              </button>
-                           );
-                        })}
+                     <div className="mt-3">
+                        <div className="flex items-center justify-between mb-2">
+                           <span className="text-xs text-gray-500">常用標籤</span>
+                           <button
+                              type="button"
+                              onClick={() => {
+                                 if (!window.confirm('清空所有常用標籤？')) return;
+                                 clearTagHistory();
+                                 setTagHistory(loadTagHistory());
+                              }}
+                              className="text-xs text-gray-400 hover:text-white underline"
+                           >
+                              清空
+                           </button>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                           {tagHistory.slice(0, 12).map(t => {
+                              const active = tags.includes(t);
+                              return (
+                                 <div key={t} className="flex items-center gap-1">
+                                    <button
+                                       type="button"
+                                       onClick={() => {
+                                          if (!active) setTags(prev => [...prev, t]);
+                                          rememberTags([t]);
+                                          setTagHistory(loadTagHistory());
+                                       }}
+                                       className={`text-xs px-3 py-1 rounded-full border transition-colors ${active
+                                          ? 'bg-primary/20 text-primary border-primary/30'
+                                          : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10'
+                                       }`}
+                                    >
+                                       {t}
+                                    </button>
+                                    <button
+                                       type="button"
+                                       aria-label={`刪除常用標籤 ${t}`}
+                                       onClick={() => {
+                                          deleteTagFromHistory(t);
+                                          setTagHistory(loadTagHistory());
+                                       }}
+                                       className="text-gray-500 hover:text-white"
+                                       title="刪除"
+                                    >
+                                       <X size={14} />
+                                    </button>
+                                 </div>
+                              );
+                           })}
+                        </div>
                      </div>
                   )}
                </div>

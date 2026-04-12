@@ -196,7 +196,9 @@ const Records: React.FC = () => {
                         </div>
                         <div>
                           <p className="text-white font-medium">{category?.name || '未分類'}</p>
-                          <p className="text-xs text-gray-400 line-clamp-1">{tx.note || '無備註'}</p>
+                          {tx.note ? (
+                            <p className="text-xs text-gray-400 line-clamp-1">{tx.note}</p>
+                          ) : null}
 
                           {/* Tags */}
                           {Array.isArray(tx.tags) && tx.tags.length > 0 && (

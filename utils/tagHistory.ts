@@ -44,3 +44,15 @@ export function rememberTags(tags: string[], maxTags = MAX_TAGS_DEFAULT): void {
 
   writeJson(TAG_HISTORY_KEY, { mru: next.slice(0, Math.max(1, maxTags)) } satisfies TagHistory);
 }
+
+export function deleteTagFromHistory(tag: string, maxTags = MAX_TAGS_DEFAULT): void {
+  const t = normalizeTag(tag);
+  if (!t) return;
+  const prev = loadTagHistory(maxTags);
+  const next = prev.filter(x => x !== t);
+  writeJson(TAG_HISTORY_KEY, { mru: next.slice(0, Math.max(1, maxTags)) } satisfies TagHistory);
+}
+
+export function clearTagHistory(): void {
+  writeJson(TAG_HISTORY_KEY, { mru: [] } satisfies TagHistory);
+}
