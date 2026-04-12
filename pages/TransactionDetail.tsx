@@ -1,5 +1,5 @@
 
-import React, { useMemo, useState, useRef } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Camera, X, Tag } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
@@ -32,6 +32,24 @@ const TransactionDetail: React.FC = () => {
    const [isRecurring, setIsRecurring] = useState(tx?.isRecurring || false);
    const [date, setDate] = useState(tx?.date ? toLocalYMD(new Date(tx.date)) : '');
    const [txCurrency, setTxCurrency] = useState<Currency>((tx?.currency as Currency) || currency);
+
+   // Keep local edit state in sync when route param changes.
+   // React Router may reuse this component instance across /edit/:id navigations,
+   // and useState initializers only run on first mount. Without this, saving can
+   // accidentally overwrite tags (and other fields) with stale/empty state.
+   useEffect(() => {
+      if (!tx) return;
+      setAmount(tx.amount?.toString() || '0');
+      setSelectedCategory(tx.categoryId || '');
+      setNote(tx.note || '');
+      setTags(Array.isArray(tx.tags) ? tx.tags : []);
+      setReceiptUrl(tx.receiptUrl);
+      setIsRecurring(!!tx.isRecurring);
+      setDate(tx.date ? toLocalYMD(new Date(tx.date)) : '');
+      setTxCurrency(((tx.currency as Currency) || currency) as Currency);
+      setTagInput('');
+      setTagHistory(loadTagHistory());
+   }, [id, tx?.id]);
 
    if (!tx) return <div className="pt-safe-top p-4 text-white">Not found</div>;
 
