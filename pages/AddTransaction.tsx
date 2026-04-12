@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Camera, X, Tag, CircleDollarSign, CalendarDays, BarChart3, List, Settings, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Camera, X, Tag, CircleDollarSign, CalendarDays, BarChart3, List, Settings, ChevronDown, ChevronUp, Pencil } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { Icon } from '../components/Icon';
 import NumPad from '../components/NumPad';
 import { getCurrencySymbol } from '../utils/currency';
 import { Currency, TransactionType } from '../types';
 import { triggerHaptic, HapticPatterns } from '../utils/haptics';
-import { loadTagHistory, rememberTags } from '../utils/tagHistory';
+import { clearTagHistory, deleteTagFromHistory, loadTagHistory, rememberTags } from '../utils/tagHistory';
 import { toLocalYMD } from '../utils/date';
 
 const AddTransaction: React.FC = () => {
@@ -33,6 +33,7 @@ const AddTransaction: React.FC = () => {
   const [transactionType, setTransactionType] = useState<TransactionType>(TransactionType.EXPENSE);
   const [txCurrency, setTxCurrency] = useState<Currency>(currency);
   const [showDetails, setShowDetails] = useState(false);
+  const [editTagHistory, setEditTagHistory] = useState(false);
 
   const handleSave = () => {
     const amountValue = Number(amount);
@@ -257,27 +258,78 @@ const AddTransaction: React.FC = () => {
 
               {/* 常用標籤（最近使用 MRU） */}
               {tagHistory.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {tagHistory.slice(0, 12).map(t => {
-                    const active = tags.includes(t);
-                    return (
+                <div className="mt-2">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs text-gray-500">常用標籤</span>
+
+                    <div className="flex items-center gap-3">
                       <button
-                        key={t}
                         type="button"
-                        onClick={() => {
-                          if (!active) setTags(prev => [...prev, t]);
-                          rememberTags([t]);
-                          setTagHistory(loadTagHistory());
-                        }}
-                        className={`text-xs px-3 py-1 rounded-full border transition-colors ${active
-                          ? 'bg-primary/20 text-primary border-primary/30'
-                          : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10'
-                        }`}
+                        onClick={() => setEditTagHistory(v => !v)}
+                        className={`text-xs underline ${editTagHistory ? 'text-white' : 'text-gray-400 hover:text-white'}`}
+                        title="編輯常用標籤"
                       >
-                        {t}
+                        <span className="inline-flex items-center gap-1">
+                          <Pencil size={12} />
+                          {editTagHistory ? '完成' : '編輯'}
+                        </span>
                       </button>
-                    );
-                  })}
+
+                      {editTagHistory && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (!window.confirm('清空所有常用標籤？')) return;
+                            clearTagHistory();
+                            setTagHistory(loadTagHistory());
+                            setEditTagHistory(false);
+                          }}
+                          className="text-xs text-gray-400 hover:text-white underline"
+                        >
+                          清空
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {tagHistory.slice(0, 12).map(t => {
+                      const active = tags.includes(t);
+                      return (
+                        <div key={t} className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (!active) setTags(prev => [...prev, t]);
+                              rememberTags([t]);
+                              setTagHistory(loadTagHistory());
+                            }}
+                            className={`text-xs px-3 py-1 rounded-full border transition-colors ${active
+                              ? 'bg-primary/20 text-primary border-primary/30'
+                              : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10'
+                            }`}
+                          >
+                            {t}
+                          </button>
+
+                          {editTagHistory && (
+                            <button
+                              type="button"
+                              aria-label={`刪除常用標籤 ${t}`}
+                              onClick={() => {
+                                deleteTagFromHistory(t);
+                                setTagHistory(loadTagHistory());
+                              }}
+                              className="text-gray-500 hover:text-white"
+                              title="刪除"
+                            >
+                              <X size={14} />
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
 
