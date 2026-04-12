@@ -1,7 +1,7 @@
 
 import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Camera, X, Tag } from 'lucide-react';
+import { ChevronLeft, Camera, X, Tag, Pencil } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { Icon } from '../components/Icon';
 import { getCurrencySymbol } from '../utils/currency';
@@ -32,6 +32,7 @@ const TransactionDetail: React.FC = () => {
    const [isRecurring, setIsRecurring] = useState(tx?.isRecurring || false);
    const [date, setDate] = useState(tx?.date ? toLocalYMD(new Date(tx.date)) : '');
    const [txCurrency, setTxCurrency] = useState<Currency>((tx?.currency as Currency) || currency);
+   const [editTagHistory, setEditTagHistory] = useState(false);
 
    // Keep local edit state in sync when route param changes.
    // React Router may reuse this component instance across /edit/:id navigations,
@@ -49,6 +50,7 @@ const TransactionDetail: React.FC = () => {
       setTxCurrency(((tx.currency as Currency) || currency) as Currency);
       setTagInput('');
       setTagHistory(loadTagHistory());
+      setEditTagHistory(false);
    }, [id, tx?.id]);
 
    if (!tx) return <div className="pt-safe-top p-4 text-white">Not found</div>;
@@ -258,6 +260,39 @@ const TransactionDetail: React.FC = () => {
                            </button>
                         </div>
 
+                        <div className="flex items-center justify-between mb-2">
+                           <span className="text-xs text-gray-500">常用標籤</span>
+
+                           <div className="flex items-center gap-3">
+                              <button
+                                 type="button"
+                                 onClick={() => setEditTagHistory(v => !v)}
+                                 className={`text-xs underline ${editTagHistory ? 'text-white' : 'text-gray-400 hover:text-white'}`}
+                                 title="編輯常用標籤"
+                              >
+                                 <span className="inline-flex items-center gap-1">
+                                    <Pencil size={12} />
+                                    {editTagHistory ? '完成' : '編輯'}
+                                 </span>
+                              </button>
+
+                              {editTagHistory && (
+                                 <button
+                                    type="button"
+                                    onClick={() => {
+                                       if (!window.confirm('清空所有常用標籤？')) return;
+                                       clearTagHistory();
+                                       setTagHistory(loadTagHistory());
+                                       setEditTagHistory(false);
+                                    }}
+                                    className="text-xs text-gray-400 hover:text-white underline"
+                                 >
+                                    清空
+                                 </button>
+                              )}
+                           </div>
+                        </div>
+
                         <div className="flex flex-wrap gap-2">
                            {tagHistory.slice(0, 12).map(t => {
                               const active = tags.includes(t);
@@ -277,18 +312,21 @@ const TransactionDetail: React.FC = () => {
                                     >
                                        {t}
                                     </button>
-                                    <button
-                                       type="button"
-                                       aria-label={`刪除常用標籤 ${t}`}
-                                       onClick={() => {
-                                          deleteTagFromHistory(t);
-                                          setTagHistory(loadTagHistory());
-                                       }}
-                                       className="text-gray-500 hover:text-white"
-                                       title="刪除"
-                                    >
-                                       <X size={14} />
-                                    </button>
+
+                                    {editTagHistory && (
+                                       <button
+                                          type="button"
+                                          aria-label={`刪除常用標籤 ${t}`}
+                                          onClick={() => {
+                                             deleteTagFromHistory(t);
+                                             setTagHistory(loadTagHistory());
+                                          }}
+                                          className="text-gray-500 hover:text-white"
+                                          title="刪除"
+                                       >
+                                          <X size={14} />
+                                       </button>
+                                    )}
                                  </div>
                               );
                            })}

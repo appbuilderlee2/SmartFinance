@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Camera, X, Tag, CircleDollarSign, CalendarDays, BarChart3, List, Settings, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Camera, X, Tag, CircleDollarSign, CalendarDays, BarChart3, List, Settings, ChevronDown, ChevronUp, Pencil } from 'lucide-react';
 import { useData } from '../contexts/DataContext';
 import { Icon } from '../components/Icon';
 import NumPad from '../components/NumPad';
@@ -33,6 +33,7 @@ const AddTransaction: React.FC = () => {
   const [transactionType, setTransactionType] = useState<TransactionType>(TransactionType.EXPENSE);
   const [txCurrency, setTxCurrency] = useState<Currency>(currency);
   const [showDetails, setShowDetails] = useState(false);
+  const [editTagHistory, setEditTagHistory] = useState(false);
 
   const handleSave = () => {
     const amountValue = Number(amount);
@@ -260,17 +261,35 @@ const AddTransaction: React.FC = () => {
                 <div className="mt-2">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs text-gray-500">常用標籤</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (!window.confirm('清空所有常用標籤？')) return;
-                        clearTagHistory();
-                        setTagHistory(loadTagHistory());
-                      }}
-                      className="text-xs text-gray-400 hover:text-white underline"
-                    >
-                      清空
-                    </button>
+
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setEditTagHistory(v => !v)}
+                        className={`text-xs underline ${editTagHistory ? 'text-white' : 'text-gray-400 hover:text-white'}`}
+                        title="編輯常用標籤"
+                      >
+                        <span className="inline-flex items-center gap-1">
+                          <Pencil size={12} />
+                          {editTagHistory ? '完成' : '編輯'}
+                        </span>
+                      </button>
+
+                      {editTagHistory && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (!window.confirm('清空所有常用標籤？')) return;
+                            clearTagHistory();
+                            setTagHistory(loadTagHistory());
+                            setEditTagHistory(false);
+                          }}
+                          className="text-xs text-gray-400 hover:text-white underline"
+                        >
+                          清空
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap gap-2">
@@ -292,18 +311,21 @@ const AddTransaction: React.FC = () => {
                           >
                             {t}
                           </button>
-                          <button
-                            type="button"
-                            aria-label={`刪除常用標籤 ${t}`}
-                            onClick={() => {
-                              deleteTagFromHistory(t);
-                              setTagHistory(loadTagHistory());
-                            }}
-                            className="text-gray-500 hover:text-white"
-                            title="刪除"
-                          >
-                            <X size={14} />
-                          </button>
+
+                          {editTagHistory && (
+                            <button
+                              type="button"
+                              aria-label={`刪除常用標籤 ${t}`}
+                              onClick={() => {
+                                deleteTagFromHistory(t);
+                                setTagHistory(loadTagHistory());
+                              }}
+                              className="text-gray-500 hover:text-white"
+                              title="刪除"
+                            >
+                              <X size={14} />
+                            </button>
+                          )}
                         </div>
                       );
                     })}
